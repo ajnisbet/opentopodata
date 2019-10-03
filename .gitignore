@@ -1,0 +1,20 @@
+/data/*
+!/data/.gitkeep
+.config
+/notebooks
+
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Unit test / coverage reports
+htmlcov/
+.coverage
+.coverage.*
+.pytest_cache
+
+# Jupyter Notebook
+.ipynb_checkpoints

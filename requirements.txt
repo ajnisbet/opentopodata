@@ -1,0 +1,8 @@
+Flask
+flask-caching
+numpy
+pytest
+pytest-cov
+PyYAML
+rasterio==1.0.24
+requests

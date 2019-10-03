@@ -1,0 +1,18 @@
+site_name: Open Topo Data
+site_url: https://www.opentopodata.org
+site_description: Open DEM server.
+
+theme:
+    name: 'material'
+
+repo_name: ajnisbet/opentopodata
+repo_url: https://github.com/ajnisbet/opentopodata
+
+nav:
+    - Introduction: 'index.md'
+    - Server docs: 'server.md'
+    - API docs: 'api.md'
+
+markdown_extensions:
+  - markdown.extensions.codehilite:
+      guess_lang: false

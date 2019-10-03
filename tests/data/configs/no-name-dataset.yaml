@@ -1,0 +1,4 @@
+max_locations_per_request: 100 
+datasets:
+- path: tests/data/datasets/test-etopo1-resampled-1deg/
+- path: tests/data/datasets/test-srtm90m-subset/

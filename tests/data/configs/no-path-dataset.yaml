@@ -1,0 +1,4 @@
+max_locations_per_request: 100 
+datasets:
+- name: etopo1deg
+- name: srtm90subset

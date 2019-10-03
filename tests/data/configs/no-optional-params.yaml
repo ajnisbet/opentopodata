@@ -1,0 +1,5 @@
+datasets:
+- name: etopo1deg
+  path: tests/data/datasets/test-etopo1-resampled-1deg/
+- name: srtm90subset
+  path: tests/data/datasets/test-srtm90m-subset/

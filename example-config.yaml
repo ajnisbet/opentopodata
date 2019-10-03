@@ -1,0 +1,20 @@
+# An example of a config.yaml file showing all possible options. If no
+# config.yaml file exists, opentopodata will load example-config.yaml instead.
+
+
+# 400 error will be thrown above this limit.
+max_locations_per_request: 100 
+
+datasets:
+
+# A small testing dataset is included in the repo.
+- name: test
+  path: tests/data/datasets/test-etopo1-resampled-1deg/
+
+# Example config for 90 metre SRTM.
+# - name: srtm90m
+#   path: data/srtm-90m-nasa-v3.0/
+
+# Example config for 1 arc-minute ETOPO.
+# - name: etopo1
+#   path: data/etopo1/
