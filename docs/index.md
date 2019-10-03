@@ -27,6 +27,7 @@ curl http://localhost:8000/v1/test?locations=56.35,123.90
         "location": {
             "lat": 56.0,
             "lng": 123.0
+        }
     }],
     "status": "OK"
 }
@@ -50,14 +51,17 @@ To keep the public API sustainable, some limitations are applied. I hope to rais
 
 The following datasets are available on the public API, with elevation shown for downtown Denver, Colorado (39.7471,&nbsp;-104.9963).
 
+
 <table>
-	<thead><tr>
-		<th>Dataset name</th>
-		<th>Resolution</th>
-		<th>Extent</th>
-		<th>Source</th>
-		<th>Denver elevation</th>
-	</tr></thead>
+	<thead>
+		<tr>
+			<th>Dataset name</th>
+			<th>Resolution</th>
+			<th>Extent</th>
+			<th>Source</th>
+			<th>Denver elevation</th>
+		</tr>
+	</thead>
 	<tbody>
 		<tr>
 			<td>etopo1</td>
@@ -80,7 +84,6 @@ The following datasets are available on the public API, with elevation shown for
 			<td><a href="https://earthdata.nasa.gov/nasa-shuttle-radar-topography-mission-srtm-version-3-0-global-1-arc-second-data-released-over-asia-and-australia">NASA</a></td>
 			<td><a href="https://api.opentopodata.org/v1/srtm30m?locations=39.747114,-104.996334">1604&nbsp;m</a></td>
 		</tr>
-
 	</tbody>
 </table>
 
