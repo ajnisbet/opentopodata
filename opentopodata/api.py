@@ -8,6 +8,7 @@ from opentopodata import backend, config
 
 
 app = Flask(__name__)
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
 DEFAULT_INTERPOLATION_METHOD = 'bilinear'
 MEMCACHED_SOCKET = '/tmp/memcached.sock'
