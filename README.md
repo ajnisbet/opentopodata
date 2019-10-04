@@ -1,9 +1,9 @@
 # Open Topo Data
 
 
-__Documentation__: [www.opentopodata.org](https://www.opentopodata.org).
+__Documentation__: [www.opentopodata.org](https://www.opentopodata.org)
 
-Open Topo Data is a REST API server for your elevation data. You can host your own, or use the free public API.
+Open Topo Data is a REST API server for your elevation data. You can host your own or use the free public API.
 
 
 

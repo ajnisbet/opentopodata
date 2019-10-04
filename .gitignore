@@ -2,6 +2,7 @@
 !/data/.gitkeep
 .config
 /notebooks
+/site
 
 .DS_Store
 
