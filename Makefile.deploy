@@ -1,4 +1,0 @@
-dl:
-	rclone copy --dry-run --create-empty-src-dirs --config "$(shell pwd)/deploy/rclone.conf" dropbox:datasets/elevation/srtm-90m-nasa-v3.0/ $(shell pwd)/data/srtm-90m-nasa-v3.0/
-	rclone copy --dry-run --create-empty-src-dirs --config "$(shell pwd)/deploy/rclone.conf" dropbox:datasets/elevation/etopo1/ $(shell pwd)/data/etopo1/
-

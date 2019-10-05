@@ -17,7 +17,7 @@ git clone github.com/ajnisbet/opentopodata
 cd opentopodata
 make build
 make run
-curl http://localhost:8000/v1/test?locations=56.35,123.90
+curl http://localhost:5000/v1/test?locations=56.35,123.90
 ```
 
 ```json
