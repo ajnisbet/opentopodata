@@ -9,3 +9,6 @@ test: build
 
 run-local:
 	FLASK_APP=opentopodata/api.py FLASK_DEBUG=1 flask run --port 5000
+
+black:
+	black --target-version py37 tests opentopodata

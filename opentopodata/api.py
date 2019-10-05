@@ -8,10 +8,10 @@ from opentopodata import backend, config
 
 
 app = Flask(__name__)
-app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
+app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 
-DEFAULT_INTERPOLATION_METHOD = 'bilinear'
-MEMCACHED_SOCKET = '/tmp/memcached.sock'
+DEFAULT_INTERPOLATION_METHOD = "bilinear"
+MEMCACHED_SOCKET = "/tmp/memcached.sock"
 LAT_MIN = -90
 LAT_MAX = 90
 LON_MIN = -180
@@ -22,14 +22,16 @@ LON_MAX = 180
 # while to compute for datasets made up of many files. Memcache needs to be
 # disabled for testing as it breaks tests which change the config. It can also
 # be disabled if not installed for local devleopment.
-if os.environ.get('DISABLE_MEMCACHE'):
-    cache = Cache(config={'CACHE_TYPE': 'null', 'CACHE_NO_NULL_WARNING': True})
+if os.environ.get("DISABLE_MEMCACHE"):
+    cache = Cache(config={"CACHE_TYPE": "null", "CACHE_NO_NULL_WARNING": True})
 else:
-    cache = Cache(config={
-        'CACHE_TYPE': 'memcached',
-        'CACHE_MEMCACHED_SERVERS': [MEMCACHED_SOCKET],
-        'CACHE_DEFAULT_TIMEOUT': 0,
-    })
+    cache = Cache(
+        config={
+            "CACHE_TYPE": "memcached",
+            "CACHE_MEMCACHED_SERVERS": [MEMCACHED_SOCKET],
+            "CACHE_DEFAULT_TIMEOUT": 0,
+        }
+    )
 cache.init_app(app)
 
 
@@ -39,6 +41,7 @@ class ClientError(ValueError):
     A 400 error should be raised. The error message should be safe to pass
     back to the client.
     """
+
     pass
 
 
@@ -51,11 +54,11 @@ def _validate_interpolation(method):
     Raises:
         ClientError: Method is not supported.
     """
-    
+
     if method not in backend.INTERPOLATION_METHODS:
         msg = f"Invalid interpolation method '{method}' not recognized."
-        msg += ' Valid interpolation methods:'
-        msg += ' , '.join(backend.INTERPOLATION_METHODS.keys()) + '.'
+        msg += " Valid interpolation methods:"
+        msg += " , ".join(backend.INTERPOLATION_METHODS.keys()) + "."
         raise ClientError(msg)
     return method
 
@@ -79,28 +82,28 @@ def _parse_locations(locations, max_n_locations):
         ClientError: If too many locations are given, or if the location string can't be parsed.
     """
     if not locations:
-        msg = 'No locations provided.'
-        msg += ' Add locations in a query string: ?locations=lat1,lon1|lat2,lon2.'
+        msg = "No locations provided."
+        msg += " Add locations in a query string: ?locations=lat1,lon1|lat2,lon2."
         raise ClientError(msg)
 
     # Check number of points.
-    locations = locations.strip('|').split('|')
+    locations = locations.strip("|").split("|")
     n_locations = len(locations)
     if n_locations > max_n_locations:
-        msg = f'Too many locations provided ({n_locations}), the limit is {max_n_locations}.'
+        msg = f"Too many locations provided ({n_locations}), the limit is {max_n_locations}."
         raise ClientError(msg)
 
     # Parse each location.
     lats = []
     lons = []
     for i, loc in enumerate(locations):
-        if ',' not in loc:
+        if "," not in loc:
             msg = f"Unable to parse location '{loc}' in position {i+1}."
-            msg += ' Add locations like lat1,lon1|lat2,lon2.'
+            msg += " Add locations like lat1,lon1|lat2,lon2."
             raise ClientError(msg)
-        
+
         # Separate lat & lon.
-        parts = loc.split(',', 1)
+        parts = loc.split(",", 1)
         lat = parts[0]
         lon = parts[1]
 
@@ -115,21 +118,21 @@ def _parse_locations(locations, max_n_locations):
         # Check bounds.
         if not (LAT_MIN <= lat <= LAT_MAX):
             msg = f"Unable to parse location '{loc}' in position {i+1}."
-            msg += f' Latitude must be between {LAT_MIN} and {LAT_MAX}.'
-            msg += ' Provide locations in lat,lon order.'
+            msg += f" Latitude must be between {LAT_MIN} and {LAT_MAX}."
+            msg += " Provide locations in lat,lon order."
             raise ClientError(msg)
         if not (LON_MIN <= lon <= LON_MAX):
             msg = f"Unable to parse location '{loc}' in position {i+1}."
-            msg += f' Longitude must be between {LON_MIN} and {LON_MAX}.'
+            msg += f" Longitude must be between {LON_MIN} and {LON_MAX}."
             raise ClientError(msg)
 
         lats.append(lat)
         lons.append(lon)
-        
+
     return lats, lons
 
 
-@cache.cached(key_prefix='_load_datasets')
+@cache.cached(key_prefix="_load_datasets")
 def _load_datasets():
     """Load datasets defined in config
 
@@ -139,7 +142,7 @@ def _load_datasets():
     return config.load_datasets()
 
 
-@cache.cached(key_prefix='_load_config')
+@cache.cached(key_prefix="_load_config")
 def _load_config():
     """Config file as a dict.
 
@@ -167,16 +170,16 @@ def _get_dataset(name):
     return datasets[name]
 
 
-@app.route('/')
-@app.route('/v1/')
+@app.route("/")
+@app.route("/v1/")
 def get_help_message():
     msg = "No dataset name provided."
     msg += " Try a url like '/v1/test-dataset?locations=-10,120' to get started,"
-    msg += ' and see https://www.opentopodata.org for full documentation.'
-    return jsonify({'status': 'INVALID_REQUEST', 'error': msg}), 404
+    msg += " and see https://www.opentopodata.org for full documentation."
+    return jsonify({"status": "INVALID_REQUEST", "error": msg}), 404
 
 
-@app.route('/v1/<dataset_name>', methods=['GET'])
+@app.route("/v1/<dataset_name>", methods=["GET"])
 def get_elevation(dataset_name):
     """Calculate the elevavation for the given locations.
 
@@ -189,38 +192,31 @@ def get_elevation(dataset_name):
 
     try:
         # Parse inputs.
-        interpolation = request.args.get('interpolation', DEFAULT_INTERPOLATION_METHOD)
+        interpolation = request.args.get("interpolation", DEFAULT_INTERPOLATION_METHOD)
         interpolation = _validate_interpolation(interpolation)
-        locations = request.args.get('locations')
-        lats, lons = _parse_locations(locations, _load_config()['max_locations_per_request'])
+        locations = request.args.get("locations")
+        lats, lons = _parse_locations(
+            locations, _load_config()["max_locations_per_request"]
+        )
 
         # Get the z values.
         dataset = _get_dataset(dataset_name)
         elevations = backend.get_elevation(lats, lons, dataset, interpolation)
-        
+
         # Build response.
         results = []
         for z, lat, lon in zip(elevations, lats, lons):
-            results.append({
-                'elevation': z,
-                'location': {
-                    'lat': lat,
-                    'lng': lon,
-                }
-            })
-        data = {
-            'status': 'OK',
-            'results': results,
-        }
+            results.append({"elevation": z, "location": {"lat": lat, "lng": lon}})
+        data = {"status": "OK", "results": results}
         return jsonify(data)
 
     except (ClientError, backend.InputError) as e:
-        return jsonify({'status': 'INVALID_REQUEST', 'error': str(e)}), 400
+        return jsonify({"status": "INVALID_REQUEST", "error": str(e)}), 400
     except config.ConfigError as e:
-        return jsonify({'status': 'SERVER_ERROR', 'error': str(e)}), 500
+        return jsonify({"status": "SERVER_ERROR", "error": str(e)}), 500
     except Exception as e:
         if app.debug:
             raise e
         app.logger.error(e)
-        msg = 'Server error, please retry request.'
-        return jsonify({'status': 'SERVER_ERROR', 'error': msg}), 500
+        msg = "Server error, please retry request."
+        return jsonify({"status": "SERVER_ERROR", "error": msg}), 500

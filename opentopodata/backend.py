@@ -15,9 +15,9 @@ from rasterio.enums import Resampling
 # gdal, and I don't want to commit to supporting an interpolation method that
 # would be a pain to do in python.
 INTERPOLATION_METHODS = {
-    'nearest': Resampling.nearest,
-    'bilinear': Resampling.bilinear,
-    'cubic': Resampling.cubic,
+    "nearest": Resampling.nearest,
+    "bilinear": Resampling.bilinear,
+    "cubic": Resampling.cubic,
     # 'cubic_spline': Resampling.cubic_spline,
     # 'lanczos': Resampling.lanczos,
 }
@@ -31,6 +31,7 @@ class InputError(ValueError):
 
     The error message should be safe to pass back to the client.
     """
+
     pass
 
 
@@ -70,15 +71,17 @@ def _validate_points_lie_within_dataset(lats, lons, bounds, res):
         i_oob = np.argmax(lats)
         lat = lats[i_oob]
         lon = lons[i_oob]
-        msg = 'Location \'{},{}\' has latitude outside of dataset bounds'.format(lat, lon)
-        msg += ' ({} to {}).'.format(lat_min, lat_max)
+        msg = "Location '{},{}' has latitude outside of dataset bounds".format(lat, lon)
+        msg += " ({} to {}).".format(lat_min, lat_max)
         raise InputError(msg)
     if not all(lon_in_bounds):
         i_oob = np.argmax(lons)
         lat = lats[i_oob]
         lon = lons[i_oob]
-        msg = 'Location \'{},{}\' has longitude outside of dataset bounds'.format(lat, lon)
-        msg += ' ({} to {}).'.format(lon_min, lon_max)
+        msg = "Location '{},{}' has longitude outside of dataset bounds".format(
+            lat, lon
+        )
+        msg += " ({} to {}).".format(lon_min, lon_max)
         raise InputError(msg)
 
 
@@ -97,11 +100,11 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
     interpolation = INTERPOLATION_METHODS.get(interpolation)
     lons = np.asarray(lons)
     lats = np.asarray(lats)
-    
+
     with rasterio.open(path) as f:
         # Check dataset is in latlon format.
         if f.crs is not None and f.crs.to_epsg() != WGS84_LATLON_EPSG:
-            raise ValueError('Unsupported projection: epsg:{}'.format(f.crs.to_epsg()))
+            raise ValueError("Unsupported projection: epsg:{}".format(f.crs.to_epsg()))
 
         # Check bounds.
         _validate_points_lie_within_dataset(lats, lons, f.bounds, f.res)
@@ -121,12 +124,14 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
         # Read the locations, using a 1x1 window.
         for row, col in zip(rows, cols):
             window = rasterio.windows.Window(col, row, 1, 1)
-            z = f.read(indexes=1, window=window, resampling=interpolation, out_dtype=float)[0][0]
+            z = f.read(
+                indexes=1, window=window, resampling=interpolation, out_dtype=float
+            )[0][0]
             z_all.append(z)
     return z_all
 
 
-def get_elevation(lats, lons, dataset, interpolation='nearest'):
+def get_elevation(lats, lons, dataset, interpolation="nearest"):
     """Read elecations from a dataset.
 
     A dataset may consist of multiple files, so need to determine which
@@ -162,7 +167,9 @@ def get_elevation(lats, lons, dataset, interpolation='nearest'):
             elevations_by_path[None] = fill_values
         else:
             i = fill_values.index(None)
-            msg = "Point '{},{}' is outside dataset bounds.".format(no_path_lats[i], no_path_lons[i])
+            msg = "Point '{},{}' is outside dataset bounds.".format(
+                no_path_lats[i], no_path_lons[i]
+            )
             raise InputError(msg)
 
     # Batch results by path.
@@ -172,10 +179,7 @@ def get_elevation(lats, lons, dataset, interpolation='nearest'):
         batch_lats = lats[path_to_point_index[path]]
         batch_lons = lons[path_to_point_index[path]]
         elevations_by_path[path] = _get_elevation_from_path(
-            batch_lats,
-            batch_lons,
-            path,
-            interpolation,
+            batch_lats, batch_lons, path, interpolation
         )
 
     # Put the results back again.

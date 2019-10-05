@@ -5,18 +5,17 @@ import rasterio
 import re
 import numpy as np
 
-CONFIG_PATH = 'config.yaml'
-EXAMPLE_CONFIG_PATH = 'example-config.yaml'
-GEOTIFF_FILENAME_REGEX = r'.*?\.(?:geo)?tiff?$'
-SRTM_FILENAME_REGEX = r'^[NS]\d\d[WE][01]\d\d.*?$'
+CONFIG_PATH = "config.yaml"
+EXAMPLE_CONFIG_PATH = "example-config.yaml"
+GEOTIFF_FILENAME_REGEX = r".*?\.(?:geo)?tiff?$"
+SRTM_FILENAME_REGEX = r"^[NS]\d\d[WE][01]\d\d.*?$"
 
-DEFAULTS = {
-    'max_locations_per_request': 100
-}
+DEFAULTS = {"max_locations_per_request": 100}
 
 
 class ConfigError(ValueError):
     """Invalid config."""
+
     pass
 
 
@@ -51,7 +50,7 @@ def load_config():
 
     if not path:
         absolute_path = os.path.abspath(CONFIG_PATH)
-        raise ConfigError('No config file found at {}.'.format(absolute_path))
+        raise ConfigError("No config file found at {}.".format(absolute_path))
 
     try:
         with open(path) as f:
@@ -60,12 +59,12 @@ def load_config():
         raise ConfigError(str(e))
 
     # Validate datasets.
-    if not config.get('datasets'):
-        raise ConfigError('Config must contain at least one dataset.')
-    if any('name' not in d for d in config['datasets']):
-        raise ConfigError('All datasets must have a \'name\' attribute.')
-    if any('path' not in d for d in config['datasets']):
-        raise ConfigError('All datasets must have a \'path\' attribute.')
+    if not config.get("datasets"):
+        raise ConfigError("Config must contain at least one dataset.")
+    if any("name" not in d for d in config["datasets"]):
+        raise ConfigError("All datasets must have a 'name' attribute.")
+    if any("path" not in d for d in config["datasets"]):
+        raise ConfigError("All datasets must have a 'path' attribute.")
 
     # Set defualts.
     for k, v in DEFAULTS.items():
@@ -82,7 +81,7 @@ def load_datasets():
         datasets: Dict of {dataset_name: Dataset obejct} from config.datasets.
     """
     config = load_config()
-    datasets = {d['name']: Dataset.from_config(**d) for d in config['datasets']}
+    datasets = {d["name"]: Dataset.from_config(**d) for d in config["datasets"]}
     return datasets
 
 
@@ -111,14 +110,14 @@ class Dataset:
 
         # Check the dataset is there.
         if not os.path.isdir(path):
-            raise ConfigError('No dataset folder found at location \'{}\''.format(path))
+            raise ConfigError("No dataset folder found at location '{}'".format(path))
 
         # Find all the files in the dataset.
-        pattern = os.path.join(path, '**', '*')
+        pattern = os.path.join(path, "**", "*")
         all_paths = list(glob(pattern, recursive=True))
         all_files = [p for p in all_paths if os.path.isfile(p)]
         if not all_files:
-            raise ConfigError('Dataset folder \'{}\' seems to be empty.'.format(path))
+            raise ConfigError("Dataset folder '{}' seems to be empty.".format(path))
 
         # Check for single file.
         if len(all_files) == 1:
@@ -127,17 +126,13 @@ class Dataset:
                 with rasterio.open(tile_path):
                     pass
             except rasterio.RasterioIOError as e:
-                raise ConfigError('Unsupported filetype for \'{}\'.'.format(tile_path))
+                raise ConfigError("Unsupported filetype for '{}'.".format(tile_path))
             return SingleFileDataset(name, tile_path=tile_path)
 
         # Check for srtm.
         all_filenames = [os.path.basename(p) for p in all_files]
         if all([re.match(SRTM_FILENAME_REGEX, f) for f in all_filenames]):
-            return SRTMDataset(
-                name,
-                path,
-                tile_paths=all_files,
-            )
+            return SRTMDataset(name, path, tile_paths=all_files)
 
         raise ConfigError("Unknown dataset type for '{}'.".format(name))
 
@@ -150,8 +145,6 @@ class Dataset:
         See SRTMDataset.missing_tile_elevations
         """
         return [None] * len(lats)
-
-
 
 
 class SingleFileDataset(Dataset):
@@ -199,10 +192,10 @@ class SRTMDataset(Dataset):
         self.path = path
 
         # Build lookup from filename without extension to path.
-        tile_filenames = [os.path.basename(p).split('.')[0] for p in tile_paths]
+        tile_filenames = [os.path.basename(p).split(".")[0] for p in tile_paths]
         if len(tile_filenames) != len(set(tile_filenames)):
-            msg = 'SRTM filenames must be unique,'
-            msg += ' cannot be the same tile with different extentions.'
+            msg = "SRTM filenames must be unique,"
+            msg += " cannot be the same tile with different extentions."
             raise ConfigError(msg)
 
         self._tile_lookup = dict(zip(tile_filenames, tile_paths))
@@ -218,9 +211,9 @@ class SRTMDataset(Dataset):
         """
         lats = np.asarray(lats)
         lons = np.asarray(lons)
-        
-        n_or_s = np.where(lats >= 0, 'N', 'S')
-        e_or_w = np.where(lons >= 0, 'E', 'W')
+
+        n_or_s = np.where(lats >= 0, "N", "S")
+        e_or_w = np.where(lons >= 0, "E", "W")
 
         ns_value = np.abs(np.floor(lats)).astype(int).astype(str)
         ew_value = np.abs(np.floor(lons)).astype(int).astype(str)
