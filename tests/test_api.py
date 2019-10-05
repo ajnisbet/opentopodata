@@ -162,3 +162,18 @@ class TestGetElevation():
         assert len(rjson['results']) == 1
 
 
+class TestGetHelpMessage:
+    test_api = api.app.test_client()
+    urls = [
+        '/',
+        '/v1/',
+    ]
+
+    def test_response(self):
+        for url in self.urls:
+            response = self.test_api.get(url)
+            rjson = response.json
+            assert response.status_code == 404
+            assert rjson['status'] == 'INVALID_REQUEST'
+            assert 'error' in rjson
+

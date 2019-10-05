@@ -167,6 +167,15 @@ def _get_dataset(name):
     return datasets[name]
 
 
+@app.route('/')
+@app.route('/v1/')
+def get_help_message():
+    msg = "No dataset name provided."
+    msg += " Try a url like '/v1/test-dataset?locations=-10,120' to get started,"
+    msg += ' and see https://www.opentopodata.org for full documentation.'
+    return jsonify({'status': 'INVALID_REQUEST', 'error': msg}), 404
+
+
 @app.route('/v1/<dataset_name>', methods=['GET'])
 def get_elevation(dataset_name):
     """Calculate the elevavation for the given locations.
