@@ -8,7 +8,7 @@ max_locations_per_request: 100
 datasets:
 
 # A small testing dataset is included in the repo.
-- name: test
+- name: test-dataset
   path: tests/data/datasets/test-etopo1-resampled-1deg/
 
 # Example config for 90 metre SRTM.

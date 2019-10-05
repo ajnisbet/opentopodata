@@ -154,7 +154,7 @@ class TestGetElevation():
         assert response.status_code == 400
 
     def test_example_config(self):
-        url = '/v1/test?locations=1,1'
+        url = '/v1/test-dataset?locations=1,1'
         response = self.test_api.get(url)
         rjson = response.json
         assert response.status_code == 200

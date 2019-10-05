@@ -8,7 +8,7 @@ from opentopodata import config
 
 
 ETOPO1_GEOTIFF_PATH = 'tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice_g_geotiff.resampled-1deg.tif'
-ETOPO1_DATASET_NAME = 'test'
+ETOPO1_DATASET_NAME = 'test-dataset'
 SRTM_DATASET_NAME = 'srtm90subset'
 NO_FILL_VALUE_CONFIG_PATH = 'tests/data/configs/no-fill-value.yaml'
 TEST_CONFIG_PATH = 'tests/data/configs/test-config.yaml'

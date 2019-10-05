@@ -21,7 +21,7 @@ class TestRun:
             raise RuntimeError('Memcached and uwsgi not started')
 
     def test_200(self):
-        url = 'http://localhost:5000/v1/test?locations=1,1'
+        url = 'http://localhost:5000/v1/test-dataset?locations=1,1'
         response = requests.get(url)
         rjson = response.json()
         assert response.status_code == 200
@@ -29,7 +29,7 @@ class TestRun:
         assert len(rjson['results']) == 1
 
     def test_memcache(self):
-        url = 'http://localhost:5000/v1/test?locations=1,1'
+        url = 'http://localhost:5000/v1/test-dataset?locations=1,1'
         response = requests.get(url)
         client = pylibmc.Client([MEMCACHED_SOCKET])
         stats = client.get_stats()[0][1]
@@ -38,6 +38,6 @@ class TestRun:
 
     def test_gzip(self):
         locations = '|'.join(['13.345,32.345'] * 50)  # Lots of locations to make response longer than min gzip size.
-        url = 'http://localhost:5000/v1/test?locations=' + locations
+        url = 'http://localhost:5000/v1/test-dataset?locations=' + locations
         response = requests.get(url)
         assert response.headers.get('content-encoding') == 'gzip'

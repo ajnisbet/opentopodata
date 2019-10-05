@@ -10,7 +10,7 @@ make build
 make run
 ```
 
-This will start a server on `localhost:5000` with a small demo dataset called `test`. Check out the [API docs](api.md) for info about requests and responses.
+This will start a server on `localhost:5000` with a small demo dataset called `test-dataset`. Check out the [API docs](api.md) for info about requests and responses.
 
 
 ## Configuration
@@ -22,7 +22,7 @@ A config might look like this:
 ```yaml
 max_locations_per_request: 100 
 datasets:
-- name: test
+- name: test-dataset
   path: tests/data/datasets/test-etopo1-resampled-1deg/
 - name: etopo1
   path: data/etopo1/

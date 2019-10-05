@@ -1,6 +1,6 @@
 # API Documentation
 
-A public API is available for testing at [api.opentopodata.org](https://api.opentopodata.org/v1/test).
+A public API is available for testing at [api.opentopodata.org](https://api.opentopodata.org/v1/test-dataset).
 
 ## `GET /v1/<dataset_name>`
 
