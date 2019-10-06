@@ -392,7 +392,11 @@
 <p>Reads the elevation from a given dataset. The dataset must match one of the options in <code>config.yaml</code>.</p>
 <h3 id="args">Args</h3>
 <ul>
-<li><code>locations</code>: List of <code>latitutde,longitude</code> pairs. Each pair is separated by a pipe character <code>|</code>. Example: <code>locations=12.5,160.2|-10.6,130</code>. Required.</li>
+<li><code>locations</code>: Required. Either <ul>
+<li><code>latitutde,longitude</code> pairs, each separated by a pipe character <code>|</code>. Example: <code>locations=12.5,160.2|-10.6,130</code>. Or, </li>
+<li><a href="https://developers.google.com/maps/documentation/utilities/polylinealgorithm">Google polyline format</a>. Example: <code>locations=gfo}EtohhU</code>.</li>
+</ul>
+</li>
 <li><code>interpolation</code>: How to interpolate between the points in the dataset. Options: <code>nearest</code>, <code>bilinear</code>, <code>cubic</code>. Default: <code>nearest</code>.</li>
 </ul>
 <h3 id="response">Response</h3>
