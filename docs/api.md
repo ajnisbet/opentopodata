@@ -8,7 +8,9 @@ Reads the elevation from a given dataset. The dataset must match one of the opti
 
 ### Args
 
-* `locations`: List of `latitutde,longitude` pairs. Each pair is separated by a pipe character `|`. Example: `locations=12.5,160.2|-10.6,130`. Required.
+* `locations`: Required. Either 
+    * `latitutde,longitude` pairs, each separated by a pipe character `|`. Example: `locations=12.5,160.2|-10.6,130`. Or, 
+    * [Google polyline format](https://developers.google.com/maps/documentation/utilities/polylinealgorithm). Example: `locations=gfo}EtohhU`.
 * `interpolation`: How to interpolate between the points in the dataset. Options: `nearest`, `bilinear`, `cubic`. Default: `nearest`.
 
 ### Response

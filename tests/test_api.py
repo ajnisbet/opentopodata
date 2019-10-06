@@ -49,6 +49,10 @@ class TestParseLocations:
         with pytest.raises(api.ClientError):
             api._parse_locations("0,0|0,Test", MAX_N_POINTS)
 
+    def test_invalid_polyline(self):
+        with pytest.raises(api.ClientError):
+            api._parse_locations("$$$", MAX_N_POINTS)
+
     def test_lat_lon_wrong_order(self):
         with pytest.raises(api.ClientError):
             api._parse_locations("180,90", MAX_N_POINTS)
@@ -69,11 +73,32 @@ class TestParseLocations:
         with pytest.raises(api.ClientError):
             api._parse_locations("0, 181", MAX_N_POINTS)
 
-    def test_locations(self):
+    def test_valid_latlons(self):
         locations = "0,0|-90,-180|90,180|0.1,0.1"
         lats, lons = api._parse_locations(locations, MAX_N_POINTS)
         assert lats == [0, -90, 90, 0.1]
         assert lons == [0, -180, 180, 0.1]
+
+    def test_too_many_latlon_locations(self):
+        with pytest.raises(api.ClientError):
+            api._parse_locations("10,10|5,5", 1)
+
+    def test_valid_polyline(self):
+        locations = "tpmjFukpm`@hvwMh|i@rlZefC"
+        lats, lons = api._parse_locations(locations, MAX_N_POINTS)
+        assert lats == [-38.57691, -40.99728, -41.13770]
+        assert lons == [175.39787, 175.17814, 175.19977]
+
+    def test_too_many_polyline_locations(self):
+        with pytest.raises(api.ClientError):
+            api._parse_locations("kzn_JmmvhAjdIelA", 1)
+
+    def test_strip_enc_prefix(self):
+        p1 = "enc:gfo}EtohhUxD@bAxJmGF"
+        p2 = "gfo}EtohhUxD@bAxJmGF"
+        assert api._parse_locations(p1, MAX_N_POINTS) == api._parse_locations(
+            p2, MAX_N_POINTS
+        )
 
 
 class TestGetDataset:
@@ -113,6 +138,17 @@ class TestGetElevation:
         assert rjson["status"] == "OK"
         assert len(rjson["results"]) == 2
         assert rjson["results"][0] == rjson["results"][1]
+
+    def test_polyline_latlon_equivalence(self, patch_config):
+        url_latlon = "/v1/etopo1deg?locations=-90,180|1.5,0.1"
+        url_polyline = "/v1/etopo1deg?locations=~bidP_gsia@_bnmP~u_ia@"
+        response_latlon = self.test_api.get(url_latlon)
+        response_polyline = self.test_api.get(url_polyline)
+        rjson_latlon = response_latlon.json
+        rjson_polyline = response_polyline.json
+        assert response_latlon.status_code == 200
+        assert response_latlon.status_code == response_polyline.status_code
+        assert rjson_latlon == rjson_polyline
 
     def test_interpolation_methods(self, patch_config):
         for method in INTERPOLATION_METHODS:

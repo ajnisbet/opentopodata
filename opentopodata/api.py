@@ -3,6 +3,7 @@ import os
 
 from flask import Flask, jsonify, request
 from flask_caching import Cache
+import polyline
 
 from opentopodata import backend, config
 
@@ -67,7 +68,7 @@ def _parse_locations(locations, max_n_locations):
     """Parse and validate the locations GET argument.
 
     The "locations" argument of the query should be "lat,lon" pairs delimited
-    by "|" characters.
+    by "|" characters, or a string in Google polyline format.
 
 
     Args:
@@ -85,6 +86,69 @@ def _parse_locations(locations, max_n_locations):
         msg = "No locations provided."
         msg += " Add locations in a query string: ?locations=lat1,lon1|lat2,lon2."
         raise ClientError(msg)
+
+    if "," in locations:
+        return _parse_latlon_locations(locations, max_n_locations)
+    else:
+        return _parse_polyline_locations(locations, max_n_locations)
+
+
+def _parse_polyline_locations(locations, max_n_locations):
+    """Parse and validate locations in Google polyline format.
+
+    The "locations" argument of the query should be a string of ascii characters above 63.
+
+
+    Args:
+        locations: The location query string.
+        max_n_locations: The max allowable number of locations, to keep query times reasonable.
+
+    Returns:
+        lats: List of latitude floats.
+        lons: List of longitude floats.
+
+    Raises:
+        ClientError: If too many locations are given, or if the location string can't be parsed.
+    """
+
+    # The Google maps API prefixes their polylines with 'enc:'.
+    if locations and locations.startswith("enc:"):
+        locations = locations[4:]
+
+    try:
+        latlons = polyline.decode(locations)
+    except Exception as e:
+        msg = "Unable to parse locations as polyline."
+        raise ClientError(msg)
+
+    # Polyline result in in list of (lat, lon) tuples.
+    lats = [p[0] for p in latlons]
+    lons = [p[1] for p in latlons]
+
+    # Check number.
+    n_locations = len(lats)
+    if n_locations > max_n_locations:
+        msg = f"Too many locations provided ({n_locations}), the limit is {max_n_locations}."
+        raise ClientError(msg)
+
+    return lats, lons
+
+
+def _parse_latlon_locations(locations, max_n_locations):
+    """Parse and validate "lat,lon" pairs delimited by "|" characters.
+
+
+    Args:
+        locations: The location query string.
+        max_n_locations: The max allowable number of locations, to keep query times reasonable.
+
+    Returns:
+        lats: List of latitude floats.
+        lons: List of longitude floats.
+
+    Raises:
+        ClientError: If too many locations are given, or if the location string can't be parsed.
+    """
 
     # Check number of points.
     locations = locations.strip("|").split("|")
