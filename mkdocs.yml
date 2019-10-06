@@ -7,6 +7,7 @@ theme:
 
 repo_name: ajnisbet/opentopodata
 repo_url: https://github.com/ajnisbet/opentopodata
+google_analytics: ['UA-59478184-7', 'www.opentopodata.org']
 
 nav:
     - Introduction: 'index.md'
