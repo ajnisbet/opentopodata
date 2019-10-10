@@ -6,6 +6,7 @@ import re
 from glob import glob
 
 import numpy as np
+import pyproj
 import rasterio
 from rasterio.enums import Resampling
 
@@ -39,49 +40,66 @@ def _noop(x):
     return x
 
 
-def _validate_points_lie_within_dataset(lats, lons, bounds, res):
-    """Check that querying the dataset won't throw an error.
+def _reproject_latlons(lats, lons, epsg):
+    """Convert WGS84 latlons to another projection.
 
     Args:
         lats, lons: Lists/arrays of latitude/longitude numbers.
+        epsg: Integer EPSG code.
+
+    """
+    if epsg == WGS84_LATLON_EPSG:
+        return lons, lats
+
+    # Validate EPSG.
+    if not 1024 <= epsg <= 32767:
+        raise InputError("Dataset has invalid projection.")
+
+    # Do the transform. Pyproj assumes EPSG:4326 as default source projection.
+    projection = pyproj.Proj(init=f"EPSG:{epsg}")
+    x, y = projection(lons, lats)
+
+    return x, y
+
+
+def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
+    """Check that querying the dataset won't throw an error.
+
+    Args:
+        xs, ys: Lists/arrays of x/y coordinates, in projection of file.
+        lats, lons: Lists/arrays of lat/lon coordinates. Only used for error message.
         bounds: rastio BoundingBox object.
         res: Tuple of (x_res, y_res) resolutions.
 
     Raises:
         InputError: if one of the points lies outside bounds.
     """
-    lats = np.asarray(lats)
-    lons = np.asarray(lons)
 
     # Get actual extent. When storing point data in a pixel-based raster
     # format, the true extent is the centre of the outer pixels, but GDAL
     # reports the exent as the outer edge ouf the outer pixels. So need to
     # adjust by half the pixel width.
-    lon_min = min(bounds.left, bounds.right) + res[0] / 2
-    lon_max = max(bounds.left, bounds.right) - res[0] / 2
-    lat_min = min(bounds.top, bounds.bottom) + res[1] / 2
-    lat_max = max(bounds.top, bounds.bottom) - res[1] / 2
+    x_min = min(bounds.left, bounds.right) + res[0] / 2
+    x_max = max(bounds.left, bounds.right) - res[0] / 2
+    y_min = min(bounds.top, bounds.bottom) + res[1] / 2
+    y_max = max(bounds.top, bounds.bottom) - res[1] / 2
 
     # Check bounds.
-    lat_in_bounds = (lats >= lat_min) & (lats <= lat_max)
-    lon_in_bounds = (lons >= lon_min) & (lons <= lon_max)
+    x_in_bounds = (xs >= x_min) & (xs <= x_max)
+    y_in_bounds = (ys >= y_min) & (ys <= y_max)
 
     # Raise exception if out of bounds.
-    if not all(lat_in_bounds):
-        i_oob = np.argmax(lats)
+    if not all(y_in_bounds):
+        i_oob = np.argmax(y_in_bounds)
         lat = lats[i_oob]
         lon = lons[i_oob]
-        msg = "Location '{},{}' has latitude outside of dataset bounds".format(lat, lon)
-        msg += " ({} to {}).".format(lat_min, lat_max)
+        msg = "Location '{},{}' has latitude outside of raster bounds".format(lat, lon)
         raise InputError(msg)
-    if not all(lon_in_bounds):
-        i_oob = np.argmax(lons)
+    if not all(x_in_bounds):
+        i_oob = np.argmax(x_in_bounds)
         lat = lats[i_oob]
         lon = lons[i_oob]
-        msg = "Location '{},{}' has longitude outside of dataset bounds".format(
-            lat, lon
-        )
-        msg += " ({} to {}).".format(lon_min, lon_max)
+        msg = "Location '{},{}' has longitude outside of raster bounds".format(lat, lon)
         raise InputError(msg)
 
 
@@ -102,13 +120,11 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
     lats = np.asarray(lats)
 
     with rasterio.open(path) as f:
-        # Check dataset is in latlon format.
-        if f.crs is not None and f.crs.to_epsg() != WGS84_LATLON_EPSG:
-            raise ValueError("Unsupported projection: epsg:{}".format(f.crs.to_epsg()))
+        xs, ys = _reproject_latlons(lats, lons, f.crs.to_epsg())
 
         # Check bounds.
-        _validate_points_lie_within_dataset(lats, lons, f.bounds, f.res)
-        rows, cols = tuple(f.index(lons, lats, op=_noop))
+        _validate_points_lie_within_raster(xs, ys, lats, lons, f.bounds, f.res)
+        rows, cols = tuple(f.index(xs, ys, op=_noop))
 
         # Offset by 0.5 to convert from center coords (provided by
         # f.index) to ul coords (expected by f.read).

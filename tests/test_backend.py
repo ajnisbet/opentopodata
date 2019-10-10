@@ -10,6 +10,7 @@ from opentopodata import config
 ETOPO1_GEOTIFF_PATH = "tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice_g_geotiff.resampled-1deg.tif"
 ETOPO1_DATASET_NAME = "test-dataset"
 SRTM_DATASET_NAME = "srtm90subset"
+SRTM_UTM_DATASET_NAME = "srtm90utm"
 NO_FILL_VALUE_CONFIG_PATH = "tests/data/configs/no-fill-value.yaml"
 TEST_CONFIG_PATH = "tests/data/configs/test-config.yaml"
 SRTM_FILL_VALUE = 0
@@ -26,46 +27,68 @@ def test_noop():
     assert backend._noop(x) == x
 
 
-class TestValidatePointsLieWithinDataset:
+class TestValidatePointsLieWithinRaster:
     bounds = rasterio.coords.BoundingBox(-101, -51, 101, 51)  # L,B,R,T
     res = (2, 2)
 
     def test_valid_points_on_boundary(self):
         lats = np.array([0, -50, 50])
         lons = np.array([0, -100, 100])
-        backend._validate_points_lie_within_dataset(lats, lons, self.bounds, self.res)
+        backend._validate_points_lie_within_raster(
+            lons, lats, lats, lons, self.bounds, self.res
+        )
 
     def test_invalid_bottom(self):
         lats = np.array([self.bounds.bottom])
         lons = np.array([0])
         with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_dataset(
-                lats, lons, self.bounds, self.res
+            backend._validate_points_lie_within_raster(
+                lons, lats, lats, lons, self.bounds, self.res
             )
 
     def test_invalid_top(self):
         lats = np.array([self.bounds.top])
         lons = np.array([0])
         with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_dataset(
-                lats, lons, self.bounds, self.res
+            backend._validate_points_lie_within_raster(
+                lons, lats, lats, lons, self.bounds, self.res
             )
 
     def test_invalid_left(self):
         lats = np.array([0])
         lons = np.array([self.bounds.left])
         with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_dataset(
-                lats, lons, self.bounds, self.res
+            backend._validate_points_lie_within_raster(
+                lons, lats, lats, lons, self.bounds, self.res
             )
 
     def test_invalid_right(self):
         lats = np.array([0])
         lons = np.array([self.bounds.right])
         with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_dataset(
-                lats, lons, self.bounds, self.res
+            backend._validate_points_lie_within_raster(
+                lons, lats, lats, lons, self.bounds, self.res
             )
+
+    def test_invalid_xy_valid_latlons(self):
+        # Only x/y should be used for testing, latlon should be independent.
+        x = np.array([self.bounds.right])
+        y = np.array([0])
+        lats = y
+        lons = np.array([0])
+        with pytest.raises(backend.InputError):
+            backend._validate_points_lie_within_raster(
+                x, y, lats, lons, self.bounds, self.res
+            )
+
+    def test_valid_xy_invalid_latlons(self):
+        xs = np.array([0, -100, 100])
+        ys = np.array([0, -50, 50])
+        lats = np.array([1000, 1000, -1000])
+        lons = np.array([1000, 1000, -1000])
+        backend._validate_points_lie_within_raster(
+            xs, ys, lats, lons, self.bounds, self.res
+        )
 
 
 class TestGetElevationFromPath:
@@ -157,6 +180,18 @@ class TestGetElevation:
         assert all(z)
         assert all([x != SRTM_FILL_VALUE for x in z])
 
+    def test_utm(self, patch_config):
+        lats = [0.2, 0.8]
+        lons = [10.2, 10.8]
+
+        dataset = config.load_datasets()[SRTM_DATASET_NAME]
+        z = backend.get_elevation(lats, lons, dataset)
+
+        dataset_utm = config.load_datasets()[SRTM_UTM_DATASET_NAME]
+        z_utm = backend.get_elevation(lats, lons, dataset_utm)
+
+        assert np.allclose(z, z_utm)
+
     def test_out_of_srtm_bounds(self, patch_config):
         lats = [70]
         lons = [10.5]
@@ -164,3 +199,38 @@ class TestGetElevation:
         with pytest.raises(backend.InputError):
             dataset = config.load_datasets()[SRTM_DATASET_NAME]
             backend.get_elevation(lats, lons, dataset)
+
+    def test_out_of_srtm_bounds_utm(self, patch_config):
+        lats = [70]
+        lons = [10.5]
+        dataset = config.load_datasets()[SRTM_UTM_DATASET_NAME]
+        with pytest.raises(backend.InputError):
+            dataset = config.load_datasets()[SRTM_UTM_DATASET_NAME]
+            backend.get_elevation(lats, lons, dataset)
+
+
+class TestReprojectLatlons:
+    def test_wgs84_invariance(self):
+        lats = [-10, 0, 10]
+        lons = [-170, 0, 100]
+        wgs84_epsg = 4326
+        xs, ys = backend._reproject_latlons(lats, lons, wgs84_epsg)
+        assert lats == ys
+        assert lons == xs
+
+    def test_utm_conversion(self):
+        lats = [10.5]
+        lons = [120.8]
+        epsg = 32651
+        xs, ys = backend._reproject_latlons(lats, lons, epsg)
+        x = 259212
+        y = 1161538
+        assert np.allclose(x, xs)
+        assert np.allclose(y, ys)
+
+    def test_bad_epsg(self):
+        with pytest.raises(backend.InputError):
+            lats = [10.5]
+            lons = [120.8]
+            epsg = 0
+            xs, ys = backend._reproject_latlons(lats, lons, epsg)

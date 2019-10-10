@@ -6,6 +6,8 @@ A public API is available for testing at [api.opentopodata.org](https://api.open
 
 Reads the elevation from a given dataset. The dataset must match one of the options in `config.yaml`.
 
+Latitudes and longitudes should be in `EPSG:4326`, they will be converted internally to whatever the dataset used.
+
 ### Args
 
 * `locations`: Required. Either 
