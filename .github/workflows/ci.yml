@@ -15,4 +15,6 @@ jobs:
     - name: Run tests
       run: make test
     - name: Check code formatting
-      run: black --target-version py37 --check tests opentopodata
+      run: |
+        pip3 install black
+        black --target-version py37 --check tests opentopodata
