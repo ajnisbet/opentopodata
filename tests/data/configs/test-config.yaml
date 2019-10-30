@@ -4,6 +4,8 @@ datasets:
   path: tests/data/datasets/test-etopo1-resampled-1deg/
 - name: srtm90subset
   path: tests/data/datasets/test-srtm90m-subset/
+
+  # Made with gdalwarp -t_srs '+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs'  
 - name: srtm90utm
   path: tests/data/datasets/test-srtm90m-subset-utm/
 
