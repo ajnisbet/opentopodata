@@ -1,4 +1,4 @@
-name: ci
+name: build
 
 on: [push]
 
@@ -10,11 +10,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Build the Docker image
+    - name: Build docker image
       run: make build
     - name: Run tests
       run: make test
     - name: Check code formatting
-      run: |
-        pip3 install black setuptools
-        black --target-version py37 --check tests opentopodata
+      run: docker run --rm opentopodata black --target-version py37 tests opentopodata

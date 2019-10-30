@@ -7,4 +7,5 @@ pytest
 pytest-cov
 PyYAML
 rasterio==1.0.24
+black
 requests

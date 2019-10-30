@@ -4,8 +4,10 @@ RUN set -e && \
     apt-get update && \
     apt-get full-upgrade -y && \
     apt-get install -y \
-        gcc
-RUN pip wheel --wheel-dir=/root/wheels uwsgi
+        gcc \
+        python3.7-dev
+RUN pip wheel --wheel-dir=/root/wheels uwsgi && \
+    pip wheel --wheel-dir=/root/wheels regex
 
 FROM python:3.7.4-slim-buster
 
@@ -24,7 +26,7 @@ RUN pip install \
     --no-index \
     --no-cache-dir \
     --find-links=/root/wheels \
-    uwsgi && \
+    uwsgi regex && \
 pip install pylibmc --no-cache-dir && \
 pip install --no-cache-dir -r /app/requirements.txt && \
     rm -rf /root/.cache/pip/* && \
