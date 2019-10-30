@@ -1,0 +1,18 @@
+name: ci
+
+on: [push]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Build the Docker image
+      run: make build
+    - name: Run tests
+      run: make test
+    - name: Check code formatting
+      run: black --target-version py37 --check tests opentopodata
