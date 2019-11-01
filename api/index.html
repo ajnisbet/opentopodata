@@ -415,6 +415,7 @@
 <p>A public API is available for testing at <a href="https://api.opentopodata.org/v1/test-dataset">api.opentopodata.org</a>.</p>
 <h2 id="get-v1ltdataset_namegt"><code>GET /v1/&lt;dataset_name&gt;</code></h2>
 <p>Reads the elevation from a given dataset. The dataset must match one of the options in <code>config.yaml</code>.</p>
+<p>Latitudes and longitudes should be in <code>EPSG:4326</code>, they will be converted internally to whatever the dataset used.</p>
 <h3 id="args">Args</h3>
 <ul>
 <li><code>locations</code>: Required. Either <ul>
@@ -430,7 +431,7 @@
 <li><code>status</code>: Will be <code>OK</code> for a successful request, <code>INVALID_REQUEST</code> for an input error, and <code>SERVER_ERROR</code> for a different error. Required.</li>
 <li><code>error</code>: Description of what went wrong, when <code>status</code> isn't <code>OK</code>.</li>
 <li><code>results</code>: List of elevations for each location, in same order as input. Only provided for <code>OK</code> status.</li>
-<li><code>results[].elevation</code>: Elevation, using units and datum from the dataset.</li>
+<li><code>results[].elevation</code>: Elevation, using units and datum from the dataset. May be <code>nan</code> if a NODATA value is queried.</li>
 <li><code>results[].location.lat</code>: Latitude as parsed by opentopodata.</li>
 <li><code>results[].location.lng</code>: Longitude as parsed by opentopodata.</li>
 </ul>
