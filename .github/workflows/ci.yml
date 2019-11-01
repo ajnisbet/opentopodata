@@ -15,4 +15,4 @@ jobs:
     - name: Run tests
       run: make test
     - name: Check code formatting
-      run: docker run --rm opentopodata black --target-version py37 tests opentopodata
+      run: docker run --rm opentopodata black  --check --target-version py37 tests opentopodata
