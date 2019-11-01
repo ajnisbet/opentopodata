@@ -1,5 +1,4 @@
 import collections
-import logging
 import math
 import os
 import re
@@ -137,12 +136,21 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
         rows = rows.clip(0, f.height - 1)
         cols = cols.clip(0, f.width - 1)
 
-        # Read the locations, using a 1x1 window.
+        # Read the locations, using a 1x1 window. The `masked` kwarg makes
+        # rasterio replace NODATA values with np.nan. The `boundless` kwarg
+        # forces the windowed elevation to be a 1x1 array, even when it all
+        # values are NODATA.
         for row, col in zip(rows, cols):
             window = rasterio.windows.Window(col, row, 1, 1)
-            z = f.read(
-                indexes=1, window=window, resampling=interpolation, out_dtype=float
-            )[0][0]
+            z_array = f.read(
+                indexes=1,
+                window=window,
+                resampling=interpolation,
+                out_dtype=float,
+                boundless=True,
+                masked=True,
+            )
+            z = np.ma.filled(z_array, np.nan)[0][0]
             z_all.append(z)
     return z_all
 

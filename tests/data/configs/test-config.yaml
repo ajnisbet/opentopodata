@@ -9,3 +9,6 @@ datasets:
 - name: srtm90utm
   path: tests/data/datasets/test-srtm90m-subset-utm/
 
+- name: nodata
+  path: tests/data/datasets/test-nodata/
+
