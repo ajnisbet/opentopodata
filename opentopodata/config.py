@@ -135,7 +135,7 @@ class Dataset:
                 raise ConfigError("Unsupported filetype for '{}'.".format(tile_path))
             return SingleFileDataset(name, tile_path=tile_path)
 
-        # Check for srtm.
+        # Check for SRTM-style naming.
         all_filenames = [os.path.basename(p) for p in all_files]
         if all([re.match(FILENAME_TILE_REGEX, f) for f in all_filenames]):
             filename_epsg = kwargs.get(
@@ -144,7 +144,7 @@ class Dataset:
             filename_tile_size = kwargs.get(
                 "filename_tile_size", DEFAULTS["dataset.filename_tile_size"]
             )
-            return SRTMDataset(
+            return TiledDataset(
                 name,
                 path,
                 tile_paths=all_files,
@@ -182,13 +182,11 @@ class SingleFileDataset(Dataset):
         return [self.tile_path] * len(lats)
 
 
-class SRTMDataset(Dataset):
-    LAT_MIN = -60
-    LAT_MAX = 60
-    FILL_VALUE = np.nan
-
+class TiledDataset(Dataset):
     def __init__(self, name, path, tile_paths, filename_epsg, filename_tile_size):
         """A dataset of files named in SRTM format.
+
+        Each file should be a square tile, named like N50W121 for the lower left (SW) corner.
 
         GDAL supports SRTM-named .hgt files indivudially (it can infer the
         bounds from the filename) but won't find the correct file for you. This does that.
@@ -198,6 +196,9 @@ class SRTMDataset(Dataset):
             tile_path: String path to single raster file.
             path: Path to folder containing SRTM files.
             tile_paths: List of infividial raster file paths in the dataset.
+            filename_epsg: Coordinate system of the filename.
+            filename_tile_size: Size of each tile, in the coordinate system units. Used for 
+                rounding down the location to get the corner. Assumed to have an offset from zero.
         """
         self.name = name
         self.path = path

@@ -105,7 +105,7 @@ class TestDataset:
     def test_srtm(self, patch_config):
         name = "test"
         dataset = config.Dataset.from_config(name=name, path=SRTM_FOLDER)
-        assert isinstance(dataset, config.SRTMDataset)
+        assert isinstance(dataset, config.TiledDataset)
         assert dataset.name == name
 
     def test_filename_tile_regex(self):
@@ -125,7 +125,7 @@ class TestSingleFileDataset:
         assert all([p == ETOPO1_GEOTIFF_PATH for p in tile_paths])
 
 
-class TestSRTMDataset:
+class TestTiledDataset:
     def test_location_paths(self):
         dataset = config.Dataset.from_config(name="srtm", path=SRTM_FOLDER)
         lats = [0.1, 0.9]
