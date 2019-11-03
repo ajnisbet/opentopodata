@@ -15,5 +15,6 @@ nav:
     - API docs: 'api.md'
 
 markdown_extensions:
+  - admonition
   - markdown.extensions.codehilite:
       guess_lang: false
