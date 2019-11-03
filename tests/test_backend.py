@@ -13,7 +13,7 @@ SRTM_DATASET_NAME = "srtm90subset"
 SRTM_UTM_DATASET_NAME = "srtm90utm"
 NO_FILL_VALUE_CONFIG_PATH = "tests/data/configs/no-fill-value.yaml"
 TEST_CONFIG_PATH = "tests/data/configs/test-config.yaml"
-SRTM_FILL_VALUE = np.nan
+NODATA_DATASET_PATH = "tests/data/datasets/test-nodata/nodata.geotiff"
 
 
 @pytest.fixture
@@ -149,6 +149,67 @@ class TestGetElevationFromPath:
                 z = backend._get_elevation_from_path(
                     [lat], [lon], ETOPO1_GEOTIFF_PATH, interpolation="lanczos"
                 )
+
+    def test_valid_read_from_dataset_with_nans(self):
+        """
+        Array looks like
+            [[   2,    1,    0],
+             [   3, 9999, 9999],
+             [   4, 9999, 9999]
+        with NODATA=9999 set on the GEOTIFF, bounds from 0-2 lat and lon.
+        """
+        lat = 0
+        lon = 0
+        z = backend._get_elevation_from_path(
+            [lat], [lon], NODATA_DATASET_PATH, "bilinear"
+        )
+        assert z[0] == 4
+
+    def test_nodata_read_from_dataset_with_nans(self):
+        lat = 0
+        lon = 2
+        z = backend._get_elevation_from_path(
+            [lat], [lon], NODATA_DATASET_PATH, "bilinear"
+        )
+        assert np.isnan(z[0])
+
+    def test_valid_nearest_next_to_nodata(self):
+        lat = 1
+        lon = 0.49
+        z = backend._get_elevation_from_path(
+            [lat], [lon], NODATA_DATASET_PATH, "nearest"
+        )
+        assert z[0] == 3
+
+    def test_invalid_nearest_next_to_nodata(self):
+        lat = 1
+        lon = 0.51
+        z = backend._get_elevation_from_path(
+            [lat], [lon], NODATA_DATASET_PATH, "nearest"
+        )
+        assert np.isnan(z[0])
+
+    def test_valid_bilinear_next_to_nodata(self):
+        lat = 2
+        lon = 0.5
+        z = backend._get_elevation_from_path(
+            [lat], [lon], NODATA_DATASET_PATH, "bilinear"
+        )
+        assert z[0] == 1.5
+
+    def test_invalid_bilinear_next_to_nodata(self):
+        lat = 1
+        lon = 0.5
+        z = backend._get_elevation_from_path(
+            [lat], [lon], NODATA_DATASET_PATH, "bilinear"
+        )
+        assert np.isnan(z[0])
+
+    def test_invalid_cubic_nodata(self):
+        lat = 0
+        lon = 2
+        z = backend._get_elevation_from_path([lat], [lon], NODATA_DATASET_PATH, "cubic")
+        assert np.isnan(z[0])
 
 
 class TestGetElevation:

@@ -7,6 +7,7 @@ from opentopodata import config
 
 from unittest.mock import patch
 import rasterio
+import numpy as np
 
 
 GEOTIFF_PATH = "tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice_g_geotiff.resampled-1deg.tif"
@@ -200,6 +201,15 @@ class TestGetElevation:
         assert response.status_code == 200
         assert rjson["status"] == "OK"
         assert len(rjson["results"]) == 1
+
+    def test_nan_in_json(self, patch_config):
+        url = "/v1/nodata?locations=0,1"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert len(rjson["results"]) == 1
+        assert np.isnan(rjson["results"][0]["elevation"])
 
 
 class TestGetHelpMessage:
