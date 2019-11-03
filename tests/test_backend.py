@@ -13,7 +13,7 @@ SRTM_DATASET_NAME = "srtm90subset"
 SRTM_UTM_DATASET_NAME = "srtm90utm"
 NO_FILL_VALUE_CONFIG_PATH = "tests/data/configs/no-fill-value.yaml"
 TEST_CONFIG_PATH = "tests/data/configs/test-config.yaml"
-SRTM_FILL_VALUE = 0
+SRTM_FILL_VALUE = np.nan
 
 
 @pytest.fixture
@@ -170,7 +170,7 @@ class TestGetElevation:
         lons = [10.5, 11.5, 9.5, 12.5]
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
-        assert all([x == SRTM_FILL_VALUE for x in z])
+        assert all([np.isnan(x) for x in z])
 
     def test_srtm_tiles(self, patch_config):
         lats = [0.1, 0.9]
@@ -178,11 +178,11 @@ class TestGetElevation:
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
         assert all(z)
-        assert all([x != SRTM_FILL_VALUE for x in z])
+        assert all([not np.isnan(x) for x in z])
 
     def test_utm(self, patch_config):
-        lats = [0.2, 0.8]
-        lons = [10.2, 10.8]
+        lats = [0.2, 0.8, 0.6]
+        lons = [10.2, 10.8, 11.5]
 
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
@@ -196,41 +196,12 @@ class TestGetElevation:
         lats = [70]
         lons = [10.5]
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
-        with pytest.raises(backend.InputError):
-            dataset = config.load_datasets()[SRTM_DATASET_NAME]
-            backend.get_elevation(lats, lons, dataset)
+        z = backend.get_elevation(lats, lons, dataset)
+        assert np.isnan(z)
 
     def test_out_of_srtm_bounds_utm(self, patch_config):
         lats = [70]
         lons = [10.5]
-        dataset = config.load_datasets()[SRTM_UTM_DATASET_NAME]
-        with pytest.raises(backend.InputError):
-            dataset = config.load_datasets()[SRTM_UTM_DATASET_NAME]
-            backend.get_elevation(lats, lons, dataset)
-
-
-class TestReprojectLatlons:
-    def test_wgs84_invariance(self):
-        lats = [-10, 0, 10]
-        lons = [-170, 0, 100]
-        wgs84_epsg = 4326
-        xs, ys = backend._reproject_latlons(lats, lons, wgs84_epsg)
-        assert lats == ys
-        assert lons == xs
-
-    def test_utm_conversion(self):
-        lats = [10.5]
-        lons = [120.8]
-        epsg = 32651
-        xs, ys = backend._reproject_latlons(lats, lons, epsg)
-        x = 259212
-        y = 1161538
-        assert np.allclose(x, xs)
-        assert np.allclose(y, ys)
-
-    def test_bad_epsg(self):
-        with pytest.raises(backend.InputError):
-            lats = [10.5]
-            lons = [120.8]
-            epsg = 0
-            xs, ys = backend._reproject_latlons(lats, lons, epsg)
+        dataset = config.load_datasets()[SRTM_DATASET_NAME]
+        z = backend.get_elevation(lats, lons, dataset)
+        assert np.isnan(z)

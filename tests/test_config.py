@@ -108,11 +108,12 @@ class TestDataset:
         assert isinstance(dataset, config.SRTMDataset)
         assert dataset.name == name
 
-    def test_srtm_filename_regex(self):
-        assert re.match(config.SRTM_FILENAME_REGEX, "N80E001.hgt")
-        assert re.match(config.SRTM_FILENAME_REGEX, "S01W170.tif")
-        assert re.match(config.SRTM_FILENAME_REGEX, "S01W170.geotiff.zip")
-        assert not re.match(config.SRTM_FILENAME_REGEX, "junk.tif")
+    def test_filename_tile_regex(self):
+        assert re.match(config.FILENAME_TILE_REGEX, "N80E001.hgt")
+        assert re.match(config.FILENAME_TILE_REGEX, "S01W170.tif")
+        assert re.match(config.FILENAME_TILE_REGEX, "S100000W900000.tif")
+        assert re.match(config.FILENAME_TILE_REGEX, "S01W170.geotiff.zip")
+        assert not re.match(config.FILENAME_TILE_REGEX, "junk.tif")
 
 
 class TestSingleFileDataset:

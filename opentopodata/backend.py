@@ -6,10 +6,10 @@ import re
 from glob import glob
 
 import numpy as np
-import pyproj
 import rasterio
 from rasterio.enums import Resampling
 
+from opentopodata import utils
 
 # Only a subset of rasterio's supported methods are currently activated. In
 # the future I might do interpolation in backend.py instead if relying on
@@ -24,9 +24,6 @@ INTERPOLATION_METHODS = {
 }
 
 
-WGS84_LATLON_EPSG = 4326
-
-
 class InputError(ValueError):
     """Invalid input data.
 
@@ -38,28 +35,6 @@ class InputError(ValueError):
 
 def _noop(x):
     return x
-
-
-def _reproject_latlons(lats, lons, epsg):
-    """Convert WGS84 latlons to another projection.
-
-    Args:
-        lats, lons: Lists/arrays of latitude/longitude numbers.
-        epsg: Integer EPSG code.
-
-    """
-    if epsg == WGS84_LATLON_EPSG:
-        return lons, lats
-
-    # Validate EPSG.
-    if not 1024 <= epsg <= 32767:
-        raise InputError("Dataset has invalid projection.")
-
-    # Do the transform. Pyproj assumes EPSG:4326 as default source projection.
-    projection = pyproj.Proj(init=f"EPSG:{epsg}")
-    x, y = projection(lons, lats)
-
-    return x, y
 
 
 def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
@@ -120,7 +95,10 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
     lats = np.asarray(lats)
 
     with rasterio.open(path) as f:
-        xs, ys = _reproject_latlons(lats, lons, f.crs.to_epsg())
+        try:
+            xs, ys = utils.reproject_latlons(lats, lons, f.crs.to_epsg())
+        except ValueError:
+            raise InputError("Unable to transform latlons to dataset projection.")
 
         # Check bounds.
         _validate_points_lie_within_raster(xs, ys, lats, lons, f.bounds, f.res)
@@ -173,24 +151,10 @@ def get_elevation(lats, lons, dataset, interpolation="nearest"):
     for i, path in enumerate(paths):
         path_to_point_index[path].append(i)
 
-    # Check if a path wasn't found.
-    if None in path_to_point_index:
-        indices = path_to_point_index[None]
-        no_path_lats = lats[indices]
-        no_path_lons = lons[indices]
-        fill_values = dataset.missing_tile_elevations(no_path_lats, no_path_lons)
-        if None not in fill_values:
-            elevations_by_path[None] = fill_values
-        else:
-            i = fill_values.index(None)
-            msg = "Point '{},{}' is outside dataset bounds.".format(
-                no_path_lats[i], no_path_lons[i]
-            )
-            raise InputError(msg)
-
     # Batch results by path.
     for path, indices in path_to_point_index.items():
         if path is None:
+            elevations_by_path[None] = [np.nan] * len(indices)
             continue
         batch_lats = lats[path_to_point_index[path]]
         batch_lons = lons[path_to_point_index[path]]
