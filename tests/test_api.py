@@ -211,6 +211,15 @@ class TestGetElevation:
         assert len(rjson["results"]) == 1
         assert np.isnan(rjson["results"][0]["elevation"])
 
+    def test_null_in_json(self, patch_config):
+        url = "/v1/srtm90subset?locations=50,100"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert len(rjson["results"]) == 1
+        assert rjson["results"][0]["elevation"] is None
+
 
 class TestGetHelpMessage:
     test_api = api.app.test_client()

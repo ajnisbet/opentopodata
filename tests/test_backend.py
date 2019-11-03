@@ -237,12 +237,12 @@ class TestGetElevation:
         )
         assert elevations_by_dataset == elevations_by_path
 
-    def test_fill_value_oob(self, patch_config):
+    def test_oob(self, patch_config):
         lats = [1.5, -0.5, 0.5, 0.5]
         lons = [10.5, 11.5, 9.5, 12.5]
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
-        assert all([np.isnan(x) for x in z])
+        assert all([x is None for x in z])
 
     def test_srtm_tiles(self, patch_config):
         lats = [0.1, 0.9]
@@ -250,7 +250,7 @@ class TestGetElevation:
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
         assert all(z)
-        assert all([not np.isnan(x) for x in z])
+        assert all(np.isfinite(z))
 
     def test_utm(self, patch_config):
         lats = [0.2, 0.8, 0.6]
@@ -268,15 +268,15 @@ class TestGetElevation:
         lats = [70]
         lons = [10.5]
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
-        z = backend.get_elevation(lats, lons, dataset)
-        assert np.isnan(z)
+        z = backend.get_elevation(lats, lons, dataset)[0]
+        assert z is None
 
     def test_out_of_srtm_bounds_utm(self, patch_config):
         lats = [70]
         lons = [10.5]
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
-        z = backend.get_elevation(lats, lons, dataset)
-        assert np.isnan(z)
+        z = backend.get_elevation(lats, lons, dataset)[0]
+        assert z is None
 
     def test_alternate_tiled_dataset(self, patch_config):
         lats = [47.625765]

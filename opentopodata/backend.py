@@ -162,7 +162,7 @@ def get_elevation(lats, lons, dataset, interpolation="nearest"):
     # Batch results by path.
     for path, indices in path_to_point_index.items():
         if path is None:
-            elevations_by_path[None] = [np.nan] * len(indices)
+            elevations_by_path[None] = [None] * len(indices)
             continue
         batch_lats = lats[path_to_point_index[path]]
         batch_lons = lons[path_to_point_index[path]]
