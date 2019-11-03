@@ -1,9 +1,10 @@
-import os
-import yaml
 from glob import glob
-import rasterio
+import os
 import re
+import yaml
+
 import numpy as np
+import rasterio
 
 from opentopodata import utils
 

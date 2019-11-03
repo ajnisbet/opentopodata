@@ -11,9 +11,11 @@ ETOPO1_GEOTIFF_PATH = "tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice
 ETOPO1_DATASET_NAME = "test-dataset"
 SRTM_DATASET_NAME = "srtm90subset"
 SRTM_UTM_DATASET_NAME = "srtm90utm"
+EU_DEM_DATASET_NAME = "eudemsubset"
 NO_FILL_VALUE_CONFIG_PATH = "tests/data/configs/no-fill-value.yaml"
 TEST_CONFIG_PATH = "tests/data/configs/test-config.yaml"
 NODATA_DATASET_PATH = "tests/data/datasets/test-nodata/nodata.geotiff"
+EUDEM_TILE_PATH = "tests/data/datasets/test-eu-dem-subset/N2000000E3000000.TIF"
 
 
 @pytest.fixture
@@ -211,6 +213,15 @@ class TestGetElevationFromPath:
         z = backend._get_elevation_from_path([lat], [lon], NODATA_DATASET_PATH, "cubic")
         assert np.isnan(z[0])
 
+    def test_nodata_is_nan(self):
+        # EU-dem has NODATA over water.
+        lat = [44.969186]
+        lon = [-3.152424]
+        z = backend._get_elevation_from_path(
+            [lat], [lon], EUDEM_TILE_PATH, interpolation="nearest"
+        )
+        assert np.isnan(z)
+
 
 class TestGetElevation:
     def test_single_file_dataset(self):
@@ -266,3 +277,10 @@ class TestGetElevation:
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
         assert np.isnan(z)
+
+    def test_alternate_tiled_dataset(self, patch_config):
+        lats = [47.625765]
+        lons = [9.418759]
+        dataset = config.load_datasets()[EU_DEM_DATASET_NAME]
+        z = backend.get_elevation(lats, lons, dataset)
+        assert np.isfinite(z)

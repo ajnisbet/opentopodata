@@ -1,12 +1,12 @@
+from glob import glob
 import collections
 import math
 import os
 import re
-from glob import glob
 
+from rasterio.enums import Resampling
 import numpy as np
 import rasterio
-from rasterio.enums import Resampling
 
 from opentopodata import utils
 
