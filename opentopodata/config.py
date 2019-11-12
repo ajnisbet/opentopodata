@@ -217,10 +217,47 @@ class TiledDataset(Dataset):
         ew = [re.search(r"[WE](\d+)", x)[1] for x in tile_filenames]
         ns_lens = set(len(x) for x in ns)
         ew_lens = set(len(x) for x in ew)
-        self.ns_fixed_width = ns_lens.pop() if len(ns_lens) == 1 else 0
-        self.ew_fixed_width = ew_lens.pop() if len(ew_lens) == 1 else 0
+        self.ns_fixed_width = ns_lens.pop() if len(ns_lens) == 1 else None
+        self.ew_fixed_width = ew_lens.pop() if len(ew_lens) == 1 else None
 
         self._tile_lookup = dict(zip(tile_filenames, tile_paths))
+
+    @classmethod
+    def _location_to_tile_name(
+        cls, xs, ys, tile_size=1, ns_fixed_width=None, ew_fixed_width=None
+    ):
+        """Convert locations to SRTM tile name.
+
+        For example, (-120.5, 40.1) becomes N40W121. The lower left corner of
+        the tile is used. The numbers can be padded with leading zeroes to all
+        be the same width.
+
+        Args:
+            xs, ys: Lists of x and y coordinates.
+            tile_size: Which value to round the tiles to.
+            ns_fixed_width, ew_fixed_width: Integer to pad with zeroes. None means no padding.
+
+        Returns:
+            tile_names: List of strings.
+        """
+
+        n_or_s = np.where(ys >= 0, "N", "S")
+        e_or_w = np.where(xs >= 0, "E", "W")
+
+        ns_value = np.abs(utils.base_floor(ys, tile_size)).astype(int).astype(str)
+        ew_value = np.abs(utils.base_floor(xs, tile_size)).astype(int).astype(str)
+
+        ns_fixed_width = ns_fixed_width or 0
+        ew_fixed_width = ew_fixed_width or 0
+
+        ns_value = [x.zfill(ns_fixed_width) for x in ns_value]
+        ew_value = [x.zfill(ew_fixed_width) for x in ew_value]
+
+        tile_names = np.char.add(n_or_s, ns_value)
+        tile_names = np.char.add(tile_names, e_or_w)
+        tile_names = np.char.add(tile_names, ew_value)
+
+        return tile_names
 
     def location_paths(self, lats, lons):
         """File corresponding to each location.
@@ -237,27 +274,10 @@ class TiledDataset(Dataset):
         # Convert to filename projection.
         xs, ys, = utils.reproject_latlons(lats, lons, self.filename_epsg)
 
-        n_or_s = np.where(ys >= 0, "N", "S")
-        e_or_w = np.where(xs >= 0, "E", "W")
-
-        ns_value = (
-            np.abs(utils.base_floor(ys, self.filename_tile_size))
-            .astype(int)
-            .astype(str)
+        # Use to look up.
+        filenames = self.__class__._location_to_tile_name(
+            xs, ys, self.filename_tile_size, self.ns_fixed_width, self.ew_fixed_width
         )
-        ew_value = (
-            np.abs(utils.base_floor(xs, self.filename_tile_size))
-            .astype(int)
-            .astype(str)
-        )
-
-        ns_value = [x.zfill(self.ns_fixed_width) for x in ns_value]
-        ew_value = [x.zfill(self.ew_fixed_width) for x in ew_value]
-
-        filenames = np.char.add(n_or_s, ns_value)
-        filenames = np.char.add(filenames, e_or_w)
-        filenames = np.char.add(filenames, ew_value)
-
         paths = [self._tile_lookup.get(f) for f in filenames]
 
         return paths

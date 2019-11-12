@@ -1,6 +1,7 @@
 import os
 import re
 
+import numpy as np
 import pytest
 from opentopodata import config
 from unittest.mock import patch
@@ -143,3 +144,30 @@ class TestTiledDataset:
         paths = dataset.location_paths(lats, lons)
         assert len(paths) == 1
         assert paths[0] is None
+
+    @pytest.mark.parametrize(
+        "xs,ys,tile_size,ns_fixed_width,ew_fixed_width,result",
+        [
+            ([120.1], [40.9], 1, None, None, ["N40E120"]),
+            ([120.1], [40.9], 1, 0, 0, ["N40E120"]),
+            ([120.1], [-40.9], 1, None, None, ["S41E120"]),
+            ([-120.1], [40.9], 1, None, None, ["N40W121"]),
+            ([-120.1], [-40.9], 1, None, None, ["S41W121"]),
+            ([120.1], [0.2], 1, None, None, ["N0E120"]),
+            ([9], [21], 5, None, None, ["N20E5"]),
+            ([120.1], [0.2], 1, 2, None, ["N00E120"]),
+            ([120.1], [0.2], 1, 0, None, ["N0E120"]),
+            ([13], [-7], 1, 2, 3, ["S07E013"]),
+        ],
+    )
+    def test_location_to_tile_name(
+        self, xs, ys, tile_size, ns_fixed_width, ew_fixed_width, result
+    ):
+        xs = np.array(xs)
+        ys = np.array(ys)
+        assert (
+            config.TiledDataset._location_to_tile_name(
+                xs, ys, tile_size, ns_fixed_width, ew_fixed_width
+            )
+            == result
+        )
