@@ -251,8 +251,8 @@ class TiledDataset(Dataset):
             .astype(str)
         )
 
-        ns_value = np.char.zfill(ns_value, self.ns_fixed_width)
-        ew_value = np.char.zfill(ew_value, self.ew_fixed_width)
+        ns_value = [x.zfill(self.ns_fixed_width) for x in ns_value]
+        ew_value = [x.zfill(self.ew_fixed_width) for x in ew_value]
 
         filenames = np.char.add(n_or_s, ns_value)
         filenames = np.char.add(filenames, e_or_w)
