@@ -9,6 +9,9 @@ repo_name: ajnisbet/opentopodata
 repo_url: https://github.com/ajnisbet/opentopodata
 google_analytics: ['UA-59478184-7', 'www.opentopodata.org']
 
+extra_javascript:
+  - 'point-query.js'
+
 nav:
     - Introduction: 'index.md'
     - Server docs: 'server.md'

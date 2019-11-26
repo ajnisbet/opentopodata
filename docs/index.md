@@ -58,7 +58,6 @@ The following datasets are available on the public API, with elevation shown for
             <th>Resolution</th>
             <th>Extent</th>
             <th>Source</th>
-            <th>Elevation</th>
         </tr>
     </thead>
     <tbody>
@@ -67,21 +66,18 @@ The following datasets are available on the public API, with elevation shown for
             <td>1.8&nbsp;km</td>
             <td>Global, including bathymetry and ice surface elevation near poles.</td>
             <td><a href="https://www.ngdc.noaa.gov/mgg/global/">NOAA</a></td>
-            <td><a href="https://api.opentopodata.org/v1/etopo1?locations=39.747114,-104.996334">1596&nbsp;m</a></td>
         </tr>
         <tr>
             <td>srtm90m</td>
             <td>90&nbsp;m</td>
             <td>Latitudes -60 to 60.</td>
             <td><a href="http://opentopo.sdsc.edu/raster?opentopoID=OTSRTM.042013.4326.1">NASA</a></td>
-            <td><a href="https://api.opentopodata.org/v1/srtm90m?locations=39.747114,-104.996334">1603&nbsp;m</a></td>
         </tr>
         <tr>
             <td>srtm30m</td>
             <td>30&nbsp;m</td>
             <td>Latitudes -60 to 60.</td>
             <td><a href="https://earthdata.nasa.gov/nasa-shuttle-radar-topography-mission-srtm-version-3-0-global-1-arc-second-data-released-over-asia-and-australia">NASA</a></td>
-            <td><a href="https://api.opentopodata.org/v1/srtm30m?locations=39.747114,-104.996334">1604&nbsp;m</a></td>
         </tr>
     </tbody>
 </table>
@@ -268,28 +264,69 @@ The following datasets are available on the public API, with elevation shown for
     }
 </style>
 
-<form class="point-form" action="#!">
-    <legend>Modify location</legend>
+---
+
+## Point Query Tool
+
+Query the elevation at a given point using the Public API.
+
+<noscript>
+    <p>JavaScript is required to use the point query tool.</p>
+    <style>
+        .point-form {
+            display: none;
+        }
+    </style>
+</noscript>
+
+
+
+<form class="point-form" id="point-form" action="#!">
     <div class="form-group">
         <label for="lat">Latitude</label>
         <div class="input-wrap">
-            <input type="text" name="lat" value="39.7471"><br>
+            <input id="point-form-lat" type="text" name="lat" value="39.7471"><br>
         </div>
     </div>
     <div class="form-group">
         <label for="lat">Longitude</label>
         <div class="input-wrap">
-            <input type="text" name="lat" value="39.7471"><br>
+            <input id="point-form-lon" type="text" name="lon" value="-104.9963"><br>
         </div>
     </div>
     <div class="btn-offset">
         <button type="submit" class="btn btn-primary"><span>Submit</span></button>
-        
     </div>
 </form>
 
+<table>
+    <thead>
+        <tr>
+            <th>Dataset name</th>
+            <th>Resolution</th>
+            <th>Elevation [m]</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>etopo1</td>
+            <td>1.8&nbsp;km</td>
+            <td data-dataset-id="etopo1"><a href="https://api.opentopodata.org/v1/etopo1?locations=39.7471,-104.9963">1600</a></td>
+        </tr>
+        <tr>
+            <td>srtm90m</td>
+            <td>90&nbsp;m</td>
+            <td data-dataset-id="srtm90m"><a href="https://api.opentopodata.org/v1/srtm90m?locations=39.7471,-104.9963">1600</a></td>
+        </tr>
+        <tr>
+            <td>srtm30m</td>
+            <td>30&nbsp;m</td>
+            <td data-dataset-id="srtm30m"><a href="https://api.opentopodata.org/v1/srtm30m?locations=39.7471,-104.9963">1600</a></td>
+        </tr>
+    </tbody>
+</table>
 
 
-See the [API docs](api.md) for more about request formats and parameters.
+
 
 
