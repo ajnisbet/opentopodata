@@ -14,6 +14,9 @@ datasets:
 # Example config for 90 metre SRTM.
 # - name: srtm90m
 #   path: data/srtm-90m-nasa-v3.0/
+#   filename_epsg: 4326  # This is the default value.
+#   filename_tile_size: 1  # This is the default value.
+
 
 # Example config for 1 arc-minute ETOPO.
 # - name: etopo1
