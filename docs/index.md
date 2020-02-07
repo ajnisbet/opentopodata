@@ -59,7 +59,7 @@ The following datasets are available on the public API, with elevation shown for
 			<th>Resolution</th>
 			<th>Extent</th>
 			<th>Source</th>
-			<th>Denver elevation</th>
+			<th>API link (Denver, CO)</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -84,10 +84,38 @@ The following datasets are available on the public API, with elevation shown for
 			<td><a href="https://earthdata.nasa.gov/nasa-shuttle-radar-topography-mission-srtm-version-3-0-global-1-arc-second-data-released-over-asia-and-australia">NASA</a></td>
 			<td><a href="https://api.opentopodata.org/v1/srtm30m?locations=39.747114,-104.996334">1604&nbsp;m</a></td>
 		</tr>
+		<tr>
+			<td>eudem25m</td>
+			<td>25&nbsp;m</td>
+			<td>Europe.</td>
+			<td><a href="https://www.eea.europa.eu/data-and-maps/data/copernicus-land-monitoring-service-eu-dem">EEA</a></td>
+			<td><a href="https://api.opentopodata.org/v1/eudem25m?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
+		</tr>
+		<tr>
+			<td>aster30m</td>
+			<td>30&nbsp;m</td>
+			<td>Global.</td>
+			<td><a href="https://asterweb.jpl.nasa.gov/gdem.asp">NASA</a></td>
+			<td><a href="https://api.opentopodata.org/v1/aster30m?locations=39.747114,-104.996334">1591&nbsp;m</a></td>
+		</tr>
+		<tr>
+			<td>ned10m</td>
+			<td>10&nbsp;m</td>
+			<td>Continental USA, Hawaii, parts of Alaska.</td>
+			<td><a href="https://www.sciencebase.gov/catalog/item/4f70aa9fe4b058caae3f8de5">USGS</a></td>
+			<td><a href="https://api.opentopodata.org/v1/ned10m?locations=39.747114,-104.996334">1590&nbsp;m</a></td>
+		</tr>
 	</tbody>
 </table>
 
 
 See the [API docs](api.md) for more about request formats and parameters.
+
+
+---
+
+## Support
+
+Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
 
 
