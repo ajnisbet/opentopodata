@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -44,17 +44,17 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.30686662.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
       
       
     
     
-      <script src="../assets/javascripts/modernizr.74668098.js"></script>
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -413,13 +413,14 @@
                 
                 <h1 id="api-documentation">API Documentation</h1>
 <p>A public API is available for testing at <a href="https://api.opentopodata.org/v1/test-dataset">api.opentopodata.org</a>.</p>
+<p>Open Topo Data has a single endpoint.</p>
 <h2 id="get-v1ltdataset_namegt"><code>GET /v1/&lt;dataset_name&gt;</code></h2>
 <p>Reads the elevation from a given dataset. The dataset must match one of the options in <code>config.yaml</code>.</p>
 <p>Latitudes and longitudes should be in <code>EPSG:4326</code>, they will be converted internally to whatever the dataset used.</p>
 <h3 id="args">Args</h3>
 <ul>
 <li><code>locations</code>: Required. Either <ul>
-<li><code>latitutde,longitude</code> pairs, each separated by a pipe character <code>|</code>. Example: <code>locations=12.5,160.2|-10.6,130</code>. Or, </li>
+<li><code>latitutde,longitude</code> pairs, each separated by a pipe character <code>|</code>. Example: <code>locations=12.5,160.2|-10.6,130</code>.</li>
 <li><a href="https://developers.google.com/maps/documentation/utilities/polylinealgorithm">Google polyline format</a>. Example: <code>locations=gfo}EtohhU</code>.</li>
 </ul>
 </li>
@@ -431,9 +432,9 @@
 <li><code>status</code>: Will be <code>OK</code> for a successful request, <code>INVALID_REQUEST</code> for an input error, and <code>SERVER_ERROR</code> for a different error. Required.</li>
 <li><code>error</code>: Description of what went wrong, when <code>status</code> isn't <code>OK</code>.</li>
 <li><code>results</code>: List of elevations for each location, in same order as input. Only provided for <code>OK</code> status.</li>
-<li><code>results[].elevation</code>: Elevation, using units and datum from the dataset. May be <code>nan</code> if a NODATA value is queried.</li>
-<li><code>results[].location.lat</code>: Latitude as parsed by opentopodata.</li>
-<li><code>results[].location.lng</code>: Longitude as parsed by opentopodata.</li>
+<li><code>results[].elevation</code>: Elevation, using units and datum from the dataset. May be <code>NaN</code> if the dataset has a NODATA value at the given location. May be <code>null</code> if the given location is outside the dataset bounds.</li>
+<li><code>results[].location.lat</code>: Latitude as parsed by Open Topo Data.</li>
+<li><code>results[].location.lng</code>: Longitude as parsed by Open Topo Data.</li>
 </ul>
 <h3 id="example">Example</h3>
 <p><code>GET</code> <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&amp;interpolation=cubic</a></p>
@@ -459,6 +460,7 @@
 </pre></div>
                 
                   
+                
                 
               
               
@@ -512,7 +514,7 @@
       
     </div>
     
-      <script src="../assets/javascripts/application.c648116f.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

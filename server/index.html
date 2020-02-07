@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -44,17 +44,17 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/application.30686662.css">
+      <link rel="stylesheet" href="../assets/stylesheets/application.1b62728e.css">
       
       
     
     
-      <script src="../assets/javascripts/modernizr.74668098.js"></script>
+      <script src="../assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -289,6 +289,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dataset-support" class="md-nav__link">
+    Dataset support
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     Configuration
   </a>
@@ -379,6 +386,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dataset-support" class="md-nav__link">
+    Dataset support
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#configuration" class="md-nav__link">
     Configuration
   </a>
@@ -447,23 +461,53 @@ make run
 
 
 <p>This will start a server on <code>localhost:5000</code> with a small demo dataset called <code>test-dataset</code>. Check out the <a href="../api/">API docs</a> for info about requests and responses.</p>
+<h2 id="dataset-support">Dataset support</h2>
+<p>Open Topo Data supports all georeferenced raster formats supported by GDAL (e.g, <code>.tiff</code>, <code>.hgt</code>, <code>.jp2</code>).</p>
+<p>Datasets can take one of two formats:</p>
+<ul>
+<li>A single raster file.</li>
+<li>A collection of square raster tiles which follow the SRTM naming convention: the file is named for the lower left corner. So a file named <code>N30W120.tiff</code> would span from 30 to 31 degrees latitude, and -120 to -119 degrees longitude. By default tiles are 1° by 1° and the coordinates are in WGS84, but this can be configured.</li>
+</ul>
 <h2 id="configuration">Configuration</h2>
 <p>Open Topo Data is configured by a <code>config.yaml</code> file. If that file is missing it will fallback to <code>example-config.yaml</code>.</p>
-<p>A config might look like this:</p>
+<p>A config might look like:</p>
 <div class="codehilite"><pre><span></span><span class="nt">max_locations_per_request</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100</span> 
 <span class="nt">datasets</span><span class="p">:</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">test-dataset</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tests/data/datasets/test-etopo1-resampled-1deg/</span>
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">etopo1</span>
   <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/etopo1/</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">srtm90m</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/srtm-90m-v3/</span>
+  <span class="nt">filename_epsg</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">4326</span>
+  <span class="nt">filename_tile_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span>
 </pre></div>
 
 
+<p>corresponding to a directory structure:</p>
+<div class="codehilite"><pre><span></span>opentopodata
+|
+└───data
+    |
+    ├───etopo1
+    |   |
+    |   └───etopo1-dem.geotiff
+    |
+    └───srtm-90m-v3
+        |
+        ├───N00E000.hgt 
+        ├───N00E001.hgt 
+        ├───N00E002.hgt 
+        ├───etc...
+</pre></div>
+
+
+<p>which would expose <code>localhost:5000/v1/etopo1</code> and <code>localhost:5000/v1/srtm90m</code>.</p>
 <h3 id="config-spec">Config spec</h3>
 <ul>
 <li><code>max_locations_per_request</code>: Requests with more than this many locations will return a 400 error. Default: <code>100</code>.</li>
 <li><code>datasets[].name</code>: Dataset name, used in url. Required.</li>
-<li><code>datasets[].path</code>: Path to folder containing the dataset. If the dataset is a single file it must be placed inside a folder. This path is relative to the repository directory inside docker. I suggest placing datasets inside the provided <code>data</code> folder, which is mounted in docker by <code>make run</code>. Required.</li>
+<li><code>datasets[].path</code>: Path to folder containing the dataset. If the dataset is a single file it must be placed inside a folder. This path is relative to the repository directory inside docker. I suggest placing datasets inside the provided <code>data</code> folder, which is mounted in docker by <code>make run</code>. Files can be nested arbitrarily inside the dataset path. Required.</li>
+<li><code>datasets[].filename_epsg</code>: For tiled datasets, the projection of the filename coordinates. The default value is <code>4326</code>, which is latitude/longitude with the WGS84 datum.</li>
+<li><code>datasets[].filename_tile_size</code>: For tiled datasets, how large each square tile is, in the units of <code>filename_epsg</code>. For example, a lat,lon location of <code>38.2,121.2</code> would lie in the tile <code>N38W121</code> for a tile size of 1, but lie in <code>N35W120</code> for a tile size of 5. Default: <code>1</code>.</li>
 </ul>
 <h2 id="adding-datasets">Adding datasets</h2>
 <p>An important goal of Open Topo Data is make is easy to add new datasets. The included dataset is very low resolution (about 100km) and is intended only for testing.</p>
@@ -472,7 +516,6 @@ make run
 <li>placing the dataset in the <code>data</code> directory</li>
 <li>adding the path to the dataset in <code>config.yaml</code>.</li>
 </ol>
-<p>Open Topo Data supports all georeferenced raster formats supported by GDAL (e.g, <code>.tiff</code>, <code>.hgt</code>, <code>.jp2</code>). Additionally, collections of multiple files are supported if they follow the SRTM naming convention (<code>N30W120.hgt</code>).</p>
 <h3 id="adding-etopo1">Adding ETOPO1</h3>
 <p>Download the grid-registered <code>.tif</code> file from <a href="https://www.ngdc.noaa.gov/mgg/global/">noaa.gov</a> to the <code>data</code> directory and unzip. </p>
 <div class="codehilite"><pre><span></span>mkdir ./data/etopo1
@@ -482,7 +525,7 @@ rm ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
 </pre></div>
 
 
-<p>Then create a file <code>config.yaml</code> with the following contents</p>
+<p>Create a file <code>config.yaml</code> with the following contents</p>
 <div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">etopo1</span>
   <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/etopo1/</span>
@@ -494,6 +537,7 @@ rm ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
 </pre></div>
                 
                   
+                
                 
               
               
@@ -561,7 +605,7 @@ rm ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
       
     </div>
     
-      <script src="../assets/javascripts/application.c648116f.js"></script>
+      <script src="../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
       

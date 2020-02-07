@@ -36,7 +36,7 @@
         <meta name="lang:search.tokenizer" content="[\s\-]+">
       
       <link rel="shortcut icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.4.2">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
     
     
       
@@ -44,17 +44,17 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/application.30686662.css">
+      <link rel="stylesheet" href="assets/stylesheets/application.1b62728e.css">
       
       
     
     
-      <script src="assets/javascripts/modernizr.74668098.js"></script>
+      <script src="assets/javascripts/modernizr.268332fc.js"></script>
     
     
       
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono&display=fallback">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
         <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
       
     
@@ -441,12 +441,34 @@ curl http://localhost:5000/v1/test-dataset?locations<span class="o">=</span><spa
             <td><a href="https://earthdata.nasa.gov/nasa-shuttle-radar-topography-mission-srtm-version-3-0-global-1-arc-second-data-released-over-asia-and-australia">NASA</a></td>
             <td><a href="https://api.opentopodata.org/v1/srtm30m?locations=39.747114,-104.996334">1604&nbsp;m</a></td>
         </tr>
+        <tr>
+            <td>eudem25m</td>
+            <td>25&nbsp;m</td>
+            <td>Europe.</td>
+            <td><a href="https://www.eea.europa.eu/data-and-maps/data/copernicus-land-monitoring-service-eu-dem">EEA</a></td>
+            <td><a href="https://api.opentopodata.org/v1/eudem25m?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
+        </tr>
+        <tr>
+            <td>aster30m</td>
+            <td>30&nbsp;m</td>
+            <td>Global.</td>
+            <td><a href="https://asterweb.jpl.nasa.gov/gdem.asp">NASA</a></td>
+            <td><a href="https://api.opentopodata.org/v1/aster30m?locations=39.747114,-104.996334">1591</a></td>
+        </tr>
+        <tr>
+            <td>ned10m</td>
+            <td>10&nbsp;m</td>
+            <td>Continental USA, Hawaii, parts of Alaska.</td>
+            <td><a href="https://www.sciencebase.gov/catalog/item/4f70aa9fe4b058caae3f8de5">USGS</a></td>
+            <td><a href="https://api.opentopodata.org/v1/ned10m?locations=39.747114,-104.996334">1590</a></td>
+        </tr>
     </tbody>
 </table>
 
 <p>See the <a href="api/">API docs</a> for more about request formats and parameters.</p>
                 
                   
+                
                 
               
               
@@ -500,7 +522,7 @@ curl http://localhost:5000/v1/test-dataset?locations<span class="o">=</span><spa
       
     </div>
     
-      <script src="assets/javascripts/application.c648116f.js"></script>
+      <script src="assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:"."}})</script>
       
