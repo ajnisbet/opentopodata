@@ -1,5 +1,5 @@
+# Container for packages that need to be built from source but have massive dev dependencies.
 FROM python:3.7.4-slim-buster as builder
-
 RUN set -e && \
     apt-get update && \
     apt-get full-upgrade -y && \
@@ -9,8 +9,8 @@ RUN set -e && \
 RUN pip wheel --wheel-dir=/root/wheels uwsgi && \
     pip wheel --wheel-dir=/root/wheels regex
 
+# The actual container.
 FROM python:3.7.4-slim-buster
-
 RUN set -e && \
     apt-get update && \
     apt-get full-upgrade -y && \

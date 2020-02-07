@@ -11,10 +11,11 @@ ETOPO1_GEOTIFF_PATH = "tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice
 ETOPO1_DATASET_NAME = "test-dataset"
 SRTM_DATASET_NAME = "srtm90subset"
 SRTM_UTM_DATASET_NAME = "srtm90utm"
+EU_DEM_DATASET_NAME = "eudemsubset"
 NO_FILL_VALUE_CONFIG_PATH = "tests/data/configs/no-fill-value.yaml"
 TEST_CONFIG_PATH = "tests/data/configs/test-config.yaml"
-SRTM_FILL_VALUE = 0
 NODATA_DATASET_PATH = "tests/data/datasets/test-nodata/nodata.geotiff"
+EUDEM_TILE_PATH = "tests/data/datasets/test-eu-dem-subset/N2000000E3000000.TIF"
 
 
 @pytest.fixture
@@ -212,6 +213,15 @@ class TestGetElevationFromPath:
         z = backend._get_elevation_from_path([lat], [lon], NODATA_DATASET_PATH, "cubic")
         assert np.isnan(z[0])
 
+    def test_nodata_is_nan(self):
+        # EU-dem has NODATA over water.
+        lat = [44.969186]
+        lon = [-3.152424]
+        z = backend._get_elevation_from_path(
+            [lat], [lon], EUDEM_TILE_PATH, interpolation="nearest"
+        )
+        assert np.isnan(z)
+
 
 class TestGetElevation:
     def test_single_file_dataset(self):
@@ -227,12 +237,12 @@ class TestGetElevation:
         )
         assert elevations_by_dataset == elevations_by_path
 
-    def test_fill_value_oob(self, patch_config):
+    def test_oob(self, patch_config):
         lats = [1.5, -0.5, 0.5, 0.5]
         lons = [10.5, 11.5, 9.5, 12.5]
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
-        assert all([x == SRTM_FILL_VALUE for x in z])
+        assert all([x is None for x in z])
 
     def test_srtm_tiles(self, patch_config):
         lats = [0.1, 0.9]
@@ -240,11 +250,11 @@ class TestGetElevation:
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
         assert all(z)
-        assert all([x != SRTM_FILL_VALUE for x in z])
+        assert all(np.isfinite(z))
 
     def test_utm(self, patch_config):
-        lats = [0.2, 0.8]
-        lons = [10.2, 10.8]
+        lats = [0.2, 0.8, 0.6]
+        lons = [10.2, 10.8, 11.5]
 
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
@@ -258,41 +268,19 @@ class TestGetElevation:
         lats = [70]
         lons = [10.5]
         dataset = config.load_datasets()[SRTM_DATASET_NAME]
-        with pytest.raises(backend.InputError):
-            dataset = config.load_datasets()[SRTM_DATASET_NAME]
-            backend.get_elevation(lats, lons, dataset)
+        z = backend.get_elevation(lats, lons, dataset)[0]
+        assert z is None
 
     def test_out_of_srtm_bounds_utm(self, patch_config):
         lats = [70]
         lons = [10.5]
-        dataset = config.load_datasets()[SRTM_UTM_DATASET_NAME]
-        with pytest.raises(backend.InputError):
-            dataset = config.load_datasets()[SRTM_UTM_DATASET_NAME]
-            backend.get_elevation(lats, lons, dataset)
+        dataset = config.load_datasets()[SRTM_DATASET_NAME]
+        z = backend.get_elevation(lats, lons, dataset)[0]
+        assert z is None
 
-
-class TestReprojectLatlons:
-    def test_wgs84_invariance(self):
-        lats = [-10, 0, 10]
-        lons = [-170, 0, 100]
-        wgs84_epsg = 4326
-        xs, ys = backend._reproject_latlons(lats, lons, wgs84_epsg)
-        assert lats == ys
-        assert lons == xs
-
-    def test_utm_conversion(self):
-        lats = [10.5]
-        lons = [120.8]
-        epsg = 32651
-        xs, ys = backend._reproject_latlons(lats, lons, epsg)
-        x = 259212
-        y = 1161538
-        assert np.allclose(x, xs)
-        assert np.allclose(y, ys)
-
-    def test_bad_epsg(self):
-        with pytest.raises(backend.InputError):
-            lats = [10.5]
-            lons = [120.8]
-            epsg = 0
-            xs, ys = backend._reproject_latlons(lats, lons, epsg)
+    def test_alternate_tiled_dataset(self, patch_config):
+        lats = [47.625765]
+        lons = [9.418759]
+        dataset = config.load_datasets()[EU_DEM_DATASET_NAME]
+        z = backend.get_elevation(lats, lons, dataset)
+        assert np.isfinite(z)

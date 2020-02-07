@@ -1,6 +1,7 @@
 import os
 import re
 
+import numpy as np
 import pytest
 from opentopodata import config
 from unittest.mock import patch
@@ -63,7 +64,7 @@ class TestLoadConfig:
     def test_complete_dataset(self, patch_config):
         conf = config.load_config()
         assert "datasets" in conf
-        assert len(conf["datasets"]) == 4
+        assert len(conf["datasets"]) == 5
 
     def test_defaults_get_overridden(self):
         path = "tests/data/configs/non-default-values.yaml"
@@ -105,14 +106,15 @@ class TestDataset:
     def test_srtm(self, patch_config):
         name = "test"
         dataset = config.Dataset.from_config(name=name, path=SRTM_FOLDER)
-        assert isinstance(dataset, config.SRTMDataset)
+        assert isinstance(dataset, config.TiledDataset)
         assert dataset.name == name
 
-    def test_srtm_filename_regex(self):
-        assert re.match(config.SRTM_FILENAME_REGEX, "N80E001.hgt")
-        assert re.match(config.SRTM_FILENAME_REGEX, "S01W170.tif")
-        assert re.match(config.SRTM_FILENAME_REGEX, "S01W170.geotiff.zip")
-        assert not re.match(config.SRTM_FILENAME_REGEX, "junk.tif")
+    def test_filename_tile_regex(self):
+        assert re.match(config.FILENAME_TILE_REGEX, "N80E001.hgt")
+        assert re.match(config.FILENAME_TILE_REGEX, "S01W170.tif")
+        assert re.match(config.FILENAME_TILE_REGEX, "S100000W900000.tif")
+        assert re.match(config.FILENAME_TILE_REGEX, "S01W170.geotiff.zip")
+        assert not re.match(config.FILENAME_TILE_REGEX, "junk.tif")
 
 
 class TestSingleFileDataset:
@@ -124,7 +126,7 @@ class TestSingleFileDataset:
         assert all([p == ETOPO1_GEOTIFF_PATH for p in tile_paths])
 
 
-class TestSRTMDataset:
+class TestTiledDataset:
     def test_location_paths(self):
         dataset = config.Dataset.from_config(name="srtm", path=SRTM_FOLDER)
         lats = [0.1, 0.9]
@@ -142,3 +144,30 @@ class TestSRTMDataset:
         paths = dataset.location_paths(lats, lons)
         assert len(paths) == 1
         assert paths[0] is None
+
+    @pytest.mark.parametrize(
+        "xs,ys,tile_size,ns_fixed_width,ew_fixed_width,result",
+        [
+            ([120.1], [40.9], 1, None, None, ["N40E120"]),
+            ([120.1], [40.9], 1, 0, 0, ["N40E120"]),
+            ([120.1], [-40.9], 1, None, None, ["S41E120"]),
+            ([-120.1], [40.9], 1, None, None, ["N40W121"]),
+            ([-120.1], [-40.9], 1, None, None, ["S41W121"]),
+            ([120.1], [0.2], 1, None, None, ["N0E120"]),
+            ([9], [21], 5, None, None, ["N20E5"]),
+            ([120.1], [0.2], 1, 2, None, ["N00E120"]),
+            ([120.1], [0.2], 1, 0, None, ["N0E120"]),
+            ([13], [-7], 1, 2, 3, ["S07E013"]),
+        ],
+    )
+    def test_location_to_tile_name(
+        self, xs, ys, tile_size, ns_fixed_width, ew_fixed_width, result
+    ):
+        xs = np.array(xs)
+        ys = np.array(ys)
+        assert (
+            config.TiledDataset._location_to_tile_name(
+                xs, ys, tile_size, ns_fixed_width, ew_fixed_width
+            )
+            == result
+        )

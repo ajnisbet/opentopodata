@@ -1,16 +1,22 @@
-import os
-import yaml
 from glob import glob
-import rasterio
+import os
 import re
+import yaml
+
 import numpy as np
+import rasterio
+
+from opentopodata import utils
 
 CONFIG_PATH = "config.yaml"
 EXAMPLE_CONFIG_PATH = "example-config.yaml"
-GEOTIFF_FILENAME_REGEX = r".*?\.(?:geo)?tiff?$"
-SRTM_FILENAME_REGEX = r"^[NS]\d\d[WE][01]\d\d.*?$"
+FILENAME_TILE_REGEX = r"^[NS]\d+[WE]\d+.*?$"
 
-DEFAULTS = {"max_locations_per_request": 100}
+DEFAULTS = {
+    "max_locations_per_request": 100,
+    "dataset.filename_tile_size": 1,
+    "dataset.filename_epsg": utils.WGS84_LATLON_EPSG,
+}
 
 
 class ConfigError(ValueError):
@@ -67,9 +73,9 @@ def load_config():
         raise ConfigError("All datasets must have a 'path' attribute.")
 
     # Set defualts.
-    for k, v in DEFAULTS.items():
-        if k not in config:
-            config[k] = v
+    config["max_locations_per_request"] = config.get(
+        "max_locations_per_request", DEFAULTS["max_locations_per_request"]
+    )
 
     return config
 
@@ -129,22 +135,27 @@ class Dataset:
                 raise ConfigError("Unsupported filetype for '{}'.".format(tile_path))
             return SingleFileDataset(name, tile_path=tile_path)
 
-        # Check for srtm.
+        # Check for SRTM-style naming.
         all_filenames = [os.path.basename(p) for p in all_files]
-        if all([re.match(SRTM_FILENAME_REGEX, f) for f in all_filenames]):
-            return SRTMDataset(name, path, tile_paths=all_files)
+        if all([re.match(FILENAME_TILE_REGEX, f) for f in all_filenames]):
+            filename_epsg = kwargs.get(
+                "filename_epsg", DEFAULTS["dataset.filename_epsg"]
+            )
+            filename_tile_size = kwargs.get(
+                "filename_tile_size", DEFAULTS["dataset.filename_tile_size"]
+            )
+            return TiledDataset(
+                name,
+                path,
+                tile_paths=all_files,
+                filename_epsg=filename_epsg,
+                filename_tile_size=filename_tile_size,
+            )
 
         raise ConfigError("Unknown dataset type for '{}'.".format(name))
 
     def location_paths(self, lats, lons):
         raise NotImplementedError
-
-    def missing_tile_elevations(self, lats, lons):
-        """Get the elevations for locations without a tile file.
-
-        See SRTMDataset.missing_tile_elevations
-        """
-        return [None] * len(lats)
 
 
 class SingleFileDataset(Dataset):
@@ -171,13 +182,11 @@ class SingleFileDataset(Dataset):
         return [self.tile_path] * len(lats)
 
 
-class SRTMDataset(Dataset):
-    LAT_MIN = -60
-    LAT_MAX = 60
-    FILL_VALUE = 0
-
-    def __init__(self, name, path, tile_paths):
+class TiledDataset(Dataset):
+    def __init__(self, name, path, tile_paths, filename_epsg, filename_tile_size):
         """A dataset of files named in SRTM format.
+
+        Each file should be a square tile, named like N50W121 for the lower left (SW) corner.
 
         GDAL supports SRTM-named .hgt files indivudially (it can infer the
         bounds from the filename) but won't find the correct file for you. This does that.
@@ -187,9 +196,14 @@ class SRTMDataset(Dataset):
             tile_path: String path to single raster file.
             path: Path to folder containing SRTM files.
             tile_paths: List of infividial raster file paths in the dataset.
+            filename_epsg: Coordinate system of the filename.
+            filename_tile_size: Size of each tile, in the coordinate system units. Used for 
+                rounding down the location to get the corner. Assumed to have an offset from zero.
         """
         self.name = name
         self.path = path
+        self.filename_epsg = filename_epsg
+        self.filename_tile_size = filename_tile_size
 
         # Build lookup from filename without extension to path.
         tile_filenames = [os.path.basename(p).split(".")[0] for p in tile_paths]
@@ -198,7 +212,52 @@ class SRTMDataset(Dataset):
             msg += " cannot be the same tile with different extentions."
             raise ConfigError(msg)
 
+        # Find if the filenames use fixed-width zerop padding.
+        ns = [re.search(r"[NS](\d+)[WE]", x)[1] for x in tile_filenames]
+        ew = [re.search(r"[WE](\d+)", x)[1] for x in tile_filenames]
+        ns_lens = set(len(x) for x in ns)
+        ew_lens = set(len(x) for x in ew)
+        self.ns_fixed_width = ns_lens.pop() if len(ns_lens) == 1 else None
+        self.ew_fixed_width = ew_lens.pop() if len(ew_lens) == 1 else None
+
         self._tile_lookup = dict(zip(tile_filenames, tile_paths))
+
+    @classmethod
+    def _location_to_tile_name(
+        cls, xs, ys, tile_size=1, ns_fixed_width=None, ew_fixed_width=None
+    ):
+        """Convert locations to SRTM tile name.
+
+        For example, (-120.5, 40.1) becomes N40W121. The lower left corner of
+        the tile is used. The numbers can be padded with leading zeroes to all
+        be the same width.
+
+        Args:
+            xs, ys: Lists of x and y coordinates.
+            tile_size: Which value to round the tiles to.
+            ns_fixed_width, ew_fixed_width: Integer to pad with zeroes. None means no padding.
+
+        Returns:
+            tile_names: List of strings.
+        """
+
+        n_or_s = np.where(ys >= 0, "N", "S")
+        e_or_w = np.where(xs >= 0, "E", "W")
+
+        ns_value = np.abs(utils.base_floor(ys, tile_size)).astype(int).astype(str)
+        ew_value = np.abs(utils.base_floor(xs, tile_size)).astype(int).astype(str)
+
+        ns_fixed_width = ns_fixed_width or 0
+        ew_fixed_width = ew_fixed_width or 0
+
+        ns_value = [x.zfill(ns_fixed_width) for x in ns_value]
+        ew_value = [x.zfill(ew_fixed_width) for x in ew_value]
+
+        tile_names = np.char.add(n_or_s, ns_value)
+        tile_names = np.char.add(tile_names, e_or_w)
+        tile_names = np.char.add(tile_names, ew_value)
+
+        return tile_names
 
     def location_paths(self, lats, lons):
         """File corresponding to each location.
@@ -212,41 +271,13 @@ class SRTMDataset(Dataset):
         lats = np.asarray(lats)
         lons = np.asarray(lons)
 
-        n_or_s = np.where(lats >= 0, "N", "S")
-        e_or_w = np.where(lons >= 0, "E", "W")
+        # Convert to filename projection.
+        xs, ys, = utils.reproject_latlons(lats, lons, self.filename_epsg)
 
-        ns_value = np.abs(np.floor(lats)).astype(int).astype(str)
-        ew_value = np.abs(np.floor(lons)).astype(int).astype(str)
-
-        ns_value = np.char.zfill(ns_value, 2)
-        ew_value = np.char.zfill(ew_value, 3)
-
-        filenames = np.char.add(n_or_s, ns_value)
-        filenames = np.char.add(filenames, e_or_w)
-        filenames = np.char.add(filenames, ew_value)
-
+        # Use to look up.
+        filenames = self.__class__._location_to_tile_name(
+            xs, ys, self.filename_tile_size, self.ns_fixed_width, self.ew_fixed_width
+        )
         paths = [self._tile_lookup.get(f) for f in filenames]
 
         return paths
-
-    def missing_tile_elevations(self, lats, lons):
-        """Get the elevations for locations without a tile file.
-
-
-        SRTM skips tiles when all locations are zero elevation.
-
-        Args:
-            lats: List of latitudes.
-            lons: List of longitudes.
-        Returns:
-            List of elevations, or None where no fill value is applied (location lies outside dataset
-                domain).
-
-        """
-        z = []
-        for lat, lon in zip(lats, lons):
-            if self.LAT_MIN <= lat <= self.LAT_MAX:
-                z.append(self.FILL_VALUE)
-            else:
-                z.append(None)
-        return z
