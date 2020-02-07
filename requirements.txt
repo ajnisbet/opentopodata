@@ -6,6 +6,6 @@ pyproj==2.4.0
 pytest
 pytest-cov
 PyYAML
-rasterio==1.0.28
+rasterio==1.1.1
 black
 requests
