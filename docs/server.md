@@ -1,7 +1,9 @@
 # Open Topo Data Server Documentation
 
 
-## Getting started with docker
+## Getting started
+
+The easiest way to run Open Topo Data is with Docker. [Install docker](https://docs.docker.com/install/) then run the following commands:
 
 ```bash
 git clone git@github.com:ajnisbet/opentopodata.git
@@ -20,7 +22,6 @@ Datasets can take one of two formats:
 
 * A single raster file.
 * A collection of square raster tiles which follow the SRTM naming convention: the file is named for the lower left corner. So a file named `N30W120.tiff` would span from 30 to 31 degrees latitude, and -120 to -119 degrees longitude. By default tiles are 1° by 1° and the coordinates are in WGS84, but this can be configured.
-
 
 
 ## Configuration
@@ -79,7 +80,6 @@ Adding a new dataset takes two steps:
 
 1. placing the dataset in the `data` directory
 2. adding the path to the dataset in `config.yaml`.
-
 
 
 

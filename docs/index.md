@@ -1,19 +1,21 @@
 <h1 style="text-align:center">Open Topo Data</h1>
 
 <p style="text-align:center">
-  <img width="378" hight="153" src="https://www.andrewnisbet.nz/img/elevation-land.png" alt="Open Topo Data">
+  <img width="378" hight="153" src="/elevation-land.png" alt="Open Topo Data">
 </p>
 
 <p style="text-align:center">
-	<strong>Open Topo Data</strong> is a REST API server for your elevation data.<br> <a href="#host-your-own">Host your own</a> or use the free <a href="#public-api">public API</a>.
+	<strong>Open Topo Data</strong> is an elevation API.<br> <a href="#host-your-own">Host your own</a> or use the free <a href="#public-api">public API</a>.
 </p>
 
 ---
 
 ## Host your own
 
+Install [docker](https://docs.docker.com/install/) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) then run:
+
 ```bash
-git clone github.com/ajnisbet/opentopodata
+git clone git@github.com:ajnisbet/opentopodata.git
 cd opentopodata
 make build
 make run
@@ -81,7 +83,7 @@ The following datasets are available on the public API, with elevation shown for
 			<td>srtm30m</td>
 			<td>30&nbsp;m</td>
 			<td>Latitudes -60 to 60.</td>
-			<td><a href="https://earthdata.nasa.gov/nasa-shuttle-radar-topography-mission-srtm-version-3-0-global-1-arc-second-data-released-over-asia-and-australia">NASA</a></td>
+			<td><a href="https://dds.cr.usgs.gov/srtm/version2_1/SRTM30/srtm30_documentation.pdf">USGS</a></td>
 			<td><a href="https://api.opentopodata.org/v1/srtm30m?locations=39.747114,-104.996334">1604&nbsp;m</a></td>
 		</tr>
 		<tr>

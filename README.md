@@ -3,16 +3,17 @@
 
 __Documentation__: [www.opentopodata.org](https://www.opentopodata.org)
 
-Open Topo Data is a REST API server for your elevation data. You can host your own or use the free public API.
+Open Topo Data is a REST API server for your elevation data. You can self-host with your own dataset or use the free public API.
 
 
 
 
 ## Host your own
 
+The easiest way to run Open Topo Data is with Docker. [Install docker](https://docs.docker.com/install/) then run the following commands:
 
 ```bash
-git clone github.com/ajnisbet/opentopodata
+git clone git@github.com:ajnisbet/opentopodata.git
 cd opentopodata
 make build
 make run
@@ -33,7 +34,7 @@ curl http://localhost:5000/v1/test-dataset?locations=56.35,123.90
 ```
 
 
-See the [server docs](docs/server.md) for more about configuration and adding datasets.
+See the [server docs](docs/server.md) for more about configuration and adding datasets (the included low-resolution dataset is best suited for testing purposes).
 
 
 ## Public API
