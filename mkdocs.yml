@@ -13,6 +13,8 @@ nav:
     - Introduction: 'index.md'
     - Server docs: 'server.md'
     - API docs: 'api.md'
+    - Datasets:
+      - ETOPO1: 'datasets/etopo1.md'
 
 markdown_extensions:
   - markdown.extensions.codehilite:
