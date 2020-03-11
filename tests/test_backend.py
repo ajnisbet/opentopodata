@@ -12,6 +12,7 @@ ETOPO1_DATASET_NAME = "test-dataset"
 SRTM_DATASET_NAME = "srtm90subset"
 SRTM_UTM_DATASET_NAME = "srtm90utm"
 EU_DEM_DATASET_NAME = "eudemsubset"
+EU_DEM_NO_EPSG_DATASET_NAME = "eudemnoepsg"
 NO_FILL_VALUE_CONFIG_PATH = "tests/data/configs/no-fill-value.yaml"
 TEST_CONFIG_PATH = "tests/data/configs/test-config.yaml"
 NODATA_DATASET_PATH = "tests/data/datasets/test-nodata/nodata.geotiff"
@@ -284,3 +285,15 @@ class TestGetElevation:
         dataset = config.load_datasets()[EU_DEM_DATASET_NAME]
         z = backend.get_elevation(lats, lons, dataset)
         assert np.isfinite(z)
+
+    def test_dataset_crs_format_equivalence(self, patch_config):
+        lats = [43.597009, 45.534601]
+        lons = [1.455697, 10.698698]
+
+        dataset_epsg = config.load_datasets()[EU_DEM_DATASET_NAME]
+        z_epsg = backend.get_elevation(lats, lons, dataset_epsg)
+
+        dataset_wkt = config.load_datasets()[EU_DEM_NO_EPSG_DATASET_NAME]
+        z_wkt = backend.get_elevation(lats, lons, dataset_wkt)
+
+        assert np.allclose(z_epsg, z_wkt)

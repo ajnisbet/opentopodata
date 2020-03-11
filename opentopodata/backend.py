@@ -94,8 +94,17 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
     lats = np.asarray(lats)
 
     with rasterio.open(path) as f:
+        if f.crs is None:
+            msg = "Dataset has no coordinate reference system."
+            msg += " Check the file '{path}' is a geo raster."
+            msg += " Otherwise you'll have to add the crs manually with a tool like gdaltranslate."
+            raise InputError(msg)
+
         try:
-            xs, ys = utils.reproject_latlons(lats, lons, f.crs.to_epsg())
+            if f.crs.is_epsg_code:
+                xs, ys = utils.reproject_latlons(lats, lons, epsg=f.crs.to_epsg())
+            else:
+                xs, ys = utils.reproject_latlons(lats, lons, wkt=f.crs.to_wkt())
         except ValueError:
             raise InputError("Unable to transform latlons to dataset projection.")
 

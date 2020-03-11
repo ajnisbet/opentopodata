@@ -17,3 +17,8 @@ datasets:
   path: tests/data/datasets/test-eu-dem-subset/
   filename_epsg: 3035
   filename_tile_size: 1000000
+
+- name: eudemnoepsg
+  path: tests/data/datasets/test-eu-dem-subset-no-epsg/
+  filename_epsg: 3035
+  filename_tile_size: 1000000

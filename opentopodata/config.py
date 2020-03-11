@@ -272,7 +272,7 @@ class TiledDataset(Dataset):
         lons = np.asarray(lons)
 
         # Convert to filename projection.
-        xs, ys, = utils.reproject_latlons(lats, lons, self.filename_epsg)
+        xs, ys, = utils.reproject_latlons(lats, lons, epsg=self.filename_epsg)
 
         # Use to look up.
         filenames = self.__class__._location_to_tile_name(
