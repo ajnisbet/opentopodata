@@ -64,7 +64,7 @@ class TestLoadConfig:
     def test_complete_dataset(self, patch_config):
         conf = config.load_config()
         assert "datasets" in conf
-        assert len(conf["datasets"]) == 5
+        assert len(conf["datasets"]) == 6
 
     def test_defaults_get_overridden(self):
         path = "tests/data/configs/non-default-values.yaml"
