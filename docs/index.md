@@ -1,7 +1,7 @@
 <h1 style="text-align:center">Open Topo Data</h1>
 
 <p style="text-align:center">
-  <img width="378" hight="153" src="/elevation-land.png" alt="Open Topo Data">
+  <img width="378" hight="153" src="/img/elevation-land.png" alt="Open Topo Data">
 </p>
 
 <p style="text-align:center">

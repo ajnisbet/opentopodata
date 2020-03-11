@@ -15,6 +15,7 @@ nav:
     - API docs: 'api.md'
     - Datasets:
       - ETOPO1: 'datasets/etopo1.md'
+      - EU-DEM: 'datasets/eudem.md'
 
 markdown_extensions:
   - markdown.extensions.codehilite:

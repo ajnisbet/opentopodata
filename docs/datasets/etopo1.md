@@ -15,7 +15,7 @@ The accuracy of ETOPO1 varies spatially depending on the underlying source data.
 The quality of ETOPO1 is high: there are no missing values or holes (holes in the SRTM30 source were fixed by hand). Transitions between source datasets are smooth.
 
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/datasets/etopo1.png" alt="ETOPO1 elevation">
+  <img src="/img/etopo1.png" alt="ETOPO1 elevation">
   <br>
   <em>Pseudocolour render of ETOPO1 elevation.</em>
 </p>
