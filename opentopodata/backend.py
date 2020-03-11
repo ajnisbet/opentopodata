@@ -108,12 +108,6 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
         except ValueError:
             raise InputError("Unable to transform latlons to dataset projection.")
 
-        print(f.crs.to_wkt())
-        print(xs)
-        print(ys)
-        print(interpolation)
-        print(f.crs.is_epsg_code)
-
         # Check bounds.
         _validate_points_lie_within_raster(xs, ys, lats, lons, f.bounds, f.res)
         rows, cols = tuple(f.index(xs, ys, op=_noop))
