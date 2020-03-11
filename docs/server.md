@@ -94,6 +94,13 @@ unzip ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
 rm ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
 ```
 
+The provided `.TIF` file doesn't include projection information, which is needed for Open Topo Data. It can be added with GDAL:
+
+```bash
+gdal_translate -a_srs EPSG:4326 ./data/etopo1/ETOPO1_Ice_g_geotiff.tif ./data/etopo1/ETOPO1.tif
+rm ./data/etopo1/ETOPO1_Ice_g_geotiff.tif
+```
+
 Create a file `config.yaml` with the following contents
 
 ```yaml
