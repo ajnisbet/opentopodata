@@ -114,7 +114,7 @@ make build && make run
 Make a new folder for the dataset:
 
 ```bash
-mkdir ./data/etopo1
+mkdir ./data/eudem
 ```
 
 Download the dataset from [Copernicus](https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1?tab=download). There are 27 files. Unzip them and move all the `.TIF` files into the data folder (you don't need the `.aux.xml`, `.ovr`, or `.TFw` files). 
@@ -122,7 +122,7 @@ Download the dataset from [Copernicus](https://land.copernicus.eu/imagery-in-sit
 Your data folder should now contain only 27 TIF files:
 
 ```bash
-ls ./data/etopo1
+ls ./data/eudem
 
 # eu_dem_v11_E00N20.TIF
 # eu_dem_v11_E10N00.TIF
@@ -131,6 +131,7 @@ ls ./data/etopo1
 ```
 
 Next, Open Topo Data needs the filenames to match the SRTM format: the filename should be the coordinates of the lower-left corner, in NS-WE order. For EU-DEM this means two changes to the filenames:
+
 * swapping the order of the northing and easting,
 * and adding 5 trailing zeroes to each coordinate that Copernicus removed for simplicity.
 
