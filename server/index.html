@@ -569,9 +569,11 @@ rm ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
 </pre></div>
 
 
-<p>Next, Open Topo Data needs the filenames to match the SRTM format: the filename should be the coordinates of the lower-left corner, in NS-WE order. For EU-DEM this means two changes to the filenames:
-* swapping the order of the northing and easting,
-* and adding 5 trailing zeroes to each coordinate that Copernicus removed for simplicity.</p>
+<p>Next, Open Topo Data needs the filenames to match the SRTM format: the filename should be the coordinates of the lower-left corner, in NS-WE order. For EU-DEM this means two changes to the filenames:</p>
+<ul>
+<li>swapping the order of the northing and easting,</li>
+<li>and adding 5 trailing zeroes to each coordinate that Copernicus removed for simplicity.</li>
+</ul>
 <p>So <code>eu_dem_v11_E00N20.TIF</code> becomes <code>N2000000E0000000.tif</code>. Here's a Python script to do the transformation, but it might be just as easy to do by hand:</p>
 <div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">import</span> <span class="nn">os</span>
