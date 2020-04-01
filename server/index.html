@@ -547,6 +547,12 @@ rm ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
 </pre></div>
 
 
+<p>The provided <code>.TIF</code> file doesn't include projection information, which is needed for Open Topo Data. This metadata can be added with GDAL:</p>
+<div class="codehilite"><pre><span></span>gdal_translate -a_srs EPSG:4326 ./data/etopo1/ETOPO1_Ice_g_geotiff.tif ./data/etopo1/ETOPO1.tif
+rm ./data/etopo1/ETOPO1_Ice_g_geotiff.tif
+</pre></div>
+
+
 <p>Rebuild to enable the new dataset at <a href="http://localhost:5000/v1/etopo1?locations=27.98,86.92">localhost:5000/v1/etopo1?locations=27.98,86.92</a></p>
 <div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
 </pre></div>
