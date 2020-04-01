@@ -102,6 +102,13 @@ datasets:
   path: data/etopo1/
 ```
 
+The provided `.TIF` file doesn't include projection information, which is needed for Open Topo Data. This metadata can be added with GDAL:
+
+```bash
+gdal_translate -a_srs EPSG:4326 ./data/etopo1/ETOPO1_Ice_g_geotiff.tif ./data/etopo1/ETOPO1.tif
+rm ./data/etopo1/ETOPO1_Ice_g_geotiff.tif
+```
+
 Rebuild to enable the new dataset at [localhost:5000/v1/etopo1?locations=27.98,86.92](http://localhost:5000/v1/etopo1?locations=27.98,86.92)
 
 ```bash
