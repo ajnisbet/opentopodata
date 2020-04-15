@@ -16,7 +16,9 @@ nav:
     - Datasets:
       - ETOPO1: 'datasets/etopo1.md'
       - EU-DEM: 'datasets/eudem.md'
+      - SRTM (30m): 'datasets/srtm30.md'
 
 markdown_extensions:
   - markdown.extensions.codehilite:
       guess_lang: false
+  - admonition
