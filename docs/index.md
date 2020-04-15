@@ -44,11 +44,11 @@ See the [server docs](server.md) for more about configuration and adding dataset
 
 I'm hosting a public API at [api.opentopodata.org](https://api.opentopodata.org). 
 
-To keep the public API sustainable, some limitations are applied. I hope to raise these limits as I get a better sense of demand.
+To keep the public API sustainable, some limitations are applied.
 
 * Max 100 locations per request.
 * Max 1 call per second.
-* Max 100 calls per day.
+* Max 500 calls per day.
 
 
 The following datasets are available on the public API, with elevation shown for downtown Denver, Colorado (39.7471,&nbsp;-104.9963).
