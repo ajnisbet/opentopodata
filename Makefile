@@ -1,5 +1,5 @@
 VERSION = `cat VERSION`
-.PHONY : build run daemon test run-local black
+.PHONY: build run daemon test run-local black
 
 build:
 	docker build --tag opentopodata:$(VERSION) --file docker/Dockerfile .
