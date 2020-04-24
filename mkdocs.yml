@@ -13,10 +13,16 @@ nav:
     - Introduction: 'index.md'
     - Server docs: 'server.md'
     - API docs: 'api.md'
+    - Release notes: 'changelog.md'
     - Datasets:
+      - ASTER: 'datasets/aster.md'
       - ETOPO1: 'datasets/etopo1.md'
       - EU-DEM: 'datasets/eudem.md'
-      - SRTM (30m): 'datasets/srtm30.md'
+      - SRTM: 'datasets/srtm.md'
+      - NED: 'datasets/ned.md'
+
+extra_javascript:
+  - js/extra.js
 
 markdown_extensions:
   - markdown.extensions.codehilite:

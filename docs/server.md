@@ -83,38 +83,10 @@ Adding a new dataset takes two steps:
 
 
 
-### Adding ETOPO1
+Instructions are provided for adding the various datasets used in the public API:
 
-Download the grid-registered `.tif` file from [noaa.gov](https://www.ngdc.noaa.gov/mgg/global/) to the `data` directory and unzip. 
-
-```bash
-mkdir ./data/etopo1
-wget -P ./data/etopo1 https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/ice_surface/grid_registered/georeferenced_tiff/ETOPO1_Ice_g_geotiff.zip
-unzip ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
-rm ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
-```
-
-The provided `.TIF` file doesn't include projection information, which is needed for Open Topo Data. It can be added with GDAL:
-
-```bash
-gdal_translate -a_srs EPSG:4326 ./data/etopo1/ETOPO1_Ice_g_geotiff.tif ./data/etopo1/ETOPO1.tif
-rm ./data/etopo1/ETOPO1_Ice_g_geotiff.tif
-```
-
-Create a file `config.yaml` with the following contents
-
-```yaml
-datasets:
-- name: etopo1
-  path: data/etopo1/
-```
-
-Rebuild to enable the new dataset at [localhost:5000/v1/etopo1?locations=27.98,86.92](http://localhost:5000/v1/etopo1?locations=27.98,86.92)
-
-```bash
-make build && make run
-```
-
-
-
-
+* [SRTM (30m or 90m)](/datasets/srtm/)
+* [NED 10m](/datasets/ned/)
+* [EU-DEM](/datasets/eudem/)
+* [ETOPO1](/datasets/etopo1/)
+* [ASTER](/datasets/aster/)
