@@ -320,26 +320,6 @@
     Adding datasets
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#adding-etopo1" class="md-nav__link">
-    Adding ETOPO1
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-eu-dem" class="md-nav__link">
-    Adding EU-DEM
-  </a>
-  
 </li>
       
       
@@ -362,6 +342,102 @@
     <a href="../api/" title="API docs" class="md-nav__link">
       API docs
     </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../changelog/" title="Release notes" class="md-nav__link">
+      Release notes
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5">
+    
+    <label class="md-nav__link" for="nav-5">
+      Datasets
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-5">
+        Datasets
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../datasets/aster/" title="ASTER" class="md-nav__link">
+      ASTER
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../datasets/etopo1/" title="ETOPO1" class="md-nav__link">
+      ETOPO1
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../datasets/eudem/" title="EU-DEM" class="md-nav__link">
+      EU-DEM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../datasets/srtm/" title="SRTM" class="md-nav__link">
+      SRTM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../datasets/ned/" title="NED" class="md-nav__link">
+      NED
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
   </li>
 
     
@@ -424,26 +500,6 @@
     Adding datasets
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#adding-etopo1" class="md-nav__link">
-    Adding ETOPO1
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-eu-dem" class="md-nav__link">
-    Adding EU-DEM
-  </a>
-  
 </li>
       
       
@@ -487,6 +543,7 @@ make run
 <p>Open Topo Data is configured by a <code>config.yaml</code> file. If that file is missing it will fallback to <code>example-config.yaml</code>.</p>
 <p>A config might look like:</p>
 <div class="codehilite"><pre><span></span><span class="nt">max_locations_per_request</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100</span> 
+<span class="nt">access_control_allow_origin</span><span class="p">:</span> <span class="s">&#39;*&#39;</span>
 <span class="nt">datasets</span><span class="p">:</span>
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">etopo1</span>
   <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/etopo1/</span>
@@ -519,6 +576,7 @@ make run
 <h3 id="config-spec">Config spec</h3>
 <ul>
 <li><code>max_locations_per_request</code>: Requests with more than this many locations will return a 400 error. Default: <code>100</code>.</li>
+<li><code>access_control_allow_origin</code>: Value for the <code>Access-Control-Allow-Origin</code> CORS header. Set to <code>*</code> or a domain to allow in-browser requests from a different origin. Set to <code>null</code> to send no <code>Access-Control-Allow-Origin</code> header. Default: <code>null</code>.</li>
 <li><code>datasets[].name</code>: Dataset name, used in url. Required.</li>
 <li><code>datasets[].path</code>: Path to folder containing the dataset. If the dataset is a single file it must be placed inside a folder. This path is relative to the repository directory inside docker. I suggest placing datasets inside the provided <code>data</code> folder, which is mounted in docker by <code>make run</code>. Files can be nested arbitrarily inside the dataset path. Required.</li>
 <li><code>datasets[].filename_epsg</code>: For tiled datasets, the projection of the filename coordinates. The default value is <code>4326</code>, which is latitude/longitude with the WGS84 datum.</li>
@@ -531,124 +589,14 @@ make run
 <li>placing the dataset in the <code>data</code> directory</li>
 <li>adding the path to the dataset in <code>config.yaml</code>.</li>
 </ol>
-<h3 id="adding-etopo1">Adding ETOPO1</h3>
-<p>Download the grid-registered <code>.tif</code> file from <a href="https://www.ngdc.noaa.gov/mgg/global/">noaa.gov</a> to the <code>data</code> directory and unzip. </p>
-<div class="codehilite"><pre><span></span>mkdir ./data/etopo1
-wget -P ./data/etopo1 https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/data/ice_surface/grid_registered/georeferenced_tiff/ETOPO1_Ice_g_geotiff.zip
-unzip ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
-rm ./data/etopo1/ETOPO1_Ice_g_geotiff.zip
-</pre></div>
-
-
-<p>Create a file <code>config.yaml</code> with the following contents</p>
-<div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">etopo1</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/etopo1/</span>
-</pre></div>
-
-
-<p>The provided <code>.TIF</code> file doesn't include projection information, which is needed for Open Topo Data. This metadata can be added with GDAL:</p>
-<div class="codehilite"><pre><span></span>gdal_translate -a_srs EPSG:4326 ./data/etopo1/ETOPO1_Ice_g_geotiff.tif ./data/etopo1/ETOPO1.tif
-rm ./data/etopo1/ETOPO1_Ice_g_geotiff.tif
-</pre></div>
-
-
-<p>Rebuild to enable the new dataset at <a href="http://localhost:5000/v1/etopo1?locations=27.98,86.92">localhost:5000/v1/etopo1?locations=27.98,86.92</a></p>
-<div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
-</pre></div>
-
-
-<h2 id="adding-eu-dem">Adding EU-DEM</h2>
-<p>Make a new folder for the dataset:</p>
-<div class="codehilite"><pre><span></span>mkdir ./data/eudem
-</pre></div>
-
-
-<p>Download the dataset from <a href="https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1?tab=download">Copernicus</a>. There are 27 files. Unzip them and move all the <code>.TIF</code> files into the data folder (you don't need the <code>.aux.xml</code>, <code>.ovr</code>, or <code>.TFw</code> files). </p>
-<p>Your data folder should now contain only 27 TIF files:</p>
-<div class="codehilite"><pre><span></span>ls ./data/eudem
-
-<span class="c1"># eu_dem_v11_E00N20.TIF</span>
-<span class="c1"># eu_dem_v11_E10N00.TIF</span>
-<span class="c1"># eu_dem_v11_E10N10.TIF</span>
-<span class="c1"># ...</span>
-</pre></div>
-
-
-<p>Next, Open Topo Data needs the filenames to match the SRTM format: the filename should be the coordinates of the lower-left corner, in NS-WE order. For EU-DEM this means two changes to the filenames:</p>
+<p>Instructions are provided for adding the various datasets used in the public API:</p>
 <ul>
-<li>swapping the order of the northing and easting,</li>
-<li>and adding 5 trailing zeroes to each coordinate that Copernicus removed for simplicity.</li>
+<li><a href="/datasets/srtm/">SRTM (30m or 90m)</a></li>
+<li><a href="/datasets/ned/">NED 10m</a></li>
+<li><a href="/datasets/eudem/">EU-DEM</a></li>
+<li><a href="/datasets/etopo1/">ETOPO1</a></li>
+<li><a href="/datasets/aster/">ASTER</a></li>
 </ul>
-<p>So <code>eu_dem_v11_E00N20.TIF</code> becomes <code>N2000000E0000000.tif</code>. Here's a Python script to do the transformation, but it might be just as easy to do by hand:</p>
-<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">re</span>
-
-<span class="n">old_pattern</span> <span class="o">=</span> <span class="s1">&#39;.data/eudem/eu_dem_v11_E*N*.TIF&#39;</span>
-<span class="n">old_paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="n">old_pattern</span><span class="p">))</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Found </span><span class="si">{}</span><span class="s1"> files&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_paths</span><span class="p">)))</span>
-
-<span class="k">for</span> <span class="n">old_path</span> <span class="ow">in</span> <span class="n">old_paths</span><span class="p">:</span>
-    <span class="n">folder</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">old_path</span><span class="p">)</span>
-    <span class="n">old_filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">old_path</span><span class="p">)</span>
-
-    <span class="c1"># Extract north and east coords, pad with zeroes.</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(E\d\d)(N\d\d)&#39;</span><span class="p">,</span> <span class="n">old_filename</span><span class="p">)</span>
-    <span class="n">easting</span><span class="p">,</span> <span class="n">northing</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">groups</span><span class="p">()</span>
-    <span class="n">northing</span> <span class="o">=</span> <span class="n">northing</span> <span class="o">+</span> <span class="s1">&#39;00000&#39;</span>
-    <span class="n">easting</span> <span class="o">=</span> <span class="n">easting</span> <span class="o">+</span> <span class="s1">&#39;00000&#39;</span>
-
-    <span class="c1"># Rename in place.</span>
-    <span class="n">new_filename</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{}{}</span><span class="s1">.tif&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">northing</span><span class="p">,</span> <span class="n">easting</span><span class="p">)</span>
-    <span class="n">new_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">new_filename</span><span class="p">)</span>
-    <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">old_path</span><span class="p">,</span> <span class="n">new_path</span><span class="p">)</span>
-</pre></div>
-
-
-<p>You should have the following 27 files:</p>
-<div class="codehilite"><pre><span></span>N0000000E1000000.tif
-N1000000E1000000.tif
-N1000000E2000000.tif
-N1000000E3000000.tif
-N1000000E4000000.tif
-N1000000E5000000.tif
-N1000000E6000000.tif
-N2000000E0000000.tif
-N2000000E1000000.tif
-N2000000E2000000.tif
-N2000000E3000000.tif
-N2000000E4000000.tif
-N2000000E5000000.tif
-N2000000E6000000.tif
-N2000000E7000000.tif
-N3000000E2000000.tif
-N3000000E3000000.tif
-N3000000E4000000.tif
-N3000000E5000000.tif
-N4000000E2000000.tif
-N4000000E3000000.tif
-N4000000E4000000.tif
-N4000000E5000000.tif
-N5000000E2000000.tif
-N5000000E3000000.tif
-N5000000E4000000.tif
-N5000000E5000000.tif
-</pre></div>
-
-
-<p>Create a config file:</p>
-<div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">eudem25m</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/eudem/</span>
-  <span class="nt">filename_epsg</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3035</span>
-  <span class="nt">filename_tile_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1000000</span>
-</pre></div>
-
-
-<p>Rebuild to enable the new dataset at <a href="http://localhost:5000/v1/eudem25m?locations=51.575,-3.220">localhost:5000/v1/eudem25m?locations=51.575,-3.220</a>.</p>
-<div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
-</pre></div>
                 
                   
                 
@@ -722,6 +670,8 @@ N5000000E5000000.tif
       <script src="../assets/javascripts/application.808e90bb.js"></script>
       
       <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+        <script src="../js/extra.js"></script>
       
     
   </body>
