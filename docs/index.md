@@ -48,7 +48,7 @@ To keep the public API sustainable some limitations are applied.
 
 * Max 100 locations per request.
 * Max 1 call per second.
-* Max 500 calls per day.
+* Max 1000 calls per day.
 
 
 The following datasets are available on the public API, with elevation shown for downtown Denver, Colorado (39.7471,&nbsp;-104.9963).
@@ -118,6 +118,6 @@ See the [API docs](api.md) for more about request formats and parameters.
 
 ## Support
 
-Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+Want help getting Open Topo Data running? Or just want to chat about elevation data? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
 
 

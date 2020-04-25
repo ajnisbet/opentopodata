@@ -5,7 +5,7 @@ The National Elevation Dataset (NED) is a collection of DEMs covering the USA at
 
 ## Resolution and Coverage
 
-NED comes in serveral different resolutions, each with a different coverage area.
+NED comes in several different resolutions, each with a different coverage area.
 
 The most commonly used resolutions are 1 arcsecond (covering North America and Mexico) and 1/3 arcsecond (covering CONUS, HI, PR, and parts of AK). The 1/3 arcsecond dataset is used in the Open Topo Data public API.
 
