@@ -1,5 +1,5 @@
 VERSION = `cat VERSION`
-.PHONY: build run daemon test run-local black
+.PHONY: build run daemon test run-local black black-check
 
 build:
 	docker build --tag opentopodata:$(VERSION) --file docker/Dockerfile .
@@ -18,3 +18,6 @@ run-local:
 
 black:
 	black --target-version py37 tests opentopodata
+
+black-check:
+	docker run --rm opentopodata:$(VERSION) black --check --target-version py37 tests opentopodata
