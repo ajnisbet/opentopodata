@@ -5,6 +5,10 @@
 # 400 error will be thrown above this limit.
 max_locations_per_request: 100 
 
+# CORS header. Should be None for no CORS, '*' for all domains, or a url with
+# protocol, domain, and port ('https://api.example.com/'). Default is null.
+access_control_allow_origin: null
+
 datasets:
 
 # A small testing dataset is included in the repo.
@@ -16,8 +20,3 @@ datasets:
 #   path: data/srtm-90m-nasa-v3.0/
 #   filename_epsg: 4326  # This is the default value.
 #   filename_tile_size: 1  # This is the default value.
-
-
-# Example config for 1 arc-minute ETOPO.
-# - name: etopo1
-#   path: data/etopo1/

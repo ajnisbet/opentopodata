@@ -36,6 +36,26 @@ else:
 cache.init_app(app)
 
 
+@cache.cached(key_prefix="_load_config")
+def _load_config():
+    """Config file as a dict.
+
+    Returns:
+        Config dict.
+    """
+    return config.load_config()
+
+
+# Supporting CORSs enables browsers to make XHR requests.
+@app.after_request
+def apply_cors(response):
+    if _load_config()["access_control_allow_origin"]:
+        response.headers["access-control-allow-origin"] = _load_config()[
+            "access_control_allow_origin"
+        ]
+    return response
+
+
 class ClientError(ValueError):
     """Invalid input data.
 
@@ -206,16 +226,6 @@ def _load_datasets():
     return config.load_datasets()
 
 
-@cache.cached(key_prefix="_load_config")
-def _load_config():
-    """Config file as a dict.
-
-    Returns:
-        Config dict.
-    """
-    return config.load_config()
-
-
 def _get_dataset(name):
     """Retrieve a dataset with error handling.
 
@@ -236,14 +246,14 @@ def _get_dataset(name):
 
 @app.route("/")
 @app.route("/v1/")
-def get_help_message():
+def get_help_message(methods=["GET", "OPTIONS", "HEAD"]):
     msg = "No dataset name provided."
     msg += " Try a url like '/v1/test-dataset?locations=-10,120' to get started,"
     msg += " and see https://www.opentopodata.org for full documentation."
     return jsonify({"status": "INVALID_REQUEST", "error": msg}), 404
 
 
-@app.route("/v1/<dataset_name>", methods=["GET"])
+@app.route("/v1/<dataset_name>", methods=["GET", "OPTIONS", "HEAD"])
 def get_elevation(dataset_name):
     """Calculate the elevavation for the given locations.
 

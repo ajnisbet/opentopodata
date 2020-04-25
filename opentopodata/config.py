@@ -1,4 +1,5 @@
 from glob import glob
+from urllib.parse import urlparse
 import os
 import re
 import yaml
@@ -16,6 +17,7 @@ DEFAULTS = {
     "max_locations_per_request": 100,
     "dataset.filename_tile_size": 1,
     "dataset.filename_epsg": utils.WGS84_LATLON_EPSG,
+    "access_control_allow_origin": None,
 }
 
 
@@ -41,6 +43,41 @@ def _find_config():
     elif os.path.exists(EXAMPLE_CONFIG_PATH):
         return EXAMPLE_CONFIG_PATH
     return None
+
+
+def _validate_cors(url):
+    """Validate access-control-allow-origin header.
+
+    Must be None, '*', or a protocol + domain (+ port).
+
+    Raises exception if invalid.
+
+    This is only a rough validation intended to help users avoid common conifg
+    issues, not a guarantee the header will work or not crash flask.
+
+    Args:
+        url: Value to test (string or None).
+    """
+
+    if url is None or url == "*":
+        return
+
+    try:
+        parsed = urlparse(url)
+    except Exception as e:
+        raise ConfigError("Error parsing access_control_allow_origin.")
+    if not parsed.scheme:
+        raise ConfigError(
+            "access_control_allow_origin must include protocol (e.g., https)" + url
+        )
+    if not parsed.netloc:
+        raise ConfigError(
+            "access_control_allow_origin must include domain (e.g., example.com)"
+        )
+    if parsed.path not in ("", "/"):
+        raise ConfigError("access_control_allow_origin shouldn't include path.")
+
+    return
 
 
 def load_config():
@@ -76,6 +113,12 @@ def load_config():
     config["max_locations_per_request"] = config.get(
         "max_locations_per_request", DEFAULTS["max_locations_per_request"]
     )
+    config["access_control_allow_origin"] = config.get(
+        "access_control_allow_origin", DEFAULTS["access_control_allow_origin"]
+    )
+
+    # Validate CORS. Must have protocol, domain, and optionally port.
+    _validate_cors(config["access_control_allow_origin"])
 
     return config
 

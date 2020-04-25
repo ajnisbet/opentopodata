@@ -1,3 +1,4 @@
+black
 Flask
 flask-caching
 numpy
@@ -7,5 +8,4 @@ pytest
 pytest-cov
 PyYAML
 rasterio==1.1.1
-black
 requests

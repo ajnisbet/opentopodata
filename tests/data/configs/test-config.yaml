@@ -1,4 +1,5 @@
 max_locations_per_request: 100 
+access_control_allow_origin: '*'
 datasets:
 - name: etopo1deg
   path: tests/data/datasets/test-etopo1-resampled-1deg/

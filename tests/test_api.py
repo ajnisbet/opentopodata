@@ -24,6 +24,20 @@ def patch_config():
         yield
 
 
+class TestCORS:
+    def test_no_cors(self):
+        test_api = api.app.test_client()
+        url = "/v1/etopo1deg?locations=90,-180"
+        response = test_api.get(url)
+        assert response.headers.get("access-control-allow-origin") is None
+
+    def test_cors(self, patch_config):
+        test_api = api.app.test_client()
+        url = "/v1/etopo1deg?locations=90,-180"
+        response = test_api.get(url)
+        assert response.headers.get("access-control-allow-origin") == "*"
+
+
 class TestValidateInterpolation:
     def test_default_interpolation_is_valid(self):
         api._validate_interpolation(api.DEFAULT_INTERPOLATION_METHOD)

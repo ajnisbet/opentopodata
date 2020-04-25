@@ -34,6 +34,40 @@ class TestFindConfig:
                 assert config._find_config() is None
 
 
+class TestValidateCors:
+    def test_none(self):
+        assert config._validate_cors(None) is None
+
+    def test_all(self):
+        assert config._validate_cors("*") is None
+
+    def test_valid_domains(self):
+        urls = [
+            "http://example.com",
+            "https://example.com/",
+            "https://sub.domain.example.com/",
+            "https://sub.domain.example.com:8080/",
+            "https://sub.domain.example.com:8080",
+            "http://192.168.0.1:71",
+            "http://192.168.0.1:71/",
+        ]
+        for u in urls:
+            assert config._validate_cors(u) is None
+
+    def test_invalid_domains(self):
+        urls = [
+            True,
+            "True",
+            "example.com" "http://example.com/some-page",
+            "http://1.example.com/ http://1.example.com/",
+            ["http://1.example.com/", "http://1.example.com/"],
+            "http://1.example.com/, http://1.example.com/",
+        ]
+        for u in urls:
+            with pytest.raises(config.ConfigError):
+                config._validate_cors(u)
+
+
 class TestLoadConfig:
     def test_missing_file(self):
         with pytest.raises(config.ConfigError):
@@ -74,6 +108,10 @@ class TestLoadConfig:
                 conf["max_locations_per_request"]
                 != config.DEFAULTS["max_locations_per_request"]
             )
+            assert (
+                conf["access_control_allow_origin"]
+                != config.DEFAULTS["access_control_allow_origin"]
+            )
 
     def test_defaults(self):
         path = "tests/data/configs/no-optional-params.yaml"
@@ -82,6 +120,10 @@ class TestLoadConfig:
             assert (
                 conf["max_locations_per_request"]
                 == config.DEFAULTS["max_locations_per_request"]
+            )
+            assert (
+                conf["access_control_allow_origin"]
+                == config.DEFAULTS["access_control_allow_origin"]
             )
 
 
