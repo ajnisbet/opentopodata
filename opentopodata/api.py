@@ -78,8 +78,8 @@ def _validate_interpolation(method):
 
     if method not in backend.INTERPOLATION_METHODS:
         msg = f"Invalid interpolation method '{method}' not recognized."
-        msg += " Valid interpolation methods:"
-        msg += " , ".join(backend.INTERPOLATION_METHODS.keys()) + "."
+        msg += " Valid interpolation methods: "
+        msg += ", ".join(backend.INTERPOLATION_METHODS.keys()) + "."
         raise ClientError(msg)
     return method
 
