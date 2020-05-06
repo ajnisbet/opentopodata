@@ -98,6 +98,7 @@ Create a `comfig.yaml` file:
 datasets:
 - name: ned10m
   path: data/ned10m/
+  filename_epsg: 4269
 ```
 
 Rebuild to enable the new dataset at [localhost:5000/v1/ned10m](http://localhost:5000/v1/ned10m?locations=37.653512,-119.410503).
