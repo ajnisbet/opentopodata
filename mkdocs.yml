@@ -20,6 +20,7 @@ nav:
       - EU-DEM: 'datasets/eudem.md'
       - SRTM: 'datasets/srtm.md'
       - NED: 'datasets/ned.md'
+      - EMOD 2018 Bathymetry: 'datasets/emod2018.md'
 
 extra_javascript:
   - js/extra.js

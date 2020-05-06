@@ -67,28 +67,28 @@ The following datasets are available on the public API, with elevation shown for
 	<tbody >
 		<tr>
 			<td><a href="/datasets/ned">ned10m</a></td>
-			<td>10&nbsp;m</td>
+			<td>~10&nbsp;m</td>
 			<td>Continental USA, Hawaii, parts of Alaska.</td>
 			<td><a href="https://www.sciencebase.gov/catalog/item/4f70aa9fe4b058caae3f8de5">USGS</a></td>
 			<td><a href="https://api.opentopodata.org/v1/ned10m?locations=39.747114,-104.996334">1590&nbsp;m</a></td>
 		</tr>
 		<tr>
 			<td><a href="/datasets/eudem">eudem25m</a></td>
-			<td>25&nbsp;m</td>
+			<td>~25&nbsp;m</td>
 			<td>Europe.</td>
 			<td><a href="https://www.eea.europa.eu/data-and-maps/data/copernicus-land-monitoring-service-eu-dem">EEA</a></td>
 			<td><a href="https://api.opentopodata.org/v1/eudem25m?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
 		</tr>
 		<tr>
 			<td><a href="/datasets/aster">aster30m</a></td>
-			<td>30&nbsp;m</td>
+			<td>~30&nbsp;m</td>
 			<td>Global.</td>
 			<td><a href="https://asterweb.jpl.nasa.gov/gdem.asp">NASA</a></td>
 			<td><a href="https://api.opentopodata.org/v1/aster30m?locations=39.747114,-104.996334">1591&nbsp;m</a></td>
 		</tr>
 		<tr>
 			<td><a href="/datasets/srtm">srtm30m</a></td>
-			<td>30&nbsp;m</td>
+			<td>~30&nbsp;m</td>
 			<td>Latitudes -60 to 60.</td>
 			<td><a href="https://lpdaac.usgs.gov/products/srtmgl1v003/">USGS</a></td>
 			<td><a href="https://api.opentopodata.org/v1/srtm30m?locations=39.747114,-104.996334">1604&nbsp;m</a></td>
@@ -102,10 +102,17 @@ The following datasets are available on the public API, with elevation shown for
 		</tr>
 		<tr>
 			<td><a href="/datasets/etopo1">etopo1</a></td>
-			<td>1.8&nbsp;km</td>
+			<td>~1.8&nbsp;km</td>
 			<td>Global, including bathymetry and ice surface elevation near poles.</td>
 			<td><a href="https://www.ngdc.noaa.gov/mgg/global/">NOAA</a></td>
 			<td><a href="https://api.opentopodata.org/v1/etopo1?locations=39.747114,-104.996334">1596&nbsp;m</a></td>
+		</tr>
+		<tr>
+			<td><a href="/datasets/emod2018">emod2018</a></td>
+			<td>~100m</td>
+			<td>Bathymetry for ocean and sea in Europe.</td>
+			<td><a href="https://www.emodnet-bathymetry.eu/data-products">EMODnet</a></td>
+			<td><a href="https://api.opentopodata.org/v1/emod2018?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
 		</tr>
 	</tbody>
 </table>
