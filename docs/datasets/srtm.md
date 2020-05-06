@@ -45,13 +45,12 @@ Rebuild to enable the new dataset at [localhost:5000/v1/srtm30m](http://localhos
 make build && make run
 ```
 
-### Extra performance
+!!! note "Extra performance"
+    `.hgt.zip` files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:
 
-`.hgt.zip` files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:
-
-```bash
-gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}
-```
+    ```bash
+    gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}
+    ```
 
 ## Adding 90m SRTM to Open Topo Data
 
