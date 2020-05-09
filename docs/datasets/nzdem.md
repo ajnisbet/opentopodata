@@ -72,7 +72,7 @@ for tif_path in tif_paths:
 assert not os.system(f'rm {vrt_path}')
 ```
 
-Create a `comfig.yaml` file, setting the size of the tiles (65536 metres) and the projection system used ([NZ tranvers mercator](https://spatialreference.org/ref/epsg/nzgd2000-new-zealand-transverse-mercator-2000/):
+Create a `config.yaml` file, setting the size of the tiles (65536 metres) and the projection system used ([NZ tranverse mercator](https://spatialreference.org/ref/epsg/nzgd2000-new-zealand-transverse-mercator-2000/):
 
 ```yaml
 datasets:
@@ -95,17 +95,18 @@ make build && make run
 The Open Topo Data public API lets you query NZ DEM 8m for free:
 
 ```
-curl https://api.opentopodata.org/v1/nzdem8m?locations=37.6535,-119.4105
+curl https://api.opentopodata.org/v1/nzdem8m?locations=-37.86118,174.79974
+
 ```
 
 ```json
 {
   "results": [
     {
-      "elevation": 3498.298583984375, 
+      "elevation": 705.4374389648438, 
       "location": {
-        "lat": 37.6535, 
-        "lng": -119.4105
+        "lat": -37.86118, 
+        "lng": 174.79974
       }
     }
   ], 

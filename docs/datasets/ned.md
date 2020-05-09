@@ -92,7 +92,7 @@ for old_path in old_paths:
     os.rename(old_path, new_path)
 ```
 
-Create a `comfig.yaml` file:
+Create a `config.yaml` file:
 
 ```yaml
 datasets:

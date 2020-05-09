@@ -114,7 +114,7 @@ N5000000E4000000.tif
 N5000000E5000000.tif
 ```
 
-Create a `comfig.yaml` file:
+Create a `config.yaml` file:
 
 ```yaml
 datasets:

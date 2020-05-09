@@ -42,7 +42,7 @@ mv gebco_2020_n90.0_s0.0_w-90.0_e0.0.tif     N00W090.tif
 mv gebco_2020_n90.0_s0.0_w90.0_e180.0.tif    N00E090.tif
 ```
 
-Create a `comfig.yaml` file:
+Create a `config.yaml` file:
 
 ```yaml
 datasets:
@@ -56,3 +56,77 @@ Rebuild to enable the new dataset at [localhost:5000/v1/gebco2020](http://localh
 ```bash
 make build && make run
 ```
+
+### Buffering tiles
+
+The tiles provided by GEBCO don't overlap and cover slightly less than a 90° x 90° square. This means you'll get a `null` result for coordinates along the tile edges (like `0,0`). 
+
+For the public API I used the following code to add a 5px buffer to each tile.
+
+
+```python
+from glob import glob
+import os
+
+import rasterio
+
+
+old_folder = 'gebco_2020_geotiff'
+new_folder = 'gebco_2020_buffer'
+buffer_ = 5
+
+
+old_pattern = os.path.join(old_folder, '*.tif')
+old_paths = list(glob(old_pattern))
+
+cmd = 'gdalbuildvrt {}/all.vrt'.format(old_folder) + ' '.join(old_paths)
+os.system(cmd)
+
+for path in old_paths:
+    new_path = path.replace(old_folder, new_folder)
+    
+    with rasterio.open(path) as f:
+        new_bounds = (
+            f.bounds.left - buffer_ * f.res[0],
+            f.bounds.bottom - buffer_ * f.res[1],
+            f.bounds.right + buffer_ * f.res[0],
+            f.bounds.top + buffer_ * f.res[1],
+        )
+
+        new_shape = (
+            f.shape[0] + buffer_ * 2,
+            f.shape[1] + buffer_ * 2,
+        )
+    
+    te = ' '.join(str(x) for x in new_bounds)
+    ts = ' '.join(str(x) for x in new_shape)
+    
+    cmd = f'gdalwarp -te {te} -ts {ts} -r near -co NUM_THREADS=ALL_CPUS -co COMPRESS=DEFLATE  -co PREDICTOR=2 -co BIGTIFF=yes {old_folder}/all.vrt {new_path}'
+    os.system(cmd)
+```
+
+
+## Public API
+
+The Open Topo Data public API lets you query GEBCO 2020 for free:
+
+```
+curl https://api.opentopodata.org/v1/gebco2020?locations=37.6535,-119.4105
+```
+
+```json
+{
+  "results": [
+    {
+      "elevation": 3405.0, 
+      "location": {
+        "lat": 37.6535, 
+        "lng": -119.4105
+      }
+    }
+  ], 
+  "status": "OK"
+}
+```
+
+The public API uses the 2020 version of the dataset.

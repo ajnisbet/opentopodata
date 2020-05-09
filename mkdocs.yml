@@ -18,8 +18,10 @@ nav:
       - ASTER: 'datasets/aster.md'
       - ETOPO1: 'datasets/etopo1.md'
       - EU-DEM: 'datasets/eudem.md'
-      - SRTM: 'datasets/srtm.md'
+      - Mapzen: 'datasets/mapzen.md'
       - NED: 'datasets/ned.md'
+      - NZ DEM: datasets/nzdem.md
+      - SRTM: 'datasets/srtm.md'
       - EMOD Bathymetry: 'datasets/emod2018.md'
       - GEBCO Bathymetry: 'datasets/gebco2020.md'
 

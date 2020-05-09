@@ -25,7 +25,7 @@ Download the files from [USGS](https://e4ftl01.cr.usgs.gov/) into `./data/aster3
 
 To make downloading a bit easier, here's a list of the 22,912 URLs: [aster30m_urls.txt](/datasets/aster30m_urls.txt).
 
-Create a `comfig.yaml` file:
+Create a `config.yaml` file:
 
 ```yaml
 datasets:

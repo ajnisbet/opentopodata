@@ -66,6 +66,13 @@ The following datasets are available on the public API, with elevation shown for
 	</thead>
 	<tbody >
 		<tr>
+			<td><a href="/datasets/nzdem/">nzdem8m</a></td>
+			<td>8&nbsp;m</td>
+			<td>New Zealand.</td>
+			<td><a href="https://data.linz.govt.nz/layer/51768-nz-8m-digital-elevation-model-2012/">LINZ</a></td>
+			<td><a href="https://api.opentopodata.org/v1/nzdem?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
+		</tr>
+		<tr>
 			<td><a href="/datasets/ned/">ned10m</a></td>
 			<td>~10&nbsp;m</td>
 			<td>Continental USA, Hawaii, parts of Alaska.</td>
@@ -78,6 +85,13 @@ The following datasets are available on the public API, with elevation shown for
 			<td>Europe.</td>
 			<td><a href="https://www.eea.europa.eu/data-and-maps/data/copernicus-land-monitoring-service-eu-dem">EEA</a></td>
 			<td><a href="https://api.opentopodata.org/v1/eudem25m?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
+		</tr>
+		<tr>
+			<td><a href="/datasets/mapzen/">mapzen</a></td>
+			<td>~30&nbsp;m</td>
+			<td>Global, inluding bathymetry.</td>
+			<td><a href="https://github.com/tilezen/joerd/tree/master/docs">Mapzen</a></td>
+			<td><a href="https://api.opentopodata.org/v1/mapzen?locations=39.747114,-104.996334">1590&nbsp;m</a></td>
 		</tr>
 		<tr>
 			<td><a href="/datasets/aster/">aster30m</a></td>
@@ -112,7 +126,7 @@ The following datasets are available on the public API, with elevation shown for
 			<td>~450m</td>
 			<td>Global bathymetry and land elevation.</td>
 			<td><a href="https://www.gebco.net/data_and_products/gridded_bathymetry_data/">GEBCO</a></td>
-			<td><a href="https://api.opentopodata.org/v1/gebco2020?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
+			<td><a href="https://api.opentopodata.org/v1/gebco2020?locations=39.747114,-104.996334">1603&nbsp;m</a></td>
 		</tr>
 		<tr>
 			<td><a href="/datasets/emod2018/">emod2018</a></td>
