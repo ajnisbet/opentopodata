@@ -6,7 +6,7 @@
 
 [SRTM](https://lpdaac.usgs.gov/products/srtmgl1v003/) is a near-global elevation dataset, with coverage from -60 to 60 degrees latitude. 
 
-SRTM comes in multiple resolutions. The resolution is 1 arc-second, which corresponds to a resolution of about 30m at the equator. The 3 arc-second (90m) version is also frequently used.
+SRTM comes in multiple resolutions. The highest resolution is 1 arc-second, which corresponds to a resolution of about 30m at the equator. The 3 arc-second (90m) version is also frequently used.
 
 ## Coverage
 
@@ -31,7 +31,7 @@ mkdir ./data/srtm30m
 
 Download the files from [USGS](https://e4ftl01.cr.usgs.gov/MEASURES/) into `./data/srtm30m`. You want the `xxxxxxx.SRTMGL1.hgt.zip` files. To make downloading a bit easier, here's a list of the 14,297 URLs: [srtm30m_urls.txt](/datasets/srtm30m_urls.txt).
 
-Create a `comfig.yaml` file:
+Create a `config.yaml` file:
 
 ```yaml
 datasets:
@@ -45,13 +45,12 @@ Rebuild to enable the new dataset at [localhost:5000/v1/srtm30m](http://localhos
 make build && make run
 ```
 
-### Extra performance
+!!! note "Extra performance"
+    `.hgt.zip` files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:
 
-`.hgt.zip` files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:
-
-```bash
-gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}
-```
+    ```bash
+    gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}
+    ```
 
 ## Adding 90m SRTM to Open Topo Data
 
