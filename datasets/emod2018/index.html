@@ -13,7 +13,7 @@
         <meta name="description" content="Open DEM server.">
       
       
-        <link rel="canonical" href="https://www.opentopodata.org/datasets/srtm/">
+        <link rel="canonical" href="https://www.opentopodata.org/datasets/emod2018/">
       
       
       
@@ -40,7 +40,7 @@
     
     
       
-        <title>SRTM - Open Topo Data</title>
+        <title>EMOD Bathymetry - Open Topo Data</title>
       
     
     
@@ -106,7 +106,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#srtm" tabindex="1" class="md-skip">
+      <a href="#emodnet-2018-bathymetry" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -132,7 +132,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                SRTM
+                EMOD Bathymetry
               
             </span>
           
@@ -382,6 +382,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../srtm/" title="SRTM" class="md-nav__link">
+      SRTM
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -393,11 +405,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        SRTM
+        EMOD Bathymetry
       </label>
     
-    <a href="./" title="SRTM" class="md-nav__link md-nav__link--active">
-      SRTM
+    <a href="./" title="EMOD Bathymetry" class="md-nav__link md-nav__link--active">
+      EMOD Bathymetry
     </a>
     
       
@@ -411,13 +423,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    Overview
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#coverage" class="md-nav__link">
     Coverage
   </a>
@@ -425,15 +430,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-30m-srtm-to-open-topo-data" class="md-nav__link">
-    Adding 30m SRTM to Open Topo Data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-90m-srtm-to-open-topo-data" class="md-nav__link">
-    Adding 90m SRTM to Open Topo Data
+  <a href="#adding-emodnet-2018-bathymetry-to-open-topo-data" class="md-nav__link">
+    Adding EMODnet 2018 Bathymetry to Open Topo Data
   </a>
   
 </li>
@@ -453,18 +451,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../emod2018/" title="EMOD Bathymetry" class="md-nav__link">
-      EMOD Bathymetry
-    </a>
   </li>
 
         
@@ -506,13 +492,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    Overview
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#coverage" class="md-nav__link">
     Coverage
   </a>
@@ -520,15 +499,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-30m-srtm-to-open-topo-data" class="md-nav__link">
-    Adding 30m SRTM to Open Topo Data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-90m-srtm-to-open-topo-data" class="md-nav__link">
-    Adding 90m SRTM to Open Topo Data
+  <a href="#adding-emodnet-2018-bathymetry-to-open-topo-data" class="md-nav__link">
+    Adding EMODnet 2018 Bathymetry to Open Topo Data
   </a>
   
 </li>
@@ -556,61 +528,72 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/datasets/srtm.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/datasets/emod2018.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="srtm">SRTM</h1>
-<h2 id="overview">Overview</h2>
-<p><a href="https://lpdaac.usgs.gov/products/srtmgl1v003/">SRTM</a> is a near-global elevation dataset, with coverage from -60 to 60 degrees latitude. </p>
-<p>SRTM comes in multiple resolutions. The highest resolution is 1 arc-second, which corresponds to a resolution of about 30m at the equator. The 3 arc-second (90m) version is also frequently used.</p>
+                <h1 id="emodnet-2018-bathymetry">EMODnet 2018 Bathymetry</h1>
+<p><a href="https://www.emodnet-bathymetry.eu/">EMODnet</a> maintains a number of bathymetry (sea floor depth) datasets.</p>
+<p>There are currently two datasets with full coverage of Europe: a 1/8 arc minute (~200m) version released in 2016, and a 1/16 arc minute (~100m) version released in 2018. The datasets are a composite of bathymetric surveys, Landsat 8 imagery, and GEBCO data.</p>
+<p>The vertical datum used is <a href="https://tidesandcurrents.noaa.gov/datum_options.html">Lowest Astronomical Tide</a>.</p>
 <h2 id="coverage">Coverage</h2>
-<p>SRTM has coverage from -60 to 60 degrees latitude. The dataset is released in 1 degree tiles. Ocean areas covered by a tile have an elevation of 0m. Open Topo Data will return <code>null</code> for locations not covered by a tile.</p>
+<p>The 2018 dataset covers a large area around Europe: 15° to 90° latitude, and -36° to 43° longitude. The elevation over land areas is given as <code>NODATA</code> values.</p>
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/srtm-coverage.png" alt="SRTM coverage">
+  <img src="/img/emod.png" alt="EMOD 2018 coverage map.">
   <br>
-  <em>SRTM coverage (green area).</em>
+  <em>Render of EMODnet 2018 sea floor depth.</em>
 </p>
 
-<h2 id="adding-30m-srtm-to-open-topo-data">Adding 30m SRTM to Open Topo Data</h2>
+<h2 id="adding-emodnet-2018-bathymetry-to-open-topo-data">Adding EMODnet 2018 Bathymetry to Open Topo Data</h2>
 <p>Make a new folder for the dataset:</p>
-<div class="codehilite"><pre><span></span>mkdir ./data/srtm30m
+<div class="codehilite"><pre><span></span>mkdir ./data/emod2018
 </pre></div>
 
 
-<p>Download the files from <a href="https://e4ftl01.cr.usgs.gov/MEASURES/">USGS</a> into <code>./data/srtm30m</code>. You want the <code>xxxxxxx.SRTMGL1.hgt.zip</code> files. To make downloading a bit easier, here's a list of the 14,297 URLs: <a href="/datasets/srtm30m_urls.txt">srtm30m_urls.txt</a>.</p>
-<p>Create a <code>config.yaml</code> file:</p>
+<p>Download the files from <a href="https://portal.emodnet-bathymetry.eu/">EMODnet</a> into <code>./data/emod2018</code>. You want the 2018 dataset, in <code>ESRI ASCII</code> format. Extract the zip folders, you should have 59 <code>.asc</code> named like <code>A1_2018.asc</code>.</p>
+<p>Unlike other datasets, the EMOD tiles aren't aligned on a nice whole-number grid, so Open Topo Data can't tell from the filenames which tile covers which area. To handle this we can build a <a href="https://gdal.org/drivers/raster/vrt.html">https://gdal.org/drivers/raster/vrt.html</a> - a single raster file that links to the 59 tiles and which Open Topo Data can treat as a single-file dataset. Unfortunately you'll need to install <a href="https://gdal.org/">GDAL</a> for this.</p>
+<p>Create a new folder for the VRT:</p>
+<div class="codehilite"><pre><span></span>mkdir ./data/emod2018-vrt
+</pre></div>
+
+
+<p>Build the vrt using relative paths so the file will work inside the docker image:</p>
+<div class="codehilite"><pre><span></span><span class="nb">cd</span> ./data/emod2018-vrt
+gdalbuildvrt -co <span class="nv">VRT_SHARED_SOURCE</span><span class="o">=</span><span class="m">0</span> emod2018.vrt ../emod2018/*.asc
+<span class="nb">cd</span> ../
+</pre></div>
+
+
+<p>Create a <code>config.yaml</code> file, pointing to the VRT folder:</p>
 <div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">srtm30m</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/srtm30m/</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">emod2018</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/emod2018-vrt/</span>
 </pre></div>
 
 
-<p>Rebuild to enable the new dataset at <a href="http://localhost:5000/v1/srtm30m?locations=51.575,-3.220">localhost:5000/v1/srtm30m</a>.</p>
+<p>Rebuild to enable the new dataset at <a href="http://localhost:5000/v1/emod2018?locations=37.653512,-119.410503">localhost:5000/v1/emod2018</a>.</p>
 <div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
 </pre></div>
 
 
 <div class="admonition note">
 <p class="admonition-title">Extra performance</p>
-<p><code>.hgt.zip</code> files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:</p>
+<p><code>.asc</code> files take up a lot of disk space and are slow for random reads. Consider converting to a compressed geotiff:</p>
 <p><code>bash
-gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}</code></p>
+gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {asc_filename} {tif_filename}</code></p>
 </div>
-<h2 id="adding-90m-srtm-to-open-topo-data">Adding 90m SRTM to Open Topo Data</h2>
-<p>The process is the same as for 30m. The dataset is hosted on USGS <a href="https://e4ftl01.cr.usgs.gov/MEASURES/SRTMGL3.003/2000.02.11/">here</a>, and a list of the tile urls is here: <a href="/datasets/srtm90m_urls.txt">srtm90m_urls.txt</a>.</p>
 <h2 id="public-api">Public API</h2>
-<p>The Open Topo Data public API lets you query SRTM 30m for free:</p>
-<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/srtm30m?locations=57.688709,11.976404
+<p>The Open Topo Data public API lets you query NED 10m for free:</p>
+<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/emod2018?locations=55.884323,2.528276
 </pre></div>
 
 
 <div class="codehilite"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">55.0</span><span class="p">,</span> 
+      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">-81.94999694824219</span><span class="p">,</span> 
       <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">57.688709</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">11.976404</span>
+        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">55.884323</span><span class="p">,</span> 
+        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">2.528276</span>
       <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">],</span> 
@@ -619,27 +602,7 @@ gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filen
 </pre></div>
 
 
-<p>as well as SRTM 90m:</p>
-<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/srtm90m?locations=57.688709,11.976404
-</pre></div>
-
-
-<div class="codehilite"><pre><span></span><span class="p">{</span>
-  <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">55.0</span><span class="p">,</span> 
-      <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">57.688709</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">11.976404</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">],</span> 
-  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>The public API uses Version 3 of SRTM for both resolutions.</p>
+<p>The public API uses the 2018 version of the dataset.</p>
                 
                   
                 
@@ -661,7 +624,7 @@ gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filen
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../nzdem/" title="NZ DEM" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../srtm/" title="SRTM" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -670,19 +633,19 @@ gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filen
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                NZ DEM
+                SRTM
               </span>
             </div>
           </a>
         
         
-          <a href="../emod2018/" title="EMOD Bathymetry" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../gebco2020/" title="GEBCO Bathymetry" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                EMOD Bathymetry
+                GEBCO Bathymetry
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

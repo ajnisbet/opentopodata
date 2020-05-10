@@ -36,12 +36,32 @@
      <changefreq>daily</changefreq>
     </url>
     <url>
-     <loc>https://www.opentopodata.org/datasets/srtm/</loc>
+     <loc>https://www.opentopodata.org/datasets/mapzen/</loc>
      <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/datasets/ned/</loc>
+     <lastmod>2020-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://www.opentopodata.org/datasets/nzdem/</loc>
+     <lastmod>2020-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://www.opentopodata.org/datasets/srtm/</loc>
+     <lastmod>2020-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://www.opentopodata.org/datasets/emod2018/</loc>
+     <lastmod>2020-05-10</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    <url>
+     <loc>https://www.opentopodata.org/datasets/gebco2020/</loc>
      <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>

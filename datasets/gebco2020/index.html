@@ -13,7 +13,7 @@
         <meta name="description" content="Open DEM server.">
       
       
-        <link rel="canonical" href="https://www.opentopodata.org/datasets/srtm/">
+        <link rel="canonical" href="https://www.opentopodata.org/datasets/gebco2020/">
       
       
       
@@ -40,7 +40,7 @@
     
     
       
-        <title>SRTM - Open Topo Data</title>
+        <title>GEBCO Bathymetry - Open Topo Data</title>
       
     
     
@@ -106,7 +106,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#srtm" tabindex="1" class="md-skip">
+      <a href="#gebco-2020-bathymetry" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -132,7 +132,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                SRTM
+                GEBCO Bathymetry
               
             </span>
           
@@ -382,77 +382,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        SRTM
-      </label>
-    
-    <a href="./" title="SRTM" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../srtm/" title="SRTM" class="md-nav__link">
       SRTM
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    Overview
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#coverage" class="md-nav__link">
-    Coverage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-30m-srtm-to-open-topo-data" class="md-nav__link">
-    Adding 30m SRTM to Open Topo Data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-90m-srtm-to-open-topo-data" class="md-nav__link">
-    Adding 90m SRTM to Open Topo Data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#public-api" class="md-nav__link">
-    Public API
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -472,11 +406,76 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../gebco2020/" title="GEBCO Bathymetry" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        GEBCO Bathymetry
+      </label>
+    
+    <a href="./" title="GEBCO Bathymetry" class="md-nav__link md-nav__link--active">
       GEBCO Bathymetry
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#coverage" class="md-nav__link">
+    Coverage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-gebco-2020-to-open-topo-data" class="md-nav__link">
+    Adding GEBCO 2020 to Open Topo Data
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buffering-tiles" class="md-nav__link">
+    Buffering tiles
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-api" class="md-nav__link">
+    Public API
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -506,13 +505,6 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    Overview
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#coverage" class="md-nav__link">
     Coverage
   </a>
@@ -520,16 +512,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-30m-srtm-to-open-topo-data" class="md-nav__link">
-    Adding 30m SRTM to Open Topo Data
+  <a href="#adding-gebco-2020-to-open-topo-data" class="md-nav__link">
+    Adding GEBCO 2020 to Open Topo Data
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buffering-tiles" class="md-nav__link">
+    Buffering tiles
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-90m-srtm-to-open-topo-data" class="md-nav__link">
-    Adding 90m SRTM to Open Topo Data
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -556,61 +554,111 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/datasets/srtm.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/datasets/gebco2020.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="srtm">SRTM</h1>
-<h2 id="overview">Overview</h2>
-<p><a href="https://lpdaac.usgs.gov/products/srtmgl1v003/">SRTM</a> is a near-global elevation dataset, with coverage from -60 to 60 degrees latitude. </p>
-<p>SRTM comes in multiple resolutions. The highest resolution is 1 arc-second, which corresponds to a resolution of about 30m at the equator. The 3 arc-second (90m) version is also frequently used.</p>
+                <h1 id="gebco-2020-bathymetry">GEBCO 2020 Bathymetry</h1>
+<p><a href="https://www.gebco.net/">GEBCO</a> maintains a high-quality, global bathymetry (sea floor depth) dataset.</p>
+<p>GEBCO releases a new dataset most years, the 2020 dataset (released in May 2020) covers the entire globe at a 15 arc-second resolution, corresponding to 450m resolution at the equator.</p>
 <h2 id="coverage">Coverage</h2>
-<p>SRTM has coverage from -60 to 60 degrees latitude. The dataset is released in 1 degree tiles. Ocean areas covered by a tile have an elevation of 0m. Open Topo Data will return <code>null</code> for locations not covered by a tile.</p>
+<p>Elevation is given for land areas, largely using a <a href="https://topex.ucsd.edu/WWW_html/srtm15_plus.html">15-degree version</a> of <a href="/datasets/srtm/">SRTM</a>.</p>
+<p>Seafloor data comes from a variety of bathymetric sources, see <a href="https://www.gebco.net/data_and_products/gridded_bathymetry_data/">GEBCO</a> for more details.</p>
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/srtm-coverage.png" alt="SRTM coverage">
+  <img src="/img/gebco-2020.png" alt="GEBCO 2020 elevation render.">
   <br>
-  <em>SRTM coverage (green area).</em>
+  <em>Render of GEBCO 2020 elevation.</em>
 </p>
 
-<h2 id="adding-30m-srtm-to-open-topo-data">Adding 30m SRTM to Open Topo Data</h2>
+<h2 id="adding-gebco-2020-to-open-topo-data">Adding GEBCO 2020 to Open Topo Data</h2>
+<p>Instructions are given for the 2020 version of the dataset: future versions might work a bit differently.</p>
 <p>Make a new folder for the dataset:</p>
-<div class="codehilite"><pre><span></span>mkdir ./data/srtm30m
+<div class="codehilite"><pre><span></span>mkdir ./data/gebco2020
 </pre></div>
 
 
-<p>Download the files from <a href="https://e4ftl01.cr.usgs.gov/MEASURES/">USGS</a> into <code>./data/srtm30m</code>. You want the <code>xxxxxxx.SRTMGL1.hgt.zip</code> files. To make downloading a bit easier, here's a list of the 14,297 URLs: <a href="/datasets/srtm30m_urls.txt">srtm30m_urls.txt</a>.</p>
+<p>Download the dataset from <a href="https://www.gebco.net/data_and_products/gridded_bathymetry_data/">GEBCO</a>. You'll want the <code>GEBCO_2020 Grid</code> version, in <code>Data GeoTiff</code> format. Extract raster tiles from the archive and delete everything else so there are just 8 <code>.tif</code> files in the <code>./data/gebco2020</code> folder.</p>
+<p>The files are given as 90 degree tiles, we need to rename them to SRTM's <code>NxxSxx</code> format to work with Open Topo Data:</p>
+<div class="codehilite"><pre><span></span>mv gebco_2020_n0.0_s-90.0_w0.0_e90.0.tif     S90E000.tif
+mv gebco_2020_n0.0_s-90.0_w-180.0_e-90.0.tif S90W180.tif
+mv gebco_2020_n0.0_s-90.0_w-90.0_e0.0.tif    S90W090.tif
+mv gebco_2020_n0.0_s-90.0_w90.0_e180.0.tif   S90E090.tif
+mv gebco_2020_n90.0_s0.0_w0.0_e90.0.tif      N00E000.tif
+mv gebco_2020_n90.0_s0.0_w-180.0_e-90.0.tif  N00W180.tif
+mv gebco_2020_n90.0_s0.0_w-90.0_e0.0.tif     N00W090.tif
+mv gebco_2020_n90.0_s0.0_w90.0_e180.0.tif    N00E090.tif
+</pre></div>
+
+
 <p>Create a <code>config.yaml</code> file:</p>
 <div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">srtm30m</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/srtm30m/</span>
+<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">gebco2020</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/gebco2020/</span>
+  <span class="nt">filename_tile_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">90</span>
 </pre></div>
 
 
-<p>Rebuild to enable the new dataset at <a href="http://localhost:5000/v1/srtm30m?locations=51.575,-3.220">localhost:5000/v1/srtm30m</a>.</p>
+<p>Rebuild to enable the new dataset at <a href="http://localhost:5000/v1/gebco2020?locations=37.653512,-119.410503">localhost:5000/v1/gebco2020</a>.</p>
 <div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
 </pre></div>
 
 
-<div class="admonition note">
-<p class="admonition-title">Extra performance</p>
-<p><code>.hgt.zip</code> files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:</p>
-<p><code>bash
-gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}</code></p>
-</div>
-<h2 id="adding-90m-srtm-to-open-topo-data">Adding 90m SRTM to Open Topo Data</h2>
-<p>The process is the same as for 30m. The dataset is hosted on USGS <a href="https://e4ftl01.cr.usgs.gov/MEASURES/SRTMGL3.003/2000.02.11/">here</a>, and a list of the tile urls is here: <a href="/datasets/srtm90m_urls.txt">srtm90m_urls.txt</a>.</p>
+<h3 id="buffering-tiles">Buffering tiles</h3>
+<p>The tiles provided by GEBCO don't overlap and cover slightly less than a 90° x 90° square. This means you'll get a <code>null</code> result for coordinates along the tile edges (like <code>0,0</code>). </p>
+<p>For the public API I used the following code to add a 5px buffer to each tile.</p>
+<div class="codehilite"><pre><span></span><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">rasterio</span>
+
+
+<span class="n">old_folder</span> <span class="o">=</span> <span class="s1">&#39;gebco_2020_geotiff&#39;</span>
+<span class="n">new_folder</span> <span class="o">=</span> <span class="s1">&#39;gebco_2020_buffer&#39;</span>
+<span class="n">buffer_</span> <span class="o">=</span> <span class="mi">5</span>
+
+
+<span class="n">old_pattern</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">old_folder</span><span class="p">,</span> <span class="s1">&#39;*.tif&#39;</span><span class="p">)</span>
+<span class="n">old_paths</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="n">old_pattern</span><span class="p">))</span>
+
+<span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;gdalbuildvrt </span><span class="si">{}</span><span class="s1">/all.vrt&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">old_folder</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">old_paths</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">old_paths</span><span class="p">:</span>
+    <span class="n">new_path</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">old_folder</span><span class="p">,</span> <span class="n">new_folder</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">new_bounds</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">left</span> <span class="o">-</span> <span class="n">buffer_</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">bottom</span> <span class="o">-</span> <span class="n">buffer_</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">right</span> <span class="o">+</span> <span class="n">buffer_</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">top</span> <span class="o">+</span> <span class="n">buffer_</span> <span class="o">*</span> <span class="n">f</span><span class="o">.</span><span class="n">res</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="p">)</span>
+
+        <span class="n">new_shape</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">buffer_</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">buffer_</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="n">te</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_bounds</span><span class="p">)</span>
+    <span class="n">ts</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">new_shape</span><span class="p">)</span>
+
+    <span class="n">cmd</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;gdalwarp -te </span><span class="si">{te}</span><span class="s1"> -ts </span><span class="si">{ts}</span><span class="s1"> -r near -co NUM_THREADS=ALL_CPUS -co COMPRESS=DEFLATE  -co PREDICTOR=2 -co BIGTIFF=yes </span><span class="si">{old_folder}</span><span class="s1">/all.vrt </span><span class="si">{new_path}</span><span class="s1">&#39;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+</pre></div>
+
+
 <h2 id="public-api">Public API</h2>
-<p>The Open Topo Data public API lets you query SRTM 30m for free:</p>
-<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/srtm30m?locations=57.688709,11.976404
+<p>The Open Topo Data public API lets you query GEBCO 2020 for free:</p>
+<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/gebco2020?locations=37.6535,-119.4105
 </pre></div>
 
 
 <div class="codehilite"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">55.0</span><span class="p">,</span> 
+      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">3405.0</span><span class="p">,</span> 
       <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">57.688709</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">11.976404</span>
+        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">37.6535</span><span class="p">,</span> 
+        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">-119.4105</span>
       <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">],</span> 
@@ -619,27 +667,7 @@ gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filen
 </pre></div>
 
 
-<p>as well as SRTM 90m:</p>
-<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/srtm90m?locations=57.688709,11.976404
-</pre></div>
-
-
-<div class="codehilite"><pre><span></span><span class="p">{</span>
-  <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">55.0</span><span class="p">,</span> 
-      <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">57.688709</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">11.976404</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">],</span> 
-  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p>The public API uses Version 3 of SRTM for both resolutions.</p>
+<p>The public API uses the 2020 version of the dataset.</p>
                 
                   
                 
@@ -661,7 +689,7 @@ gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filen
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../nzdem/" title="NZ DEM" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../emod2018/" title="EMOD Bathymetry" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -670,25 +698,11 @@ gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filen
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                NZ DEM
-              </span>
-            </div>
-          </a>
-        
-        
-          <a href="../emod2018/" title="EMOD Bathymetry" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
                 EMOD Bathymetry
               </span>
             </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
           </a>
+        
         
       </nav>
     </div>
