@@ -2,47 +2,47 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
      <loc>https://www.opentopodata.org/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/server/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/api/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/changelog/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/datasets/aster/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/datasets/etopo1/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/datasets/eudem/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/datasets/srtm/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
     <url>
      <loc>https://www.opentopodata.org/datasets/ned/</loc>
-     <lastmod>2020-04-25</lastmod>
+     <lastmod>2020-05-10</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
