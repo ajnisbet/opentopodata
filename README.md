@@ -34,7 +34,6 @@ curl http://localhost:5000/v1/test-dataset?locations=56.35,123.90
 
 See the [server docs](https://www.opentopodata.org/server.md) for more about configuration and adding datasets.
 
----
 
 ## Public API
 
@@ -77,7 +76,6 @@ The following datasets are available on the public API:
 See the [API docs](https://www.opentopodata.org/api.md) for more about request formats and parameters.
 
 
----
 
 ## Support
 
