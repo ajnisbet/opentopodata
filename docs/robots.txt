@@ -1,0 +1,6 @@
+# Allow all
+User-agent: *
+Disallow:
+
+# Sitemap
+Sitemap: https://www.opentopodata.org/sitemap.xml

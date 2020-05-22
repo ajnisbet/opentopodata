@@ -8,14 +8,14 @@ Open Topo Data has a single endpoint.
 
 Reads the elevation from a given dataset. The dataset must match one of the options in `config.yaml`.
 
-Latitudes and longitudes should be in `EPSG:4326`, they will be converted internally to whatever the dataset used.
+Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format), they will be converted internally to whatever the dataset uses.
 
 ### Args
 
 * `locations`: Required. Either 
     * `latitutde,longitude` pairs, each separated by a pipe character `|`. Example: `locations=12.5,160.2|-10.6,130`.
     * [Google polyline format](https://developers.google.com/maps/documentation/utilities/polylinealgorithm). Example: `locations=gfo}EtohhU`.
-* `interpolation`: How to interpolate between the points in the dataset. Options: `nearest`, `bilinear`, `cubic`. Default: `nearest`.
+* `interpolation`: How to interpolate between the points in the dataset. Options: `nearest`, `bilinear`, `cubic`. Default: `bilinear`.
 
 ### Response
 
@@ -27,6 +27,13 @@ A json object, compatible with the Google Maps Elevation API.
 * `results[].elevation`: Elevation, using units and datum from the dataset. May be `NaN` if the dataset has a NODATA value at the given location. May be `null` if the given location is outside the dataset bounds.
 * `results[].location.lat`: Latitude as parsed by Open Topo Data.
 * `results[].location.lng`: Longitude as parsed by Open Topo Data.
+
+Some notes about the elevation value:
+* If the raster has an integer data type, the interpolated elevation will be rounded to the nearest integer. This is a limitation of rasterio/gdal.
+* If the raster has a NODATA value at the request location, Open Topo Data will return `NaN`.
+* If the request location isn't covered by any raster in the dataset, Open Topo Data will return `null`.
+
+
 
 ### Example
 

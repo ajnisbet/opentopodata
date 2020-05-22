@@ -158,6 +158,20 @@ class TestDataset:
         assert re.match(config.FILENAME_TILE_REGEX, "S01W170.geotiff.zip")
         assert not re.match(config.FILENAME_TILE_REGEX, "junk.tif")
 
+    def test_aux_case(self):
+        for e in config.AUX_EXTENSIONS:
+            assert e.islower()
+
+    def test_aux_format(self):
+        for e in config.AUX_EXTENSIONS:
+            assert e.startswith(".")
+
+    def test_valid_aux(self):
+        assert config.Dataset._is_aux_file("raster.AUX.XML")
+
+    def test_invalid_aux(self):
+        assert not config.Dataset._is_aux_file("raster.tif")
+
 
 class TestSingleFileDataset:
     def test_location_paths(self):

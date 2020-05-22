@@ -12,6 +12,7 @@ from opentopodata import utils
 CONFIG_PATH = "config.yaml"
 EXAMPLE_CONFIG_PATH = "example-config.yaml"
 FILENAME_TILE_REGEX = r"^[NS]\d+[WE]\d+.*?$"
+AUX_EXTENSIONS = [".tfw", ".aux", ".aux.xml", ".rdd", ".jpw", ".ovr"]
 
 DEFAULTS = {
     "max_locations_per_request": 100,
@@ -142,7 +143,11 @@ class Dataset:
     """
 
     @classmethod
-    def from_config(self, name, path, **kwargs):
+    def _is_aux_file(cls, path):
+        return any([path.lower().endswith(e) for e in AUX_EXTENSIONS])
+
+    @classmethod
+    def from_config(cls, name, path, **kwargs):
         """Initialise a Dataset from the config.
 
         Based on the filename format, the appropriate kind of Dataset will be
@@ -165,12 +170,14 @@ class Dataset:
         pattern = os.path.join(path, "**", "*")
         all_paths = list(glob(pattern, recursive=True))
         all_files = [p for p in all_paths if os.path.isfile(p)]
-        if not all_files:
+        all_rasters = [p for p in all_files if not cls._is_aux_file(p)]
+
+        if not all_rasters:
             raise ConfigError("Dataset folder '{}' seems to be empty.".format(path))
 
         # Check for single file.
-        if len(all_files) == 1:
-            tile_path = all_files[0]
+        if len(all_rasters) == 1:
+            tile_path = all_rasters[0]
             try:
                 with rasterio.open(tile_path):
                     pass
@@ -179,7 +186,7 @@ class Dataset:
             return SingleFileDataset(name, tile_path=tile_path)
 
         # Check for SRTM-style naming.
-        all_filenames = [os.path.basename(p) for p in all_files]
+        all_filenames = [os.path.basename(p) for p in all_rasters]
         if all([re.match(FILENAME_TILE_REGEX, f) for f in all_filenames]):
             filename_epsg = kwargs.get(
                 "filename_epsg", DEFAULTS["dataset.filename_epsg"]
@@ -190,7 +197,7 @@ class Dataset:
             return TiledDataset(
                 name,
                 path,
-                tile_paths=all_files,
+                tile_paths=all_rasters,
                 filename_epsg=filename_epsg,
                 filename_tile_size=filename_tile_size,
             )
