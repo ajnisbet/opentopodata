@@ -28,6 +28,13 @@ A json object, compatible with the Google Maps Elevation API.
 * `results[].location.lat`: Latitude as parsed by Open Topo Data.
 * `results[].location.lng`: Longitude as parsed by Open Topo Data.
 
+Some notes about the elevation value:
+* If the raster has an integer data type, the interpolated elevation will be rounded to the nearest integer. This is a limitation of rasterio/gdal.
+* If the raster has a NODATA value at the request location, Open Topo Data will return `NaN`.
+* If the request location isn't covered by any raster in the dataset, Open Topo Data will return `null`.
+
+
+
 ### Example
 
 `GET` <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic</a>
