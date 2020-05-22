@@ -93,6 +93,17 @@ class TestValidatePointsLieWithinRaster:
             xs, ys, lats, lons, self.bounds, self.res
         )
 
+    def test_floating_point_trickery(self):
+        # Values taken from ASTER dataset which was causing issues.
+        res = (0.000277777777777778, 0.000277777777777778)
+        bounds = rasterio.coords.BoundingBox(
+            149.999861111111, -33.00013888888888, 151.00013888888876, -31.9998611111111
+        )
+
+        xs = np.array([150])
+        ys = np.array([-33])
+        backend._validate_points_lie_within_raster(xs, ys, [], [], bounds, res)
+
 
 class TestGetElevationFromPath:
     with rasterio.open(ETOPO1_GEOTIFF_PATH) as f:

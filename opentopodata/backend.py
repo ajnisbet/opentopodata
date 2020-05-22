@@ -53,10 +53,16 @@ def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
     # format, the true extent is the centre of the outer pixels, but GDAL
     # reports the exent as the outer edge ouf the outer pixels. So need to
     # adjust by half the pixel width.
-    x_min = min(bounds.left, bounds.right) + res[0] / 2
-    x_max = max(bounds.left, bounds.right) - res[0] / 2
-    y_min = min(bounds.top, bounds.bottom) + res[1] / 2
-    y_max = max(bounds.top, bounds.bottom) - res[1] / 2
+    #
+    # Also add an epsilon to account for
+    # floating point precision issues: better to validitate an invalid point
+    # which will error out on the reading anyway, than to invalidate a valid
+    # point.
+    atol = 1e-8
+    x_min = min(bounds.left, bounds.right) + abs(res[0]) / 2 - atol
+    x_max = max(bounds.left, bounds.right) - abs(res[0]) / 2 + atol
+    y_min = min(bounds.top, bounds.bottom) + abs(res[1]) / 2 - atol
+    y_max = max(bounds.top, bounds.bottom) - abs(res[1]) / 2 + atol
 
     # Check bounds.
     x_in_bounds = (xs >= x_min) & (xs <= x_max)
