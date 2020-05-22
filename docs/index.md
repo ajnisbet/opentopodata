@@ -36,13 +36,13 @@ curl http://localhost:5000/v1/test-dataset?locations=56.35,123.90
 ```
 
 
-See the [server docs](server.md) for more about configuration and adding datasets.
+See the [server docs](/server.md) for more about configuration and adding datasets.
 
 ---
 
 ## Public API
 
-I'm hosting a public API at [api.opentopodata.org](https://api.opentopodata.org). 
+I'm hosting a free public API at [api.opentopodata.org](https://api.opentopodata.org). 
 
 To keep the public API sustainable some limitations are applied.
 
@@ -139,13 +139,13 @@ The following datasets are available on the public API, with elevation shown for
 </table>
 
 
-See the [API docs](api.md) for more about request formats and parameters.
+See the [API docs](/api.md) for more about request formats and parameters.
 
 
 ---
 
 ## Support
 
-Want help getting Open Topo Data running? Or just want to chat about elevation data? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
 
 

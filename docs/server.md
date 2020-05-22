@@ -12,7 +12,7 @@ make build
 make run
 ```
 
-This will start a server on `localhost:5000` with a small demo dataset called `test-dataset`. Check out the [API docs](api.md) for info about requests and responses.
+This will start a server on `localhost:5000` with a small demo dataset called `test-dataset`. Check out the [API docs](api.md) for info about the format of requests and responses.
 
 ## Dataset support
 
@@ -24,9 +24,12 @@ Datasets can take one of two formats:
 * A collection of square raster tiles which follow the SRTM naming convention: the file is named for the lower left corner. So a file named `N30W120.tiff` would span from 30 to 31 degrees latitude, and -120 to -119 degrees longitude. By default tiles are 1° by 1° and the coordinates are in WGS84, but this can be configured.
 
 
+If your dataset consists of multiple files that aren't on a nice grid, you can create a `.vrt` file pointing to the files that Open Topo Data will treat as a single-file dataset. For an example of this process, see the documentation for configuring [EMODnet](/datasets/emod2018/).
+
+
 ## Configuration
 
-Open Topo Data is configured by a `config.yaml` file. If that file is missing it will fallback to `example-config.yaml`.
+Open Topo Data is configured by a `config.yaml` file. If that file is missing it will look for `example-config.yaml` instead.
 
 A config might look like:
 
@@ -64,6 +67,7 @@ opentopodata
 
 which would expose `localhost:5000/v1/etopo1` and `localhost:5000/v1/srtm90m`.
 
+
 ### Config spec
 
 * `max_locations_per_request`: Requests with more than this many locations will return a 400 error. Default: `100`.
@@ -87,8 +91,13 @@ Adding a new dataset takes two steps:
 
 Instructions are provided for adding the various datasets used in the public API:
 
-* [SRTM (30m or 90m)](/datasets/srtm/)
-* [NED 10m](/datasets/ned/)
-* [EU-DEM](/datasets/eudem/)
-* [ETOPO1](/datasets/etopo1/)
-* [ASTER](/datasets/aster/)
+
+* [ASTER](/datasets/aster.md)
+* [ETOPO1](/datasets/etopo1.md)
+* [EU-DEM](/datasets/eudem.md)
+* [Mapzen](/datasets/mapzen.md)
+* [NED 10m](/datasets/ned.md)
+* [NZ DEM](/datasets/nzdem.m)
+* [SRTM (30m or 90m)](/datasets/srtm.md)
+* [EMOD Bathymetry](/datasets/emod2018.md)
+* [GEBCO Bathymetry](/datasets/gebco2020.md)

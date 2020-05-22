@@ -8,14 +8,14 @@ Open Topo Data has a single endpoint.
 
 Reads the elevation from a given dataset. The dataset must match one of the options in `config.yaml`.
 
-Latitudes and longitudes should be in `EPSG:4326`, they will be converted internally to whatever the dataset used.
+Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format), they will be converted internally to whatever the dataset uses.
 
 ### Args
 
 * `locations`: Required. Either 
     * `latitutde,longitude` pairs, each separated by a pipe character `|`. Example: `locations=12.5,160.2|-10.6,130`.
     * [Google polyline format](https://developers.google.com/maps/documentation/utilities/polylinealgorithm). Example: `locations=gfo}EtohhU`.
-* `interpolation`: How to interpolate between the points in the dataset. Options: `nearest`, `bilinear`, `cubic`. Default: `nearest`.
+* `interpolation`: How to interpolate between the points in the dataset. Options: `nearest`, `bilinear`, `cubic`. Default: `bilinear`.
 
 ### Response
 
