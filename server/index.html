@@ -579,7 +579,7 @@ make run
 </pre></div>
 
 
-<p>This will start a server on <code>localhost:5000</code> with a small demo dataset called <code>test-dataset</code>. Check out the <a href="../api/">API docs</a> for info about requests and responses.</p>
+<p>This will start a server on <code>localhost:5000</code> with a small demo dataset called <code>test-dataset</code>. Check out the <a href="../api/">API docs</a> for info about the format of requests and responses.</p>
 <h2 id="dataset-support">Dataset support</h2>
 <p>Open Topo Data supports all georeferenced raster formats supported by GDAL (e.g, <code>.tiff</code>, <code>.hgt</code>, <code>.jp2</code>).</p>
 <p>Datasets can take one of two formats:</p>
@@ -587,8 +587,9 @@ make run
 <li>A single raster file.</li>
 <li>A collection of square raster tiles which follow the SRTM naming convention: the file is named for the lower left corner. So a file named <code>N30W120.tiff</code> would span from 30 to 31 degrees latitude, and -120 to -119 degrees longitude. By default tiles are 1° by 1° and the coordinates are in WGS84, but this can be configured.</li>
 </ul>
+<p>If your dataset consists of multiple files that aren't on a nice grid, you can create a <code>.vrt</code> file pointing to the files that Open Topo Data will treat as a single-file dataset. For an example of this process, see the documentation for configuring <a href="/datasets/emod2018/">EMODnet</a>.</p>
 <h2 id="configuration">Configuration</h2>
-<p>Open Topo Data is configured by a <code>config.yaml</code> file. If that file is missing it will fallback to <code>example-config.yaml</code>.</p>
+<p>Open Topo Data is configured by a <code>config.yaml</code> file. If that file is missing it will look for <code>example-config.yaml</code> instead.</p>
 <p>A config might look like:</p>
 <div class="codehilite"><pre><span></span><span class="nt">max_locations_per_request</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">100</span> 
 <span class="nt">access_control_allow_origin</span><span class="p">:</span> <span class="s">&#39;*&#39;</span>
@@ -639,11 +640,15 @@ make run
 </ol>
 <p>Instructions are provided for adding the various datasets used in the public API:</p>
 <ul>
-<li><a href="/datasets/srtm/">SRTM (30m or 90m)</a></li>
-<li><a href="/datasets/ned/">NED 10m</a></li>
-<li><a href="/datasets/eudem/">EU-DEM</a></li>
-<li><a href="/datasets/etopo1/">ETOPO1</a></li>
-<li><a href="/datasets/aster/">ASTER</a></li>
+<li><a href="/datasets/aster.md">ASTER</a></li>
+<li><a href="/datasets/etopo1.md">ETOPO1</a></li>
+<li><a href="/datasets/eudem.md">EU-DEM</a></li>
+<li><a href="/datasets/mapzen.md">Mapzen</a></li>
+<li><a href="/datasets/ned.md">NED 10m</a></li>
+<li><a href="/datasets/nzdem.m">NZ DEM</a></li>
+<li><a href="/datasets/srtm.md">SRTM (30m or 90m)</a></li>
+<li><a href="/datasets/emod2018.md">EMOD Bathymetry</a></li>
+<li><a href="/datasets/gebco2020.md">GEBCO Bathymetry</a></li>
 </ul>
                 
                   

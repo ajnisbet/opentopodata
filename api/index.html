@@ -560,7 +560,7 @@
 <p>Open Topo Data has a single endpoint.</p>
 <h2 id="get-v1ltdataset_namegt"><code>GET /v1/&lt;dataset_name&gt;</code></h2>
 <p>Reads the elevation from a given dataset. The dataset must match one of the options in <code>config.yaml</code>.</p>
-<p>Latitudes and longitudes should be in <code>EPSG:4326</code>, they will be converted internally to whatever the dataset used.</p>
+<p>Latitudes and longitudes should be in <code>EPSG:4326</code> (also known as WGS-84 format), they will be converted internally to whatever the dataset uses.</p>
 <h3 id="args">Args</h3>
 <ul>
 <li><code>locations</code>: Required. Either <ul>
@@ -568,7 +568,7 @@
 <li><a href="https://developers.google.com/maps/documentation/utilities/polylinealgorithm">Google polyline format</a>. Example: <code>locations=gfo}EtohhU</code>.</li>
 </ul>
 </li>
-<li><code>interpolation</code>: How to interpolate between the points in the dataset. Options: <code>nearest</code>, <code>bilinear</code>, <code>cubic</code>. Default: <code>nearest</code>.</li>
+<li><code>interpolation</code>: How to interpolate between the points in the dataset. Options: <code>nearest</code>, <code>bilinear</code>, <code>cubic</code>. Default: <code>bilinear</code>.</li>
 </ul>
 <h3 id="response">Response</h3>
 <p>A json object, compatible with the Google Maps Elevation API.</p>
@@ -580,6 +580,10 @@
 <li><code>results[].location.lat</code>: Latitude as parsed by Open Topo Data.</li>
 <li><code>results[].location.lng</code>: Longitude as parsed by Open Topo Data.</li>
 </ul>
+<p>Some notes about the elevation value:
+* If the raster has an integer data type, the interpolated elevation will be rounded to the nearest integer. This is a limitation of rasterio/gdal.
+* If the raster has a NODATA value at the request location, Open Topo Data will return <code>NaN</code>.
+* If the request location isn't covered by any raster in the dataset, Open Topo Data will return <code>null</code>.</p>
 <h3 id="example">Example</h3>
 <p><code>GET</code> <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&amp;interpolation=cubic</a></p>
 <div class="codehilite"><pre><span></span><span class="p">{</span>
