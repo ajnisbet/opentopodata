@@ -2,6 +2,12 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.2.1 (22 May 2020)
+
+Improved documentation, plus some bug fixes:
+* Fix floating-point precision issue that was breaking requests on dataset boundaries.
+* Ignore common non-raster files.
+
 
 ## Version 1.2.0 (10 May 2020)
 
@@ -22,3 +28,4 @@ Added a bunch of new datasets to the public API:
 * Increased the public API daily request limit to 1000.
 * Updated [NED](/datasets/ned/) on the public API.
 * Added CORS header support.
+
