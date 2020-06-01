@@ -1,0 +1,13 @@
+black
+Flask
+flask-caching
+numpy
+pip-tools
+polyline
+pylibmc
+pyproj
+pytest
+pytest-cov
+PyYAML
+rasterio
+requests
