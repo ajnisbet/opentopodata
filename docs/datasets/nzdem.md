@@ -72,7 +72,7 @@ for tif_path in tif_paths:
 assert not os.system(f'rm {vrt_path}')
 ```
 
-Create a `config.yaml` file, setting the size of the tiles (65536 metres) and the projection system used ([NZ tranverse mercator](https://spatialreference.org/ref/epsg/nzgd2000-new-zealand-transverse-mercator-2000/):
+Create a `config.yaml` file, setting the size of the tiles (65536 metres) and the projection system used ([NZ tranverse mercator](https://spatialreference.org/ref/epsg/nzgd2000-new-zealand-transverse-mercator-2000/)):
 
 ```yaml
 datasets:
