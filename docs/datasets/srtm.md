@@ -29,7 +29,10 @@ Make a new folder for the dataset:
 mkdir ./data/srtm30m
 ```
 
-Download the files from [USGS](https://e4ftl01.cr.usgs.gov/MEASURES/) into `./data/srtm30m`. You want the `xxxxxxx.SRTMGL1.hgt.zip` files. To make downloading a bit easier, here's a list of the 14,297 URLs: [srtm30m_urls.txt](/datasets/srtm30m_urls.txt).
+Download the files from [USGS](https://e4ftl01.cr.usgs.gov/MEASURES/) into `./data/srtm30m`. Before downloading you'll need to register an account at [earthdata.nasa.gov](https://urs.earthdata.nasa.gov/). Using these credentials for downloading is a little tricky, but luckily Earthdata provide [download scripts](https://wiki.earthdata.nasa.gov/display/EL/Data+Access) in multiple different languages, the [Python ones](https://wiki.earthdata.nasa.gov/display/EL/How+To+Access+Data+With+Python) worked well for me.
+
+You want the `xxxxxxx.SRTMGL1.hgt.zip` files. To make downloading a bit easier, here's a list of the 14,297 URLs: [srtm30m_urls.txt](/datasets/srtm30m_urls.txt).
+
 
 Create a `config.yaml` file:
 
