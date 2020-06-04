@@ -42,3 +42,4 @@ RUN echo > /etc/nginx/sites-available/default && \
 
 CMD sh /app/docker/run.sh
 EXPOSE 5000
+ENV CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
