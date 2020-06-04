@@ -577,7 +577,8 @@
 </pre></div>
 
 
-<p>Download the files from <a href="https://e4ftl01.cr.usgs.gov/MEASURES/">USGS</a> into <code>./data/srtm30m</code>. You want the <code>xxxxxxx.SRTMGL1.hgt.zip</code> files. To make downloading a bit easier, here's a list of the 14,297 URLs: <a href="/datasets/srtm30m_urls.txt">srtm30m_urls.txt</a>.</p>
+<p>Download the files from <a href="https://e4ftl01.cr.usgs.gov/MEASURES/">USGS</a> into <code>./data/srtm30m</code>. Before downloading you'll need to register an account at <a href="https://urs.earthdata.nasa.gov/">earthdata.nasa.gov</a>. Using these credentials for downloading is a little tricky, but luckily Earthdata provide <a href="https://wiki.earthdata.nasa.gov/display/EL/Data+Access">download scripts</a> in multiple different languages, the <a href="https://wiki.earthdata.nasa.gov/display/EL/How+To+Access+Data+With+Python">Python ones</a> worked well for me.</p>
+<p>You want the <code>xxxxxxx.SRTMGL1.hgt.zip</code> files. To make downloading a bit easier, here's a list of the 14,297 URLs: <a href="/datasets/srtm30m_urls.txt">srtm30m_urls.txt</a>.</p>
 <p>Create a <code>config.yaml</code> file:</p>
 <div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">srtm30m</span>
