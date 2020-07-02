@@ -22,7 +22,7 @@ LON_MAX = 180
 # Memcache is used to store the latlon -> filename lookups, which can take a
 # while to compute for datasets made up of many files. Memcache needs to be
 # disabled for testing as it breaks tests which change the config. It can also
-# be disabled if not installed for local devleopment.
+# be disabled if not installed for local development.
 if os.environ.get("DISABLE_MEMCACHE"):
     cache = Cache(config={"CACHE_TYPE": "null", "CACHE_NO_NULL_WARNING": True})
 else:
@@ -49,10 +49,16 @@ def _load_config():
 # Supporting CORSs enables browsers to make XHR requests.
 @app.after_request
 def apply_cors(response):
-    if _load_config()["access_control_allow_origin"]:
-        response.headers["access-control-allow-origin"] = _load_config()[
-            "access_control_allow_origin"
-        ]
+    try:
+        if _load_config()["access_control_allow_origin"]:
+            response.headers["access-control-allow-origin"] = _load_config()[
+                "access_control_allow_origin"
+            ]
+    except config.ConfigError:
+        # If the config isn't loading, allow the request to complete without
+        # CORS so user can see error message.
+        pass
+
     return response
 
 
@@ -255,7 +261,7 @@ def get_help_message(methods=["GET", "OPTIONS", "HEAD"]):
 
 @app.route("/v1/<dataset_name>", methods=["GET", "OPTIONS", "HEAD"])
 def get_elevation(dataset_name):
-    """Calculate the elevavation for the given locations.
+    """Calculate the elevation for the given locations.
 
     Args:
         dataset_name: String matching a dataset in the config file.
@@ -287,7 +293,10 @@ def get_elevation(dataset_name):
     except (ClientError, backend.InputError) as e:
         return jsonify({"status": "INVALID_REQUEST", "error": str(e)}), 400
     except config.ConfigError as e:
-        return jsonify({"status": "SERVER_ERROR", "error": str(e)}), 500
+        return (
+            jsonify({"status": "SERVER_ERROR", "error": "Config Error: {}".format(e)}),
+            500,
+        )
     except Exception as e:
         if app.debug:
             raise e
