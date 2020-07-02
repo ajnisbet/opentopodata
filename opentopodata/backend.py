@@ -51,11 +51,11 @@ def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
 
     # Get actual extent. When storing point data in a pixel-based raster
     # format, the true extent is the centre of the outer pixels, but GDAL
-    # reports the exent as the outer edge ouf the outer pixels. So need to
+    # reports the extent as the outer edge of the outer pixels. So need to
     # adjust by half the pixel width.
     #
     # Also add an epsilon to account for
-    # floating point precision issues: better to validitate an invalid point
+    # floating point precision issues: better to validate an invalid point
     # which will error out on the reading anyway, than to invalidate a valid
     # point.
     atol = 1e-8
@@ -149,7 +149,7 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
 
 
 def get_elevation(lats, lons, dataset, interpolation="nearest"):
-    """Read elecations from a dataset.
+    """Read elevations from a dataset.
 
     A dataset may consist of multiple files, so need to determine which
     locations lies in which file, then loop over the files.
