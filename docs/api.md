@@ -21,7 +21,7 @@ Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format),
 
 A json object, compatible with the Google Maps Elevation API.
 
-* `status`: Will be `OK` for a successful request, `INVALID_REQUEST` for an input error, and `SERVER_ERROR` for a different error. Required.
+* `status`: Will be `OK` for a successful request, `INVALID_REQUEST` for an input (4xx) error, and `SERVER_ERROR` for anything else (5xx). Required.
 * `error`: Description of what went wrong, when `status` isn't `OK`.
 * `results`: List of elevations for each location, in same order as input. Only provided for `OK` status.
 * `results[].elevation`: Elevation, using units and datum from the dataset. May be `NaN` if the dataset has a NODATA value at the given location. May be `null` if the given location is outside the dataset bounds.
@@ -29,6 +29,7 @@ A json object, compatible with the Google Maps Elevation API.
 * `results[].location.lng`: Longitude as parsed by Open Topo Data.
 
 Some notes about the elevation value:
+
 * If the raster has an integer data type, the interpolated elevation will be rounded to the nearest integer. This is a limitation of rasterio/gdal.
 * If the raster has a NODATA value at the request location, Open Topo Data will return `NaN`.
 * If the request location isn't covered by any raster in the dataset, Open Topo Data will return `null`.
