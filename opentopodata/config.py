@@ -128,7 +128,7 @@ def load_datasets():
     """Init Dataset objects
 
     Returns:
-        datasets: Dict of {dataset_name: Dataset obejct} from config.datasets.
+        datasets: Dict of {dataset_name: Dataset object} from config.datasets.
     """
     config = load_config()
     datasets = {d["name"]: Dataset.from_config(**d) for d in config["datasets"]}
@@ -155,8 +155,8 @@ class Dataset:
     
         Args:
             name: String used in request url and as datasets dictionary key.
-            path: String path to diractory containing dataset.
-            kwargs: Passed to sublclass __init__.
+            path: String path to directory containing dataset.
+            kwargs: Passed to subclass __init__.
 
         Returns:
             Subclass of Dataset.
@@ -238,14 +238,14 @@ class TiledDataset(Dataset):
 
         Each file should be a square tile, named like N50W121 for the lower left (SW) corner.
 
-        GDAL supports SRTM-named .hgt files indivudially (it can infer the
+        GDAL supports SRTM-named .hgt files individually (it can infer the
         bounds from the filename) but won't find the correct file for you. This does that.
 
         Args:
             name: String used in request url and as datasets dictionary key.
             tile_path: String path to single raster file.
             path: Path to folder containing SRTM files.
-            tile_paths: List of infividial raster file paths in the dataset.
+            tile_paths: List of individual raster file paths in the dataset.
             filename_epsg: Coordinate system of the filename.
             filename_tile_size: Size of each tile, in the coordinate system units. Used for 
                 rounding down the location to get the corner. Assumed to have an offset from zero.
@@ -259,7 +259,7 @@ class TiledDataset(Dataset):
         tile_filenames = [os.path.basename(p).split(".")[0] for p in tile_paths]
         if len(tile_filenames) != len(set(tile_filenames)):
             msg = "SRTM filenames must be unique,"
-            msg += " cannot be the same tile with different extentions."
+            msg += " cannot be the same tile with different extensions."
             raise ConfigError(msg)
 
         # Find if the filenames use fixed-width zerop padding.

@@ -2,9 +2,19 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+
+## Version 1.2.2 (2 July 2020)
+
+* Documentation fixes.
+* I'm now using [pip-tools](https://github.com/jazzband/pip-tools) to manage python dependencies, and I'm really liking it. Exact dependency versions are now pinned, but it's easy to update them to the latest version.
+* Updated dependencies. 
+
+
+
 ## Version 1.2.1 (22 May 2020)
 
 Improved documentation, plus some bug fixes:
+
 * Fix floating-point precision issue that was breaking requests on dataset boundaries.
 * Ignore common non-raster files.
 

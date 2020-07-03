@@ -18,7 +18,7 @@ class TestRun:
             if os.path.exists(MEMCACHED_SOCKET) and os.path.exists(UWSGI_SOCKET):
                 break
         else:
-            raise RuntimeError("Memcached and uwsgi not started")
+            raise RuntimeError("Memcached and uwsgi not started within 60s.")
 
     def test_200(self):
         url = "http://localhost:5000/v1/test-dataset?locations=1,1"

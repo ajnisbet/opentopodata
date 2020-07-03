@@ -1,5 +1,5 @@
 VERSION = `cat VERSION`
-.PHONY: build run daemon test run-local black black-check
+.PHONY: build run daemon test run-local black black-check update-requirements
 
 build:
 	docker build --tag opentopodata:$(VERSION) --file docker/Dockerfile .
@@ -21,3 +21,10 @@ black:
 
 black-check:
 	docker run --rm opentopodata:$(VERSION) black --check --target-version py37 tests opentopodata
+
+update-requirements: build
+	# pip-compile gets confused if there's already a requirements.txt file, and
+	# it can't be deleted without breaking the docker mount. So instead do the
+	# compiling in /tmp. Should run test suite afterwards.
+	docker run --rm -v $(shell pwd)/requirements.txt:/app/requirements.txt -w /tmp opentopodata:$(VERSION)  /bin/bash -c "cp /app/requirements.in .; pip-compile requirements.in; cp requirements.txt /app/requirements.txt"
+
