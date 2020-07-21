@@ -34,7 +34,7 @@ __Documentation__: [www.opentopodata.org](https://www.opentopodata.org)
 Install [docker](https://docs.docker.com/install/) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) then run:
 
 ```bash
-git clone git@github.com:ajnisbet/opentopodata.git
+git clone https://github.com/ajnisbet/opentopodata.git
 cd opentopodata
 make build
 make run

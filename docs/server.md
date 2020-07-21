@@ -6,7 +6,7 @@
 The easiest way to run Open Topo Data is with Docker. [Install docker](https://docs.docker.com/install/) then run the following commands:
 
 ```bash
-git clone git@github.com:ajnisbet/opentopodata.git
+git clone https://github.com/ajnisbet/opentopodata.git
 cd opentopodata
 make build
 make run
