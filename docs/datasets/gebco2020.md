@@ -6,7 +6,7 @@ GEBCO releases a new dataset most years, the 2020 dataset (released in May 2020)
 
 ## Coverage
 
-Elevation is given for land areas, largely using a [15-degree version](https://topex.ucsd.edu/WWW_html/srtm15_plus.html) of [SRTM](datasets/srtm.md).
+Elevation is given for land areas, largely using a [15-degree version](https://topex.ucsd.edu/WWW_html/srtm15_plus.html) of [SRTM](srtm.md).
 
 Seafloor data comes from a variety of bathymetric sources, see [GEBCO](https://www.gebco.net/data_and_products/gridded_bathymetry_data/) for more details.
 
