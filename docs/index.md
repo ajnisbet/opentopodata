@@ -36,7 +36,7 @@ curl http://localhost:5000/v1/test-dataset?locations=56.35,123.90
 ```
 
 
-See the [server docs](/server.md) for more about configuration and adding datasets.
+See the [server docs](server.md) for more about configuration and adding datasets.
 
 ---
 
@@ -139,7 +139,7 @@ The following datasets are available on the public API, with elevation shown for
 </table>
 
 
-See the [API docs](/api.md) for more about request formats and parameters.
+See the [API docs](api.md) for more about request formats and parameters.
 
 
 ---

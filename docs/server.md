@@ -24,7 +24,7 @@ Datasets can take one of two formats:
 * A collection of square raster tiles which follow the SRTM naming convention: the file is named for the lower left corner. So a file named `N30W120.tiff` would span from 30 to 31 degrees latitude, and -120 to -119 degrees longitude. By default tiles are 1° by 1° and the coordinates are in WGS84, but this can be configured.
 
 
-If your dataset consists of multiple files that aren't on a nice grid, you can create a `.vrt` file pointing to the files that Open Topo Data will treat as a single-file dataset. For an example of this process, see the documentation for configuring [EMODnet](/datasets/emod2018/).
+If your dataset consists of multiple files that aren't on a nice grid, you can create a `.vrt` file pointing to the files that Open Topo Data will treat as a single-file dataset. For an example of this process, see the documentation for configuring [EMODnet](datasets/emod2018.md).
 
 
 ## Configuration
@@ -92,12 +92,12 @@ Adding a new dataset takes two steps:
 Instructions are provided for adding the various datasets used in the public API:
 
 
-* [ASTER](/datasets/aster.md)
-* [ETOPO1](/datasets/etopo1.md)
-* [EU-DEM](/datasets/eudem.md)
-* [Mapzen](/datasets/mapzen.md)
-* [NED 10m](/datasets/ned.md)
-* [NZ DEM](/datasets/nzdem.m)
-* [SRTM (30m or 90m)](/datasets/srtm.md)
-* [EMOD Bathymetry](/datasets/emod2018.md)
-* [GEBCO Bathymetry](/datasets/gebco2020.md)
+* [ASTER](datasets/aster.md)
+* [ETOPO1](datasets/etopo1.md)
+* [EU-DEM](datasets/eudem.md)
+* [Mapzen](datasets/mapzen.md)
+* [NED 10m](datasets/ned.md)
+* [NZ DEM](datasets/nzdem.md)
+* [SRTM (30m or 90m)](datasets/srtm.md)
+* [EMOD Bathymetry](datasets/emod2018.md)
+* [GEBCO Bathymetry](datasets/gebco2020.md)
