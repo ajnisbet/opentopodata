@@ -572,7 +572,7 @@
                 <h1 id="open-topo-data-server-documentation">Open Topo Data Server Documentation</h1>
 <h2 id="getting-started">Getting started</h2>
 <p>The easiest way to run Open Topo Data is with Docker. <a href="https://docs.docker.com/install/">Install docker</a> then run the following commands:</p>
-<div class="codehilite"><pre><span></span>git clone git@github.com:ajnisbet/opentopodata.git
+<div class="codehilite"><pre><span></span>git clone https://github.com/ajnisbet/opentopodata.git
 <span class="nb">cd</span> opentopodata
 make build
 make run
@@ -587,7 +587,7 @@ make run
 <li>A single raster file.</li>
 <li>A collection of square raster tiles which follow the SRTM naming convention: the file is named for the lower left corner. So a file named <code>N30W120.tiff</code> would span from 30 to 31 degrees latitude, and -120 to -119 degrees longitude. By default tiles are 1° by 1° and the coordinates are in WGS84, but this can be configured.</li>
 </ul>
-<p>If your dataset consists of multiple files that aren't on a nice grid, you can create a <code>.vrt</code> file pointing to the files that Open Topo Data will treat as a single-file dataset. For an example of this process, see the documentation for configuring <a href="/datasets/emod2018/">EMODnet</a>.</p>
+<p>If your dataset consists of multiple files that aren't on a nice grid, you can create a <code>.vrt</code> file pointing to the files that Open Topo Data will treat as a single-file dataset. For an example of this process, see the documentation for configuring <a href="../datasets/emod2018/">EMODnet</a>.</p>
 <h2 id="configuration">Configuration</h2>
 <p>Open Topo Data is configured by a <code>config.yaml</code> file. If that file is missing it will look for <code>example-config.yaml</code> instead.</p>
 <p>A config might look like:</p>
@@ -640,15 +640,15 @@ make run
 </ol>
 <p>Instructions are provided for adding the various datasets used in the public API:</p>
 <ul>
-<li><a href="/datasets/aster.md">ASTER</a></li>
-<li><a href="/datasets/etopo1.md">ETOPO1</a></li>
-<li><a href="/datasets/eudem.md">EU-DEM</a></li>
-<li><a href="/datasets/mapzen.md">Mapzen</a></li>
-<li><a href="/datasets/ned.md">NED 10m</a></li>
-<li><a href="/datasets/nzdem.m">NZ DEM</a></li>
-<li><a href="/datasets/srtm.md">SRTM (30m or 90m)</a></li>
-<li><a href="/datasets/emod2018.md">EMOD Bathymetry</a></li>
-<li><a href="/datasets/gebco2020.md">GEBCO Bathymetry</a></li>
+<li><a href="../datasets/aster/">ASTER</a></li>
+<li><a href="../datasets/etopo1/">ETOPO1</a></li>
+<li><a href="../datasets/eudem/">EU-DEM</a></li>
+<li><a href="../datasets/mapzen/">Mapzen</a></li>
+<li><a href="../datasets/ned/">NED 10m</a></li>
+<li><a href="../datasets/nzdem/">NZ DEM</a></li>
+<li><a href="../datasets/srtm/">SRTM (30m or 90m)</a></li>
+<li><a href="../datasets/emod2018/">EMOD Bathymetry</a></li>
+<li><a href="../datasets/gebco2020/">GEBCO Bathymetry</a></li>
 </ul>
                 
                   
