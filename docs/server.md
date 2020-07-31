@@ -101,3 +101,9 @@ Instructions are provided for adding the various datasets used in the public API
 * [SRTM (30m or 90m)](datasets/srtm.md)
 * [EMOD Bathymetry](datasets/emod2018.md)
 * [GEBCO Bathymetry](datasets/gebco2020.md)
+
+
+## Windows support
+
+Unfortunately I don't have access to a Windows machine, to can't promise support on Windows. Some users have had issues getting the docker image to run: if this happens to you, it should be possible to run Open Topo Data outide of docker, provided all the dependencies in [requirements.txt](https://github.com/ajnisbet/opentopodata/blob/master/requirements.txt) and [Dockerfile](https://github.com/ajnisbet/opentopodata/blob/master/docker/Dockerfile) are installed.
+

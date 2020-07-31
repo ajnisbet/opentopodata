@@ -6,7 +6,7 @@ Open Topo Data is a REST API server for your elevation data.
 
 
 ```
-curl http://localhost:5000/v1/test-dataset?locations=56.35,123.90
+curl http://localhost:5000/v1/test-dataset?locations=56,123
 ```
 
 ```json
@@ -53,7 +53,7 @@ Open Topo Data has a single endpoint: a point query endpoint that returns the el
 
 
 ```
-curl http://localhost:5000/v1/test-dataset?locations=56.35,123.90
+curl http://localhost:5000/v1/test-dataset?locations=56,123
 ```
 
 ```json
