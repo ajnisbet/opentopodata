@@ -13,19 +13,20 @@ chardet==3.0.4            # via requests
 click-plugins==1.1.1      # via rasterio
 click==7.1.2              # via black, click-plugins, cligj, flask, pip-tools, rasterio
 cligj==0.5.0              # via rasterio
-coverage==5.1             # via pytest-cov
+coverage==5.2.1           # via pytest-cov
 flask-caching==1.9.0      # via -r requirements.in
 flask==1.1.2              # via -r requirements.in, flask-caching
 idna==2.10                # via requests
 importlib-metadata==1.7.0  # via pluggy, pytest
+iniconfig==1.0.1          # via pytest
 itsdangerous==1.1.0       # via flask
 jinja2==2.11.2            # via flask
 markupsafe==1.1.1         # via jinja2
 more-itertools==8.4.0     # via pytest
-numpy==1.19.0             # via -r requirements.in, rasterio, snuggs
+numpy==1.19.1             # via -r requirements.in, rasterio, snuggs
 packaging==20.4           # via pytest
 pathspec==0.8.0           # via black
-pip-tools==5.2.1          # via -r requirements.in
+pip-tools==5.3.1          # via -r requirements.in
 pluggy==0.13.1            # via pytest
 polyline==1.4.0           # via -r requirements.in
 py==1.9.0                 # via pytest
@@ -33,17 +34,16 @@ pylibmc==1.6.1            # via -r requirements.in
 pyparsing==2.4.7          # via packaging, snuggs
 pyproj==2.6.1.post1       # via -r requirements.in
 pytest-cov==2.10.0        # via -r requirements.in
-pytest==5.4.3             # via -r requirements.in, pytest-cov
+pytest==6.0.1             # via -r requirements.in, pytest-cov
 pyyaml==5.3.1             # via -r requirements.in
 rasterio==1.1.5           # via -r requirements.in
-regex==2020.6.8           # via black
+regex==2020.7.14          # via black
 requests==2.24.0          # via -r requirements.in
 six==1.15.0               # via packaging, pip-tools, polyline
 snuggs==1.4.7             # via rasterio
-toml==0.10.1              # via black
+toml==0.10.1              # via black, pytest
 typed-ast==1.4.1          # via black
-urllib3==1.25.9           # via requests
-wcwidth==0.2.5            # via pytest
+urllib3==1.25.10          # via requests
 werkzeug==1.0.1           # via flask
 zipp==3.1.0               # via importlib-metadata
 
