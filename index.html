@@ -273,6 +273,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-api" class="md-nav__link">
     Public API
   </a>
@@ -491,6 +498,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    Usage
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-api" class="md-nav__link">
     Public API
   </a>
@@ -534,13 +548,8 @@
 </p>
 
 <hr />
-<h2 id="host-your-own">Host your own</h2>
-<p>Install <a href="https://docs.docker.com/install/">docker</a> and <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a> then run:</p>
-<div class="codehilite"><pre><span></span>git clone https://github.com/ajnisbet/opentopodata.git
-<span class="nb">cd</span> opentopodata
-make build
-make run
-curl http://localhost:5000/v1/test-dataset?locations<span class="o">=</span><span class="m">56</span>.35,123.90
+<p>Open Topo Data is a REST API server for your elevation data.</p>
+<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/test-dataset?locations=56,123
 </pre></div>
 
 
@@ -557,10 +566,45 @@ curl http://localhost:5000/v1/test-dataset?locations<span class="o">=</span><spa
 </pre></div>
 
 
+<p>You can <a href="server/">self-host</a> with your own dataset or use the <a href="#public-api">free public API</a> which is configured with a number of open elevation datasets. The API is largely compatible with the Google Maps Elevation API.</p>
+<hr />
+<h2 id="host-your-own">Host your own</h2>
+<p>Install <a href="https://docs.docker.com/install/">docker</a> and <a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git</a> then run:</p>
+<div class="codehilite"><pre><span></span>git clone https://github.com/ajnisbet/opentopodata.git
+<span class="nb">cd</span> opentopodata
+make build
+make run
+</pre></div>
+
+
+<p>This will start an Open Topo Data server on <code>http://localhost:5000/</code>.</p>
+<p>Open Topo Data supports a wide range of raster file formats and tiling schemes, including most of those used by popular open elevation datasets.</p>
 <p>See the <a href="server/">server docs</a> for more about configuration and adding datasets.</p>
 <hr />
+<h2 id="usage">Usage</h2>
+<p>Open Topo Data has a single endpoint: a point query endpoint that returns the elevation at a single point or a series of points.</p>
+<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/test-dataset?locations=56.35,123.90
+</pre></div>
+
+
+<div class="codehilite"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[{</span>
+        <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">815.0</span><span class="p">,</span>
+        <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">56.0</span><span class="p">,</span>
+            <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">123.0</span>
+        <span class="p">}</span>
+    <span class="p">}],</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>The interpolation algorithm used can be configured as a request parameter, and locations can also be provided in Google Polyline format.</p>
+<p>See the <a href="api/">API docs</a> for more about request and response formats.</p>
+<hr />
 <h2 id="public-api">Public API</h2>
-<p>I'm hosting a free public API at <a href="https://api.opentopodata.org">api.opentopodata.org</a>. </p>
+<p>I'm hosting a free public API at <a href="https://api.opentopodata.org">api.opentopodata.org</a>.</p>
 <p>To keep the public API sustainable some limitations are applied.</p>
 <ul>
 <li>Max 100 locations per request.</li>
