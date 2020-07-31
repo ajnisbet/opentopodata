@@ -6,7 +6,7 @@ Open Topo Data is a REST API server for your elevation data.
 
 
 ```
-curl http://localhost:5000/v1/test-dataset?locations=56.35,123.90
+curl http://localhost:5000/v1/test-dataset?locations=56,123
 ```
 
 ```json
@@ -34,7 +34,7 @@ __Documentation__: [www.opentopodata.org](https://www.opentopodata.org)
 Install [docker](https://docs.docker.com/install/) and [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) then run:
 
 ```bash
-git clone git@github.com:ajnisbet/opentopodata.git
+git clone https://github.com/ajnisbet/opentopodata.git
 cd opentopodata
 make build
 make run
@@ -53,7 +53,7 @@ Open Topo Data has a single endpoint: a point query endpoint that returns the el
 
 
 ```
-curl http://localhost:5000/v1/test-dataset?locations=56.35,123.90
+curl http://localhost:5000/v1/test-dataset?locations=56,123
 ```
 
 ```json

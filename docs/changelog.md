@@ -2,6 +2,9 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.2.3 (31 July 2020)
+
+* Minor documentation fixes and dependency updates.
 
 ## Version 1.2.2 (2 July 2020)
 
