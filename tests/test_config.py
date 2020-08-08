@@ -154,10 +154,18 @@ class TestDataset:
     def test_filename_tile_regex(self):
         assert re.match(config.FILENAME_TILE_REGEX, "S01W170.tif")
         assert re.match(config.FILENAME_TILE_REGEX, "N80E001.hgt")  # SRTM filenames
-        assert re.match(config.FILENAME_TILE_REGEX, "ASTGTMV003_N00E019.tif")  # Aster filenames
-        assert re.match(config.FILENAME_TILE_REGEX, "S100000W900000.tif")  # EU-dem filenames
-        assert re.match(config.FILENAME_TILE_REGEX, "USGS_13_n20w160.tif")  # NED filenames
-        assert re.match(config.FILENAME_TILE_REGEX, "S01W170.geotiff.zip")  # Multiple extensions
+        assert re.match(
+            config.FILENAME_TILE_REGEX, "ASTGTMV003_N00E019.tif"
+        )  # Aster filenames
+        assert re.match(
+            config.FILENAME_TILE_REGEX, "S100000W900000.tif"
+        )  # EU-dem filenames
+        assert re.match(
+            config.FILENAME_TILE_REGEX, "USGS_13_n20w160.tif"
+        )  # NED filenames
+        assert re.match(
+            config.FILENAME_TILE_REGEX, "S01W170.geotiff.zip"
+        )  # Multiple extensions
         assert re.match(config.FILENAME_TILE_REGEX, "lowercase_s01w170_cruft.zip")
         assert not re.match(config.FILENAME_TILE_REGEX, "junk.tif")
 

@@ -11,7 +11,6 @@ from opentopodata import utils
 
 CONFIG_PATH = "config.yaml"
 EXAMPLE_CONFIG_PATH = "example-config.yaml"
-# FILENAME_TILE_REGEX = r"^[NS]\d+[WE]\d+.*?$"
 FILENAME_TILE_REGEX = r"^.*?[NSns]\d+[WEwe]\d+.*?$"
 AUX_EXTENSIONS = [".tfw", ".aux", ".aux.xml", ".rdd", ".jpw", ".ovr"]
 
@@ -203,7 +202,11 @@ class Dataset:
                 filename_tile_size=filename_tile_size,
             )
 
-        raise ConfigError("Unknown dataset type for '{}'.".format(name))
+        raise ConfigError(
+            "Unknown dataset type for '{}'. Dataset should either be a single file, or split up into tiles with the lower-left corner coordinate in the filename like 'N20W120'.".format(
+                name
+            )
+        )
 
     def location_paths(self, lats, lons):
         raise NotImplementedError
