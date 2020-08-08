@@ -11,7 +11,8 @@ from opentopodata import utils
 
 CONFIG_PATH = "config.yaml"
 EXAMPLE_CONFIG_PATH = "example-config.yaml"
-FILENAME_TILE_REGEX = r"^[NS]\d+[WE]\d+.*?$"
+# FILENAME_TILE_REGEX = r"^[NS]\d+[WE]\d+.*?$"
+FILENAME_TILE_REGEX = r"^.*?[NSns]\d+[WEwe]\d+.*?$"
 AUX_EXTENSIONS = [".tfw", ".aux", ".aux.xml", ".rdd", ".jpw", ".ovr"]
 
 DEFAULTS = {
@@ -263,8 +264,8 @@ class TiledDataset(Dataset):
             raise ConfigError(msg)
 
         # Find if the filenames use fixed-width zerop padding.
-        ns = [re.search(r"[NS](\d+)[WE]", x)[1] for x in tile_filenames]
-        ew = [re.search(r"[WE](\d+)", x)[1] for x in tile_filenames]
+        ns = [re.search(r"[NSns](\d+)[WEwe]", x)[1] for x in tile_filenames]
+        ew = [re.search(r"[WEwe](\d+)", x)[1] for x in tile_filenames]
         ns_lens = set(len(x) for x in ns)
         ew_lens = set(len(x) for x in ew)
         self.ns_fixed_width = ns_lens.pop() if len(ns_lens) == 1 else None
