@@ -25,14 +25,14 @@ if __name__ == "__main__":
         except config.ConfigError as e:
             logging.error("Invalid config: {}".format(str(e)))
             logging.error(
-                "Unable to warm cache. This probably means Open Topo Data isn't working."
+                "Uncaught exception while trying to pre-populate the cache. This probably means that Open Topo Data isn't working."
             )
             sys.exit(1)
             break
 
-        logging.info("Warmed cache")
+        logging.info("Cache pre-populated successfully")
         break
 
     else:
-        logging.error("Unable to warm cache")
+        logging.error("Timeout while trying to pre-populate the cache. This probably means that Open Topo Data isn't working.")
         sys.exit(1)

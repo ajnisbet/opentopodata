@@ -62,7 +62,7 @@ from glob import glob
 import os
 import re
 
-old_pattern = '.data/eudem/eu_dem_v11_E*N*.TIF'
+old_pattern = './data/eudem/eu_dem_v11_E*N*.TIF'
 old_paths = list(glob(old_pattern))
 print('Found {} files'.format(len(old_paths)))
 

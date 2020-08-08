@@ -39,7 +39,7 @@ class TestReprojectLatlons:
             lons = [120.8]
             xs, ys = utils.reproject_latlons(lats, lons)
 
-    def test_both_projections_provided(self):
+    def test_epsg_wkt_equivalence(self):
         lats = [-10, 0, 1.43534, 10]
         lons = [-170, 0, -16.840, 100]
         epsg = WGS84_LATLON_EPSG
@@ -50,9 +50,13 @@ class TestReprojectLatlons:
         assert np.allclose(epsg_xs, wkt_xs)
         assert np.allclose(epsg_ys, wkt_ys)
 
-    def test_epsg_wkt_equivalence(self):
-        lats = [-10, 0, 10]
-        lons = [-170, 0, 100]
+    def test_only_one_projection_format_can_be_provided(self):
+        with pytest.raises(ValueError):
+            lats = [-10, 0, 10]
+            lons = [-170, 0, 100]
+            xs, ys = utils.reproject_latlons(
+                lats, lons, epsg=WGS84_LATLON_EPSG, wkt=WGS84_LATLON_WKT
+            )
 
 
 class TestBaseFloor:

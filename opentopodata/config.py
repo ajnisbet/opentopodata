@@ -11,7 +11,7 @@ from opentopodata import utils
 
 CONFIG_PATH = "config.yaml"
 EXAMPLE_CONFIG_PATH = "example-config.yaml"
-FILENAME_TILE_REGEX = r"^[NS]\d+[WE]\d+.*?$"
+FILENAME_TILE_REGEX = r"^.*?([NSns]\d+[WEwe]\d+).*?$"
 AUX_EXTENSIONS = [".tfw", ".aux", ".aux.xml", ".rdd", ".jpw", ".ovr"]
 
 DEFAULTS = {
@@ -202,7 +202,11 @@ class Dataset:
                 filename_tile_size=filename_tile_size,
             )
 
-        raise ConfigError("Unknown dataset type for '{}'.".format(name))
+        raise ConfigError(
+            "Unknown dataset type for '{}'. Dataset should either be a single file, or split up into tiles with the lower-left corner coordinate in the filename like 'N20W120'.".format(
+                name
+            )
+        )
 
     def location_paths(self, lats, lons):
         raise NotImplementedError
@@ -257,20 +261,23 @@ class TiledDataset(Dataset):
 
         # Build lookup from filename without extension to path.
         tile_filenames = [os.path.basename(p).split(".")[0] for p in tile_paths]
-        if len(tile_filenames) != len(set(tile_filenames)):
-            msg = "SRTM filenames must be unique,"
+        tile_names = [
+            re.match(FILENAME_TILE_REGEX, f).groups()[0].upper() for f in tile_filenames
+        ]
+        if len(tile_names) != len(set(tile_names)):
+            msg = "SRTM-type tile coords must be unique,"
             msg += " cannot be the same tile with different extensions."
             raise ConfigError(msg)
 
-        # Find if the filenames use fixed-width zerop padding.
-        ns = [re.search(r"[NS](\d+)[WE]", x)[1] for x in tile_filenames]
-        ew = [re.search(r"[WE](\d+)", x)[1] for x in tile_filenames]
+        # Find if the filenames use fixed-width zero padding.
+        ns = [re.search(r"[NS](\d+)[WE]", x)[1] for x in tile_names]
+        ew = [re.search(r"[WE](\d+)", x)[1] for x in tile_names]
         ns_lens = set(len(x) for x in ns)
         ew_lens = set(len(x) for x in ew)
         self.ns_fixed_width = ns_lens.pop() if len(ns_lens) == 1 else None
         self.ew_fixed_width = ew_lens.pop() if len(ew_lens) == 1 else None
 
-        self._tile_lookup = dict(zip(tile_filenames, tile_paths))
+        self._tile_lookup = dict(zip(tile_names, tile_paths))
 
     @classmethod
     def _location_to_tile_name(
