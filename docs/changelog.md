@@ -2,6 +2,10 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.2.4 (8 Aug 2020)
+* Support for more raster filename formats, as raised in issue [#8](https://github.com/ajnisbet/opentopodata/issues/8).
+
+
 ## Version 1.2.3 (31 July 2020)
 
 * Minor documentation fixes and dependency updates.
