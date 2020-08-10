@@ -608,6 +608,11 @@
     <span class="n">new_filename</span> <span class="o">=</span> <span class="n">old_filename</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">old_northing</span><span class="p">,</span> <span class="n">new_northing</span><span class="p">)</span>
     <span class="k">assert</span> <span class="n">new_northing</span> <span class="ow">in</span> <span class="n">new_filename</span>
 
+    <span class="c1"># Prevent new filename from overwriting old tiles.</span>
+    <span class="n">parts</span> <span class="o">=</span> <span class="n">new_filename</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+    <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;_renamed&#39;</span>
+    <span class="n">new_filename</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">)</span>
+
     <span class="c1"># Rename in place.</span>
     <span class="n">new_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">new_filename</span><span class="p">)</span>
     <span class="n">os</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">old_path</span><span class="p">,</span> <span class="n">new_path</span><span class="p">)</span>
