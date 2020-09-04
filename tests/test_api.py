@@ -14,6 +14,7 @@ GEOTIFF_PATH = "tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice_g_geot
 INTERPOLATION_METHODS = ["nearest", "bilinear", "cubic"]
 DEFAULT_INTERPOLATION_METHOD = "bilinear"
 TEST_CONFIG_PATH = "tests/data/configs/test-config.yaml"
+INVALID_CONFIG_PATH = "tests/data/configs/no-datasets.yaml"
 ETOPO1_DATASET_NAME = "etopo1deg"
 MAX_N_POINTS = 100
 
@@ -125,7 +126,7 @@ class TestGetDataset:
     def test_missing_dataset(self):
         with api.app.test_request_context():
             with pytest.raises(api.ClientError):
-                api._get_dataset("Invalid name")
+                api._get_dataset("Invalid dataset name")
 
 
 class TestGetElevation:
@@ -246,3 +247,30 @@ class TestGetHelpMessage:
             assert response.status_code == 404
             assert rjson["status"] == "INVALID_REQUEST"
             assert "error" in rjson
+
+    def test_trailing_slash_redirect(self):
+        url = "/v1"
+        response = self.test_api.get(url, follow_redirects=True)
+        rjson = response.json
+        assert response.status_code == 404
+        assert rjson["status"] == "INVALID_REQUEST"
+        assert "error" in rjson
+
+
+class TestGetHealthStatus:
+    test_api = api.app.test_client()
+
+    def test_healthy_response(self):
+        url = "/health"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+
+    def test_unhealthy_response(self):
+        with patch("opentopodata.config.CONFIG_PATH", INVALID_CONFIG_PATH):
+            url = "/health"
+            response = self.test_api.get(url)
+            rjson = response.json
+            assert response.status_code == 500
+            assert rjson["status"] == "SERVER_ERROR"
