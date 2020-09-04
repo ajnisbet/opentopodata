@@ -327,6 +327,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#get-health" class="md-nav__link">
+    GET /health
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response_1" class="md-nav__link">
+    Response
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
       
@@ -536,6 +563,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#get-health" class="md-nav__link">
+    GET /health
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#response_1" class="md-nav__link">
+    Response
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
       
       
       
@@ -557,7 +611,6 @@
                 
                 <h1 id="api-documentation">API Documentation</h1>
 <p>A public API is available for testing at <a href="https://api.opentopodata.org/v1/test-dataset">api.opentopodata.org</a>.</p>
-<p>Open Topo Data has a single endpoint.</p>
 <h2 id="get-v1ltdataset_namegt"><code>GET /v1/&lt;dataset_name&gt;</code></h2>
 <p>Reads the elevation from a given dataset. The dataset must match one of the options in <code>config.yaml</code>.</p>
 <p>Latitudes and longitudes should be in <code>EPSG:4326</code> (also known as WGS-84 format), they will be converted internally to whatever the dataset uses.</p>
@@ -607,6 +660,23 @@
     <span class="p">],</span>
     <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
 <span class="p">}</span>
+</pre></div>
+
+
+<hr />
+<h2 id="get-health"><code>GET /health</code></h2>
+<p>Healthcheck endpoint, for use with load balancing or monitoring.</p>
+<h3 id="response_1">Response</h3>
+<p>A json object.</p>
+<ul>
+<li><code>status</code>: Will be <code>OK</code> if the server is running and the config file can be loaded. Otherwise the value will be <code>SERVER_ERROR</code>.</li>
+</ul>
+<p>The status code is 200 if healthy, otherwise 500.</p>
+<h3 id="example_1">Example</h3>
+<p><code>GET</code> <a href="https://api.opentopodata.org/health">api.opentopodata.org/health</a></p>
+<div class="codehilite"><pre><span></span>{
+    &quot;status&quot;: &quot;OK&quot;
+}
 </pre></div>
                 
                   
