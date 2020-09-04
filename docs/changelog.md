@@ -2,7 +2,13 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.3.0 (4 Sep 2020)
+
+* Added `/health` endpoint.
+
+
 ## Version 1.2.4 (8 Aug 2020)
+
 * Support for more raster filename formats, as raised in issue [#8](https://github.com/ajnisbet/opentopodata/issues/8).
 
 
@@ -10,12 +16,12 @@ This is a list of changes to Open Topo Data between each release.
 
 * Minor documentation fixes and dependency updates.
 
+
 ## Version 1.2.2 (2 July 2020)
 
 * Documentation fixes.
 * I'm now using [pip-tools](https://github.com/jazzband/pip-tools) to manage python dependencies, and I'm really liking it. Exact dependency versions are now pinned, but it's easy to update them to the latest version.
 * Updated dependencies. 
-
 
 
 ## Version 1.2.1 (22 May 2020)

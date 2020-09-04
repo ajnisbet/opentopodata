@@ -2,7 +2,6 @@
 
 A public API is available for testing at [api.opentopodata.org](https://api.opentopodata.org/v1/test-dataset).
 
-Open Topo Data has a single endpoint.
 
 ## `GET /v1/<dataset_name>`
 
@@ -61,6 +60,33 @@ Some notes about the elevation value:
             }
         }
     ],
+    "status": "OK"
+}
+```
+
+---
+
+
+## `GET /health`
+
+
+Healthcheck endpoint, for use with load balancing or monitoring.
+
+
+### Response
+
+A json object.
+
+* `status`: Will be `OK` if the server is running and the config file can be loaded. Otherwise the value will be `SERVER_ERROR`.
+
+The status code is 200 if healthy, otherwise 500.
+
+### Example
+
+`GET` <a href="https://api.opentopodata.org/health">api.opentopodata.org/health</a>
+
+```
+{
     "status": "OK"
 }
 ```

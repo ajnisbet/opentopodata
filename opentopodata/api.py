@@ -259,6 +259,18 @@ def get_help_message(methods=["GET", "OPTIONS", "HEAD"]):
     return jsonify({"status": "INVALID_REQUEST", "error": msg}), 404
 
 
+@app.route("/health")
+def get_health_status(methods=["GET", "OPTIONS", "HEAD"]):
+    """Status endpoint for e.g., uptime check or load balancing."""
+    try:
+        _load_config()
+        data = {"status": "OK"}
+        return jsonify(data)
+    except Exception:
+        data = {"status": "SERVER_ERROR"}
+        return jsonify(data), 500
+
+
 @app.route("/v1/<dataset_name>", methods=["GET", "OPTIONS", "HEAD"])
 def get_elevation(dataset_name):
     """Calculate the elevation for the given locations.

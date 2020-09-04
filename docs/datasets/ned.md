@@ -93,6 +93,11 @@ for old_path in old_paths:
     new_filename = old_filename.replace(old_northing, new_northing)
     assert new_northing in new_filename
 
+    # Prevent new filename from overwriting old tiles.
+    parts = new_filename.split('.')
+    parts[0] = parts[0] + '_renamed'
+    new_filename = '.'.join(parts)
+
     # Rename in place.
     new_path = os.path.join(folder, new_filename)
     os.rename(old_path, new_path)
