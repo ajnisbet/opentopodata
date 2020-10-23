@@ -84,7 +84,7 @@ def _validate_cors(url):
 
 def load_config():
     """Read and validate config file.
-    
+
     Returns:
         config: dict of yaml file.
 
@@ -153,7 +153,7 @@ class Dataset(abc.ABC):
 
         Based on the filename format, the appropriate kind of Dataset will be
         initialised.
-    
+
         Args:
             name: String used in request url and as datasets dictionary key.
             path: String path to directory containing dataset.
@@ -260,7 +260,7 @@ class TiledDataset(Dataset):
             path: Path to folder containing SRTM files.
             tile_paths: List of individual raster file paths in the dataset.
             filename_epsg: Coordinate system of the filename.
-            filename_tile_size: Size of each tile, in the coordinate system units. Used for 
+            filename_tile_size: Size of each tile, in the coordinate system units. Used for
                 rounding down the location to get the corner. Assumed to have an offset from zero.
         """
         self.name = name
@@ -338,7 +338,7 @@ class TiledDataset(Dataset):
         lons = np.asarray(lons)
 
         # Convert to filename projection.
-        xs, ys, = utils.reproject_latlons(lats, lons, epsg=self.filename_epsg)
+        xs, ys = utils.reproject_latlons(lats, lons, epsg=self.filename_epsg)
 
         # Use to look up.
         filenames = self.__class__._location_to_tile_name(
