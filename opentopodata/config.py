@@ -1,5 +1,6 @@
 from glob import glob
 from urllib.parse import urlparse
+import abc
 import os
 import re
 import yaml
@@ -135,7 +136,7 @@ def load_datasets():
     return datasets
 
 
-class Dataset:
+class Dataset(abc.ABC):
     """Base class for Dataset.
 
     The elevation data could be split over multiple files. This class exists
@@ -208,8 +209,16 @@ class Dataset:
             )
         )
 
+    @abc.abstractmethod
     def location_paths(self, lats, lons):
-        raise NotImplementedError
+        """File corresponding to each location.
+
+        Args:
+            lats, lons: Lists of locations.
+
+        Returns:
+            List of filenames, same length as locations.
+        """
 
 
 class SingleFileDataset(Dataset):
