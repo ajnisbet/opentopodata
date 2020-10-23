@@ -271,8 +271,8 @@ def get_health_status(methods=["GET", "OPTIONS", "HEAD"]):
         return jsonify(data), 500
 
 
-@app.route("/v1/<dataset_name>", methods=["GET", "OPTIONS", "HEAD"])
-def get_elevation(dataset_name):
+@app.route("/v1/<dataset_name>")
+def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
     """Calculate the elevation for the given locations.
 
     Args:
