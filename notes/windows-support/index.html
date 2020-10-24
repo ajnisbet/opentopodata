@@ -40,7 +40,7 @@
     
     
       
-        <title>Windows Support - Open Topo Data</title>
+        <title>Windows support - Open Topo Data</title>
       
     
     
@@ -132,7 +132,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Windows Support
+                Windows support
               
             </span>
           
@@ -394,8 +394,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../datasets/emod2018/" title="EMOD Bathymetry" class="md-nav__link">
-      EMOD Bathymetry
+    <a href="../../datasets/emod2018/" title="EMOD bathymetry" class="md-nav__link">
+      EMOD bathymetry
     </a>
   </li>
 
@@ -406,8 +406,8 @@
 
 
   <li class="md-nav__item">
-    <a href="../../datasets/gebco2020/" title="GEBCO Bathymetry" class="md-nav__link">
-      GEBCO Bathymetry
+    <a href="../../datasets/gebco2020/" title="GEBCO bathymetry" class="md-nav__link">
+      GEBCO bathymetry
     </a>
   </li>
 
@@ -453,11 +453,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Windows Support
+        Windows support
       </label>
     
-    <a href="./" title="Windows Support" class="md-nav__link md-nav__link--active">
-      Windows Support
+    <a href="./" title="Windows support" class="md-nav__link md-nav__link--active">
+      Windows support
     </a>
     
       
@@ -519,6 +519,18 @@
   
 </nav>
     
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../cloud-storage/" title="Cloud storage" class="md-nav__link">
+      Cloud storage
+    </a>
   </li>
 
         
@@ -607,8 +619,8 @@
                   <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/notes/windows-support.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="running-open-topo-data-on-windows">Running Open Topo Data on windows</h1>
-<p>A few users have mentioned that the <a href="/server/">getting started</a> instructions don't work on Windows. This is difficult for me to debug without access Windows machine, but I beleive the instructions below will work.</p>
+                <h1 id="running-open-topo-data-on-windows">Running Open Topo Data on Windows</h1>
+<p>A few users have mentioned that the <a href="/server/">getting started</a> instructions don't work on Windows. This is difficult for me to debug without access Windows machine, but I believe the instructions below will work.</p>
 <h2 id="getting-started-on-windows">Getting started on Windows</h2>
 <p>Install <a href="https://hub.docker.com/editions/community/docker-ce-desktop-windows">docker</a> and <a href="https://git-scm.com/download/win">git</a>.</p>
 <p>Make sure docker is running. The command <code>docker ps</code> should print a (possibly empty) table of containers, rather than an error message.</p>
@@ -628,7 +640,7 @@
 
 
 <p>To run the server, instead of using <code>make run</code>, run with</p>
-<div class="codehilite"><pre><span></span>docker run --rm -it --volume ./data:/app/data:ro -p 5000:5000 opentopodata sh -c &quot;/usr/bin/supervisord -c /app/docker/supervisord.conf&quot;
+<div class="codehilite"><pre><span></span>docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p 5000:5000 opentopodata sh -c &quot;/usr/bin/supervisord -c /app/docker/supervisord.conf&quot;
 </pre></div>
 
 
@@ -684,7 +696,7 @@ docker: Error response from daemon: OCI runtime create failed: container_linux.g
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../../datasets/gebco2020/" title="GEBCO Bathymetry" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../../datasets/gebco2020/" title="GEBCO bathymetry" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -693,11 +705,25 @@ docker: Error response from daemon: OCI runtime create failed: container_linux.g
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                GEBCO Bathymetry
+                GEBCO bathymetry
               </span>
             </div>
           </a>
         
+        
+          <a href="../cloud-storage/" title="Cloud storage" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Cloud storage
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
         
       </nav>
     </div>
