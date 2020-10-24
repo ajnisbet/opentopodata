@@ -43,10 +43,10 @@ Rebuild to enable the new dataset at [localhost:5000/v1/mapzen](http://localhost
 make build && make run
 ```
 
-!!! note "Extra performance"
+!!! tip "Extra performance"
     `.hgt` files are extremely large. You'll get a large space reduction with little read penalty by converting to a compressed geotiff:
 
-    ```bash
+    ```
     gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgt_filename} {tif_filename}
     ```
 

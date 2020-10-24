@@ -58,7 +58,10 @@ class TestValidateCors:
         urls = [
             True,
             "True",
-            "example.com" "http://example.com/some-page",
+            "",
+            "https://",
+            "example.com",
+            "http://example.com/some-page",
             "http://1.example.com/ http://1.example.com/",
             ["http://1.example.com/", "http://1.example.com/"],
             "http://1.example.com/, http://1.example.com/",

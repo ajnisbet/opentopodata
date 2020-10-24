@@ -235,6 +235,15 @@ class TestGetElevation:
         assert len(rjson["results"]) == 1
         assert rjson["results"][0]["elevation"] is None
 
+    def test_config_error(self):
+        with patch("opentopodata.config.CONFIG_PATH", INVALID_CONFIG_PATH):
+            url = "/v1/srtm90subset?locations=50,100"
+            response = self.test_api.get(url)
+            rjson = response.json
+            assert response.status_code == 500
+            assert rjson["status"] == "SERVER_ERROR"
+            assert "config" in rjson["error"].lower()
+
 
 class TestGetHelpMessage:
     test_api = api.app.test_client()

@@ -14,6 +14,10 @@ make run
 
 This will start a server on `localhost:5000` with a small demo dataset called `test-dataset`. Check out the [API docs](api.md) for info about the format of requests and responses.
 
+!!! warning "Windows support"
+    The process for running the server on Windows is a bit different, see [this note on windows support](notes/windows-support.md) for details.
+
+
 ## Dataset support
 
 Open Topo Data supports all georeferenced raster formats supported by GDAL (e.g, `.tiff`, `.hgt`, `.jp2`).
