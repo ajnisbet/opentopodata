@@ -24,6 +24,8 @@ nav:
       - SRTM: 'datasets/srtm.md'
       - EMOD Bathymetry: 'datasets/emod2018.md'
       - GEBCO Bathymetry: 'datasets/gebco2020.md'
+    - Notes:
+      - Windows Support: 'notes/windows-support.md'
 
 extra_javascript:
   - js/extra.js
