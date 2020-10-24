@@ -4,8 +4,9 @@ This is a list of changes to Open Topo Data between each release.
 
 ## Version 1.3.1 (23 Oct 2020)
 
+* Improved code style and test coverage.
+* Updated dependencies.
 * Documentation for running on Windows.
-* Code style and test coverage improvements.
 
 
 

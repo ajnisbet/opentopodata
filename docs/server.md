@@ -14,8 +14,19 @@ make run
 
 This will start a server on `localhost:5000` with a small demo dataset called `test-dataset`. Check out the [API docs](api.md) for info about the format of requests and responses.
 
-!!! warning "Windows support"
-    The process for running the server on Windows is a bit different, see [this note on windows support](notes/windows-support.md) for details.
+
+## Getting started on Windows
+
+On Windows you'll probably need to run the build and run commands without make:
+
+```bash
+git clone https://github.com/ajnisbet/opentopodata.git
+cd opentopodata
+docker build --tag opentopodata --file docker/Dockerfile . 
+docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p 5000:5000 opentopodata sh -c "/usr/bin/supervisord -c /app/docker/supervisord.conf"
+```
+
+For more details see [this note on windows support](notes/windows-support.md).
 
 
 ## Dataset support
@@ -78,7 +89,7 @@ which would expose `localhost:5000/v1/etopo1` and `localhost:5000/v1/srtm90m`.
 * `access_control_allow_origin`: Value for the `Access-Control-Allow-Origin` CORS header. Set to `*` or a domain to allow in-browser requests from a different origin. Set to `null` to send no `Access-Control-Allow-Origin` header. Default: `null`.
 * `datasets[].name`: Dataset name, used in url. Required.
 * `datasets[].path`: Path to folder containing the dataset. If the dataset is a single file it must be placed inside a folder. This path is relative to the repository directory inside docker. I suggest placing datasets inside the provided `data` folder, which is mounted in docker by `make run`. Files can be nested arbitrarily inside the dataset path. Required.
-* `datasets[].filename_epsg`: For tiled datasets, the projection of the filename coordinates. The default value is `4326`, which is latitude/longitude with the WGS84 datum.
+* `datasets[].filename_epsg`: For tiled datasets, the projection of the filename coordinates. The default value is `4326`, which is latitude/longitude with the [WGS84 datum](https://spatialreference.org/ref/epsg/wgs-84/).
 * `datasets[].filename_tile_size`: For tiled datasets, how large each square tile is, in the units of `filename_epsg`. For example, a lat,lon location of `38.2,121.2` would lie in the tile `N38W121` for a tile size of 1, but lie in `N35W120` for a tile size of 5. Default: `1`.
 
 
@@ -107,7 +118,5 @@ Instructions are provided for adding the various datasets used in the public API
 * [GEBCO Bathymetry](datasets/gebco2020.md)
 
 
-## Windows support
 
-Unfortunately I don't have access to a Windows machine, to can't promise support on Windows. Some users have had issues getting the docker image to run: if this happens to you, it should be possible to run Open Topo Data outside of docker, provided all the dependencies in [requirements.txt](https://github.com/ajnisbet/opentopodata/blob/master/requirements.txt) and [Dockerfile](https://github.com/ajnisbet/opentopodata/blob/master/docker/Dockerfile) are installed.
 
