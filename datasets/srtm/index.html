@@ -485,6 +485,42 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Notes
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Notes
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notes/windows-support/" title="Windows Support" class="md-nav__link">
+      Windows Support
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -591,11 +627,10 @@
 </pre></div>
 
 
-<div class="admonition note">
+<div class="admonition tip">
 <p class="admonition-title">Extra performance</p>
 <p><code>.hgt.zip</code> files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:</p>
-<p><code>bash
-gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}</code></p>
+<p><code>gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}</code></p>
 </div>
 <h2 id="adding-90m-srtm-to-open-topo-data">Adding 90m SRTM to Open Topo Data</h2>
 <p>The process is the same as for 30m. The dataset is hosted on USGS <a href="https://e4ftl01.cr.usgs.gov/MEASURES/SRTMGL3.003/2000.02.11/">here</a>, and a list of the tile urls is here: <a href="/datasets/srtm90m_urls.txt">srtm90m_urls.txt</a>.</p>

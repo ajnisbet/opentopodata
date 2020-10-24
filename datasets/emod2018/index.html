@@ -471,6 +471,42 @@
   </li>
 
     
+      
+      
+      
+
+
+  <li class="md-nav__item md-nav__item--nested">
+    
+      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+    <label class="md-nav__link" for="nav-6">
+      Notes
+    </label>
+    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+      <label class="md-nav__title" for="nav-6">
+        Notes
+      </label>
+      <ul class="md-nav__list" data-md-scrollfix>
+        
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notes/windows-support/" title="Windows Support" class="md-nav__link">
+      Windows Support
+    </a>
+  </li>
+
+        
+      </ul>
+    </nav>
+  </li>
+
+    
   </ul>
 </nav>
                   </div>
@@ -575,11 +611,10 @@ gdalbuildvrt -co <span class="nv">VRT_SHARED_SOURCE</span><span class="o">=</spa
 </pre></div>
 
 
-<div class="admonition note">
+<div class="admonition tip">
 <p class="admonition-title">Extra performance</p>
 <p><code>.asc</code> files take up a lot of disk space and are slow for random reads. Consider converting to a compressed geotiff:</p>
-<p><code>bash
-gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {asc_filename} {tif_filename}</code></p>
+<p><code>gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {asc_filename} {tif_filename}</code></p>
 </div>
 <h2 id="public-api">Public API</h2>
 <p>The Open Topo Data public API lets you query NED 10m for free:</p>
