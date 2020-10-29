@@ -45,14 +45,14 @@ make build && make run
 The Open Topo Data public API lets you query ASTER GDEM 30m for free:
 
 ```
-curl https://api.opentopodata.org/v1/srtm30m?locations=57.688709,11.976404
+curl https://api.opentopodata.org/v1/aster30m?locations=57.688709,11.976404
 ```
 
 ```json
 {
   "results": [
     {
-      "elevation": 55.0, 
+      "elevation": 45.0, 
       "location": {
         "lat": 57.688709, 
         "lng": 11.976404
