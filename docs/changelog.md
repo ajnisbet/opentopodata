@@ -2,6 +2,11 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.4.0 (9 Nov 2020)
+
+* Fixes bug [#13](https://github.com/ajnisbet/opentopodata/issues/13) where responses could return invalid json. This changes the NODATA value from `NaN` to `null`. The old behaviour can be enabled by sending a `nodata_value=nan` query parameter.
+* Small dependency updates.
+
 ## Version 1.3.1 (23 Oct 2020)
 
 * Improved code style and test coverage.
