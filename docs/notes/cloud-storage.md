@@ -48,7 +48,7 @@ This is the simplest set and forget way to point Open Topo Data at a dataset liv
 
 You could do the mounting above inside the docker container, for example by building on the Open Topo Data docker image to add e.g. rclone as a dependency and do the actual mounting.
 
-This lets you mount your cloud dataset without modifying the host. However, getting fuse to work inside a docker container can be [tricky](https://stackoverflow.com/questions/48402218/fuse-inside-docker), and you may not have permissions to do this on some platforms.
+This lets you mount your cloud dataset without modifying the host. However, getting fuse to work inside a docker container can be [tricky](https://stackoverflow.com/questions/48402218/fuse-inside-docker), and you may not have permissions to do this on some platforms (though it seems [possible on GCE](https://mtlynch.io/retrofit-docker-gcs/)).
 
 
 ## Building a VRT
