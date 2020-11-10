@@ -22,10 +22,11 @@ nav:
       - NED: 'datasets/ned.md'
       - NZ DEM: datasets/nzdem.md
       - SRTM: 'datasets/srtm.md'
-      - EMOD Bathymetry: 'datasets/emod2018.md'
-      - GEBCO Bathymetry: 'datasets/gebco2020.md'
+      - EMOD bathymetry: 'datasets/emod2018.md'
+      - GEBCO bathymetry: 'datasets/gebco2020.md'
     - Notes:
-      - Windows Support: 'notes/windows-support.md'
+      - Windows support: 'notes/windows-support.md'
+      - Cloud storage: 'notes/cloud-storage.md'
 
 extra_javascript:
   - js/extra.js

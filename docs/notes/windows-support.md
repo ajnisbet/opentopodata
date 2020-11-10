@@ -1,6 +1,6 @@
-# Running Open Topo Data on windows
+# Running Open Topo Data on Windows
 
-A few users have mentioned that the [getting started](/server/) instructions don't work on Windows. This is difficult for me to debug without access Windows machine, but I beleive the instructions below will work.
+A few users have mentioned that the [getting started](/server/) instructions don't work on Windows. This is difficult for me to debug without access Windows machine, but I believe the instructions below will work.
 
 ## Getting started on Windows
 
@@ -24,13 +24,13 @@ cd opentopodata
 To build the docker image, instead of using of `make build`, build with 
 
 ```bash
-docker build --tag opentopodata --file docker/Dockerfile . 
+docker build --tag opentopodata --file docker/Dockerfile .
 ```
 
 To run the server, instead of using `make run`, run with
 
 ```
-docker run --rm -it --volume ./data:/app/data:ro -p 5000:5000 opentopodata sh -c "/usr/bin/supervisord -c /app/docker/supervisord.conf"
+docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p 5000:5000 opentopodata sh -c "/usr/bin/supervisord -c /app/docker/supervisord.conf"
 ```
 
 

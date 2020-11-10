@@ -1,13 +1,14 @@
+import math
+
 import pytest
 from flask_caching import Cache
+import rasterio
+from unittest.mock import patch
+import numpy as np
 
 from opentopodata import api
 from opentopodata import backend
 from opentopodata import config
-
-from unittest.mock import patch
-import rasterio
-import numpy as np
 
 
 GEOTIFF_PATH = "tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice_g_geotiff.resampled-1deg.tif"
@@ -39,13 +40,46 @@ class TestCORS:
         assert response.headers.get("access-control-allow-origin") == "*"
 
 
-class TestValidateInterpolation:
+class TestParseInterpolation:
     def test_default_interpolation_is_valid(self):
-        api._validate_interpolation(api.DEFAULT_INTERPOLATION_METHOD)
+        assert (
+            api._parse_interpolation(api.DEFAULT_INTERPOLATION_METHOD)
+            == api.DEFAULT_INTERPOLATION_METHOD
+        )
 
     def test_supported_methods_are_valid(self):
         for method in backend.INTERPOLATION_METHODS.keys():
-            api._validate_interpolation(method)
+            assert api._parse_interpolation(method) == method
+
+    def test_default(self):
+        assert api._parse_interpolation(None) == api.DEFAULT_INTERPOLATION_METHOD
+
+    def test_non_numeric(self):
+        with pytest.raises(api.ClientError):
+            api._parse_interpolation("Non numeric string")
+
+
+class TestParseNodataValue:
+    def test_default_value(self):
+        assert api._parse_nodata_value(None) == api._parse_nodata_value(
+            api.DEFAULT_NODATA_VALUE
+        )
+
+    def test_null(self):
+        assert api._parse_nodata_value("null") is None
+
+    def test_nan(self):
+        for x in ["NaN", "nan"]:
+            assert math.isnan(api._parse_nodata_value(x))
+
+    def test_ints(self):
+        assert api._parse_nodata_value("-9999") == -9999
+        assert api._parse_nodata_value("0") == 0
+        assert api._parse_nodata_value("1") == 1
+
+    def test_non_numeric(self):
+        with pytest.raises(api.ClientError):
+            api._parse_nodata_value("Non numeric string")
 
 
 class TestParseLocations:
@@ -217,14 +251,42 @@ class TestGetElevation:
         assert rjson["status"] == "OK"
         assert len(rjson["results"]) == 1
 
-    def test_nan_in_json(self, patch_config):
+    def test_default_nodata(self, patch_config):
         url = "/v1/nodata?locations=0,1"
         response = self.test_api.get(url)
         rjson = response.json
         assert response.status_code == 200
         assert rjson["status"] == "OK"
         assert len(rjson["results"]) == 1
+        assert rjson["results"][0]["elevation"] is None
+
+    def test_null_nodata(self, patch_config):
+        url = "/v1/nodata?locations=0,1&nodata_value=null"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert len(rjson["results"]) == 1
+        assert rjson["results"][0]["elevation"] is None
+        assert "null" in response.get_data(as_text=True)
+
+    def test_nan_nodata(self, patch_config):
+        url = "/v1/nodata?locations=0,1&nodata_value=nan"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert len(rjson["results"]) == 1
         assert np.isnan(rjson["results"][0]["elevation"])
+
+    def test_int_nodata(self, patch_config):
+        url = "/v1/nodata?locations=0,1&nodata_value=-9999"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert len(rjson["results"]) == 1
+        assert rjson["results"][0]["elevation"] == -9999
 
     def test_null_in_json(self, patch_config):
         url = "/v1/srtm90subset?locations=50,100"

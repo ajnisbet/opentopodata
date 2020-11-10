@@ -71,3 +71,38 @@ class TestBaseFloor:
 
     def test_negative_value(self):
         assert utils.base_floor(-5.1, 5) == -10
+
+
+class TestSafeIsNan:
+    def test_numpy_nan(self):
+        assert utils.safe_is_nan(np.nan) == True
+
+    def test_python_nan(self):
+        assert utils.safe_is_nan(float("nan")) == True
+
+    def test_float(self):
+        assert utils.safe_is_nan(12.5) == False
+
+    def test_int(self):
+        assert utils.safe_is_nan(-99999) == False
+
+    def test_none(self):
+        assert utils.safe_is_nan(None) == False
+
+    def test_non_numeric(self):
+        assert utils.safe_is_nan("some string") == False
+
+    def test_string(self):
+        assert utils.safe_is_nan("nan") == False
+
+
+class TestFillNa:
+    def test_no_replacement(self):
+        a = [-12.5, None, 9, "string", True, False, 0, 1, "NaN"]
+        assert a == utils.fill_na(a, "na_value")
+
+    def test_replacement(self):
+        na_value = -9999
+        values = [np.nan, float("nan"), 0]
+        replaced_values = [na_value, na_value, 0]
+        assert utils.fill_na(values, na_value) == replaced_values

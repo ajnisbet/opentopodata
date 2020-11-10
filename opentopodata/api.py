@@ -5,13 +5,14 @@ from flask import Flask, jsonify, request
 from flask_caching import Cache
 import polyline
 
-from opentopodata import backend, config
+from opentopodata import backend, config, utils
 
 
 app = Flask(__name__)
 app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
 
 DEFAULT_INTERPOLATION_METHOD = "bilinear"
+DEFAULT_NODATA_VALUE = "null"
 MEMCACHED_SOCKET = "/tmp/memcached.sock"
 LAT_MIN = -90
 LAT_MAX = 90
@@ -72,22 +73,73 @@ class ClientError(ValueError):
     pass
 
 
-def _validate_interpolation(method):
+def _parse_interpolation(method):
     """Check the interpolation method is supported.
 
     Args:
-        method: Name of the interpolation method.
+        method: Name of the interpolation method, or None for default.
+
+    Returns:
+        method: A valid interpolation method.
 
     Raises:
         ClientError: Method is not supported.
     """
 
+    if not method:
+        method = DEFAULT_INTERPOLATION_METHOD
+
     if method not in backend.INTERPOLATION_METHODS:
-        msg = f"Invalid interpolation method '{method}' not recognized."
-        msg += " Valid interpolation methods: "
+        msg = f"Invalid interpolation method '{method}'."
+        msg += " The valid interpolation methods are: "
         msg += ", ".join(backend.INTERPOLATION_METHODS.keys()) + "."
         raise ClientError(msg)
+
     return method
+
+
+def _parse_nodata_value(nodata_value):
+    """Check the nodata replacement value is valid.
+
+    Must be 'null', 'nan', or a string of an integer.
+
+    I'm not currently allowing floats for now. Parsing them has a lot of
+    edgecases in Python (https://stackoverflow.com/a/20929983/2446304) and
+    it's probably a bad idea to use floats as special values.
+
+
+    Args:
+        nodata_value: String value for nodata, or None for default.
+
+    Returns:
+        A valid NODATA replacement value.
+
+    Raises:
+        ClientError: Provided NODATA replacement value isn't supported.
+    """
+    if nodata_value is None:
+        nodata_value = DEFAULT_NODATA_VALUE
+
+    # A Python None is represented as null in json.
+    if nodata_value == "null":
+        return None
+
+    # NaN isn't a valid value in json, but it's supported by some packages
+    # (including Python), and is allowed here for backwards compatibility.
+    if nodata_value.lower() == "nan":
+        return float("NaN")
+
+    # Integers are properly supported in json.
+    try:
+        int_value = int(nodata_value)
+        return int_value
+    except ValueError:
+        pass
+
+    # Invalid value.
+    msg = f"Invalid nodata value '{nodata_value}'."
+    msg += " Valid nodata values are 'null', 'nan', or an integer."
+    raise ClientError(msg)
 
 
 def _parse_locations(locations, max_n_locations):
@@ -284,16 +336,16 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
 
     try:
         # Parse inputs.
-        interpolation = request.args.get("interpolation", DEFAULT_INTERPOLATION_METHOD)
-        interpolation = _validate_interpolation(interpolation)
-        locations = request.args.get("locations")
+        interpolation = _parse_interpolation(request.args.get("interpolation"))
+        nodata_value = _parse_nodata_value(request.args.get("nodata_value"))
         lats, lons = _parse_locations(
-            locations, _load_config()["max_locations_per_request"]
+            request.args.get("locations"), _load_config()["max_locations_per_request"]
         )
 
         # Get the z values.
         dataset = _get_dataset(dataset_name)
         elevations = backend.get_elevation(lats, lons, dataset, interpolation)
+        elevations = utils.fill_na(elevations, nodata_value)
 
         # Build response.
         results = []
