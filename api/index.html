@@ -670,6 +670,11 @@
 </ul>
 </li>
 <li><code>interpolation</code>: How to interpolate between the points in the dataset. Options: <code>nearest</code>, <code>bilinear</code>, <code>cubic</code>. Default: <code>bilinear</code>.</li>
+<li><code>nodata_value</code>: What elevation to return if the dataset has a <a href="https://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/nodata-in-raster-datasets.htm">NODATA</a> value at the requested location. Options: <code>null</code>, <code>nan</code>, or an integer like <code>-9999</code>. Default: <code>null</code>.<ul>
+<li>The default option <code>null</code> makes NODATA indestiguisable from a location outside the dataset bounds. </li>
+<li><code>NaN</code> (not a number) values aren't valid in json and will break some clients. The <code>nan</code> option was default before version 1.4 and is provided only for backwards compatibility. </li>
+</ul>
+</li>
 </ul>
 <h3 id="response">Response</h3>
 <p>A json object, compatible with the Google Maps Elevation API.</p>
@@ -677,15 +682,15 @@
 <li><code>status</code>: Will be <code>OK</code> for a successful request, <code>INVALID_REQUEST</code> for an input (4xx) error, and <code>SERVER_ERROR</code> for anything else (5xx). Required.</li>
 <li><code>error</code>: Description of what went wrong, when <code>status</code> isn't <code>OK</code>.</li>
 <li><code>results</code>: List of elevations for each location, in same order as input. Only provided for <code>OK</code> status.</li>
-<li><code>results[].elevation</code>: Elevation, using units and datum from the dataset. May be <code>NaN</code> if the dataset has a NODATA value at the given location. May be <code>null</code> if the given location is outside the dataset bounds.</li>
+<li><code>results[].elevation</code>: Elevation, using units and datum from the dataset. May be <code>null</code> if the given location is outside the dataset bounds. May be <code>null</code> for NODATA values depending on the <code>nodata_value</code> query argument.</li>
 <li><code>results[].location.lat</code>: Latitude as parsed by Open Topo Data.</li>
 <li><code>results[].location.lng</code>: Longitude as parsed by Open Topo Data.</li>
 </ul>
 <p>Some notes about the elevation value:</p>
 <ul>
 <li>If the raster has an integer data type, the interpolated elevation will be rounded to the nearest integer. This is a limitation of rasterio/gdal.</li>
-<li>If the raster has a NODATA value at the request location, Open Topo Data will return <code>NaN</code>.</li>
 <li>If the request location isn't covered by any raster in the dataset, Open Topo Data will return <code>null</code>.</li>
+<li>Unless the <code>nodata_value</code> parameter is set, a <code>null</code> elevation could either mean the location is outside the dataset bounds, or a NODATA within the raster bounds. </li>
 </ul>
 <h3 id="example">Example</h3>
 <p><code>GET</code> <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&amp;interpolation=cubic</a></p>
