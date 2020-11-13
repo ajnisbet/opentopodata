@@ -528,6 +528,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../../notes/invalid-srtm-zips/" title="Invalid SRTM zips" class="md-nav__link">
+      Invalid SRTM zips
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -643,6 +655,10 @@
 <p class="admonition-title">Extra performance</p>
 <p><code>.hgt.zip</code> files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:</p>
 <p><code>gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}</code></p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Unsupported file format</p>
+<p>If you're leaving the tiles in <code>.hgt.zip</code> format, be aware that 16 of the files are not able to be read by gdal. There are instructions for <a href="../../notes/invalid-srtm-zips/">fixing those zip files</a>.</p>
 </div>
 <h2 id="adding-90m-srtm-to-open-topo-data">Adding 90m SRTM to Open Topo Data</h2>
 <p>The process is the same as for 30m. The dataset is hosted on USGS <a href="https://e4ftl01.cr.usgs.gov/MEASURES/SRTMGL3.003/2000.02.11/">here</a>, and a list of the tile urls is here: <a href="/datasets/srtm90m_urls.txt">srtm90m_urls.txt</a>.</p>
