@@ -48,12 +48,19 @@ Rebuild to enable the new dataset at [localhost:5000/v1/srtm30m](http://localhos
 make build && make run
 ```
 
+
+
 !!! tip "Extra performance"
     `.hgt.zip` files are extremely slow for random reads. I got a 10x read speedup and a 10% size reduction from converting to a compressed geotiff:
 
     ```
     gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {hgtzip_filename} {tif_filename}
     ```
+
+
+!!! warning "Unsupported file format"
+    If you're leaving the tiles in `.hgt.zip` format, be aware that 16 of the files are not able to be read by gdal. There are instructions for [fixing those zip files](../notes/invalid-srtm-zips.md).
+
 
 ## Adding 90m SRTM to Open Topo Data
 
