@@ -2,7 +2,7 @@
 
 
 
-Open Topo Data is a REST API server for your elevation data. 
+Open Topo Data is a REST API server for your elevation data.
 
 
 ```
@@ -40,10 +40,10 @@ make build
 make run
 ```
 
-This will start an Open Topo Data server on `http://localhost:5000/`. 
+This will start an Open Topo Data server on `http://localhost:5000/`.
 
 
-Open Topo Data supports a wide range of raster file formats and tiling schemes, including most of those used by popular open elevation datasets. See the [server docs](https://www.opentopodata.org/server.md) for more about configuration and adding datasets.
+Open Topo Data supports a wide range of raster file formats and tiling schemes, including most of those used by popular open elevation datasets. See the [server docs](https://www.opentopodata.org/server/) for more about configuration and adding datasets.
 
 
 
@@ -72,13 +72,13 @@ curl http://localhost:5000/v1/test-dataset?locations=56,123
 The interpolation algorithm used can be configured as a request parameter, and locations can also be provided in Google Polyline format.
 
 
-See the [API docs](https://www.opentopodata.org/api.md) for more about request and response formats.
+See the [API docs](https://www.opentopodata.org/api/) for more about request and response formats.
 
 
 
 ## Public API
 
-I'm hosting a free public API at [api.opentopodata.org](https://api.opentopodata.org). 
+I'm hosting a free public API at [api.opentopodata.org](https://api.opentopodata.org).
 
 
 ```
@@ -89,13 +89,13 @@ curl https://api.opentopodata.org/v1/srtm30m?locations=57.688709,11.976404
 {
   "results": [
     {
-      "elevation": 55.0, 
+      "elevation": 55.0,
       "location": {
-        "lat": 57.688709, 
+        "lat": 57.688709,
         "lng": 11.976404
       }
     }
-  ], 
+  ],
   "status": "OK"
 }
 ```
@@ -122,7 +122,3 @@ The following datasets are available on the public API:
 ## Support
 
 Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
-
-
-
-
