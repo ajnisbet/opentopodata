@@ -627,13 +627,13 @@
 <p style="text-align:center; padding: 1rem 0">
   <img src="/img/eudem.jpg" alt="EU-DEM elevation">
   <br>
-  <em>Render of ETOPO1 elevation.</em>
+  <em>Render of EU-DEM elevation.</em>
 </p>
 
 <h2 id="accuracy">Accuracy</h2>
 <p>The stated vertical accuracy is ± 7m RMSE. Differences to SRTM and ASTER typically fall within this 7m range even with the datasets using slightly different vertical datums. Elevations for <a href="https://www.google.com/maps/place/46%C2%B014'33.2%22N+6%C2%B010'32.1%22E/@46.2374461,6.1073519,12z/">Lake Geneva, Switzerland</a> are <a href="https://api.opentopodata.org/v1/srtm30m?locations=46.242557,206.175588">370m</a>, <a href="https://api.opentopodata.org/v1/aster30m?locations=46.242557,206.175588">374m</a>, and <a href="https://api.opentopodata.org/v1/eudem25m?locations=46.242557,206.175588">372m</a> for SRTM, ASTER, and EU-DEM respectively.</p>
 <h2 id="coastline">Coastline</h2>
-<p>EU-DEM uses <code>NODATA</code> values for elevations over seas and oceans, where both ASTER and SRTM assign these areas an elevation of 0m. This means that Open Topo Data isn't able to interpolate elevations for locations very close to the coast and will return a value of <code>NaN</code> in places where SRTM and ASTER might return a 0m or 1m elevation. </p>
+<p>EU-DEM uses <code>NODATA</code> values for elevations over seas and oceans, where both ASTER and SRTM assign these areas an elevation of 0m. This means that Open Topo Data isn't able to interpolate elevations for locations very close to the coast and will return a value of <code>NaN</code> in places where SRTM and ASTER might return a 0m or 1m elevation.</p>
 <p>The advantage of the <code>NODATA</code> oceans is that you cane use EU-DEM without clipping to a coastline shapefile.</p>
 <h2 id="adding-eu-dem-to-open-topo-data">Adding EU-DEM to Open Topo Data</h2>
 <p>Make a new folder for the dataset:</p>
@@ -641,7 +641,7 @@
 </pre></div>
 
 
-<p>Download the dataset from <a href="https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1?tab=download">Copernicus</a>. There are 27 files. Unzip them and move all the <code>.TIF</code> files into the data folder (you don't need the <code>.aux.xml</code>, <code>.ovr</code>, or <code>.TFw</code> files). </p>
+<p>Download the dataset from <a href="https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1?tab=download">Copernicus</a>. There are 27 files. Unzip them and move all the <code>.TIF</code> files into the data folder (you don't need the <code>.aux.xml</code>, <code>.ovr</code>, or <code>.TFw</code> files).</p>
 <p>Your data folder should now contain only 27 TIF files:</p>
 <div class="codehilite"><pre><span></span>ls ./data/eudem
 
@@ -737,13 +737,13 @@ N5000000E5000000.tif
 <div class="codehilite"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">54.576168060302734</span><span class="p">,</span> 
+      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">54.576168060302734</span><span class="p">,</span>
       <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">57.688709</span><span class="p">,</span> 
+        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">57.688709</span><span class="p">,</span>
         <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">11.976404</span>
       <span class="p">}</span>
     <span class="p">}</span>
-  <span class="p">],</span> 
+  <span class="p">],</span>
   <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
 <span class="p">}</span>
 </pre></div>
