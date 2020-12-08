@@ -102,15 +102,15 @@ curl https://api.opentopodata.org/v1/srtm30m?locations=57.688709,11.976404
 
 The following datasets are available on the public API:
 
-* [ASTER](https://www.opentopodata.org/datasets/aster.md)
-* [ETOPO1](https://www.opentopodata.org/datasets/etopo1.md)
-* [EU-DEM](https://www.opentopodata.org/datasets/eudem.md)
-* [Mapzen](https://www.opentopodata.org/datasets/mapzen.md)
-* [NED 10m](https://www.opentopodata.org/datasets/ned.md)
-* [NZ DEM](https://www.opentopodata.org/datasets/nzdem.m)
-* [SRTM (30m or 90m)](https://www.opentopodata.org/datasets/srtm.md)
-* [EMOD Bathymetry](https://www.opentopodata.org/datasets/emod2018.md)
-* [GEBCO Bathymetry](https://www.opentopodata.org/datasets/gebco2020.md)
+* [ASTER](https://www.opentopodata.org/datasets/aster/)
+* [ETOPO1](https://www.opentopodata.org/datasets/etopo1/)
+* [EU-DEM](https://www.opentopodata.org/datasets/eudem/)
+* [Mapzen](https://www.opentopodata.org/datasets/mapzen/)
+* [NED 10m](https://www.opentopodata.org/datasets/ned/)
+* [NZ DEM](https://www.opentopodata.org/datasets/nzdem/)
+* [SRTM (30m or 90m)](https://www.opentopodata.org/datasets/srtm/)
+* [EMOD Bathymetry](https://www.opentopodata.org/datasets/emod2018/)
+* [GEBCO Bathymetry](https://www.opentopodata.org/datasets/gebco2020/)
 
 
 
