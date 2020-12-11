@@ -47,9 +47,13 @@ def _load_config():
     return config.load_config()
 
 
-# Supporting CORSs enables browsers to make XHR requests.
 @app.after_request
 def apply_cors(response):
+    """Set CORs header.
+
+    Supporting CORSs enables browsers to make XHR requests. Applies the value
+    of the access_control_allow_origin config option.
+    """
     try:
         if _load_config()["access_control_allow_origin"]:
             response.headers["access-control-allow-origin"] = _load_config()[
@@ -69,8 +73,6 @@ class ClientError(ValueError):
     A 400 error should be raised. The error message should be safe to pass
     back to the client.
     """
-
-    pass
 
 
 def _parse_interpolation(method):

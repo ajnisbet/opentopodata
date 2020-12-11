@@ -1,8 +1,4 @@
-from glob import glob
 import collections
-import math
-import os
-import re
 
 from rasterio.enums import Resampling
 import numpy as np
@@ -28,8 +24,6 @@ class InputError(ValueError):
 
     The error message should be safe to pass back to the client.
     """
-
-    pass
 
 
 def _noop(x):

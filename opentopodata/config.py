@@ -203,11 +203,10 @@ class Dataset(abc.ABC):
                 filename_tile_size=filename_tile_size,
             )
 
-        raise ConfigError(
-            "Unknown dataset type for '{}'. Dataset should either be a single file, or split up into tiles with the lower-left corner coordinate in the filename like 'N20W120'.".format(
-                name
-            )
-        )
+        # Unable to identify dataset type.
+        msg = f"Unknown dataset type for '{name}'. Dataset should either be a single file,"
+        msg += " or split into tiles with the lower-left corner coord in the filename like 'N20W120'."
+        raise ConfigError(msg)
 
     @abc.abstractmethod
     def location_paths(self, lats, lons):

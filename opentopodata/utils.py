@@ -39,6 +39,7 @@ def reproject_latlons(lats, lons, epsg=None, wkt=None):
 
 
 def base_floor(x, base=1):
+    """Round number down no nearest multiple of base."""
     return base * np.floor(x / base)
 
 
