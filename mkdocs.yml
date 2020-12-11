@@ -27,6 +27,8 @@ nav:
     - Notes:
       - Windows support: 'notes/windows-support.md'
       - Cloud storage: 'notes/cloud-storage.md'
+      - Invalid SRTM zips: 'notes/invalid-srtm-zips.md'
+      - Dataset sizes: 'notes/dataset-sizes.md'
 
 extra_javascript:
   - js/extra.js

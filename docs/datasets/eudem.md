@@ -13,7 +13,7 @@ The dataset covers European Environment Agency member states, plus some countrie
 <p style="text-align:center; padding: 1rem 0">
   <img src="/img/eudem.jpg" alt="EU-DEM elevation">
   <br>
-  <em>Render of ETOPO1 elevation.</em>
+  <em>Render of EU-DEM elevation.</em>
 </p>
 
 ## Accuracy
@@ -23,7 +23,7 @@ The stated vertical accuracy is ± 7m RMSE. Differences to SRTM and ASTER typica
 
 ## Coastline
 
-EU-DEM uses `NODATA` values for elevations over seas and oceans, where both ASTER and SRTM assign these areas an elevation of 0m. This means that Open Topo Data isn't able to interpolate elevations for locations very close to the coast and will return a value of `NaN` in places where SRTM and ASTER might return a 0m or 1m elevation. 
+EU-DEM uses `NODATA` values for elevations over seas and oceans, where both ASTER and SRTM assign these areas an elevation of 0m. This means that Open Topo Data isn't able to interpolate elevations for locations very close to the coast and will return a value of `NaN` in places where SRTM and ASTER might return a 0m or 1m elevation.
 
 The advantage of the `NODATA` oceans is that you cane use EU-DEM without clipping to a coastline shapefile.
 
@@ -37,7 +37,7 @@ Make a new folder for the dataset:
 mkdir ./data/eudem
 ```
 
-Download the dataset from [Copernicus](https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1?tab=download). There are 27 files. Unzip them and move all the `.TIF` files into the data folder (you don't need the `.aux.xml`, `.ovr`, or `.TFw` files). 
+Download the dataset from [Copernicus](https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1?tab=download). There are 27 files. Unzip them and move all the `.TIF` files into the data folder (you don't need the `.aux.xml`, `.ovr`, or `.TFw` files).
 
 Your data folder should now contain only 27 TIF files:
 
@@ -142,13 +142,13 @@ curl https://api.opentopodata.org/v1/eudem25m?locations=57.688709,11.976404
 {
   "results": [
     {
-      "elevation": 54.576168060302734, 
+      "elevation": 54.576168060302734,
       "location": {
-        "lat": 57.688709, 
+        "lat": 57.688709,
         "lng": 11.976404
       }
     }
-  ], 
+  ],
   "status": "OK"
 }
 ```
