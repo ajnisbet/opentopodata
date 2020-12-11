@@ -13,7 +13,7 @@ from opentopodata import utils
 CONFIG_PATH = "config.yaml"
 EXAMPLE_CONFIG_PATH = "example-config.yaml"
 FILENAME_TILE_REGEX = r"^.*?([NSns]\d+[WEwe]\d+).*?$"
-AUX_EXTENSIONS = [".tfw", ".aux", ".aux.xml", ".rdd", ".jpw", ".ovr"]
+AUX_EXTENSIONS = [".tfw", ".aux", ".aux.xml", ".rdd", ".jpw", ".ovr", ".prj"]
 
 DEFAULTS = {
     "max_locations_per_request": 100,
