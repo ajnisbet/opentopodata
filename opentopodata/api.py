@@ -367,5 +367,5 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
         if app.debug:
             raise e
         app.logger.error(e)
-        msg = "Server error, please retry request."
+        msg = "Unhandled server error, see server logs for details."
         return jsonify({"status": "SERVER_ERROR", "error": msg}), 500
