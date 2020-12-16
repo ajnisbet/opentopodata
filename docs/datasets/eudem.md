@@ -50,81 +50,22 @@ ls ./data/eudem
 # ...
 ```
 
-Next, Open Topo Data needs the filenames to match the SRTM format: the filename should be the coordinates of the lower-left corner, in NS-WE order. For EU-DEM this means two changes to the filenames:
+Next, we build a [VRT](https://gdal.org/drivers/raster/vrt.html) file (via [GDAL](https://gdal.org/)), which represents a 'virtual' dataset and links to the `.TIF` files:
 
-* swapping the order of the northing and easting,
-* and adding 5 trailing zeroes to each coordinate that Copernicus removed for simplicity.
-
-So `eu_dem_v11_E00N20.TIF` becomes `N2000000E0000000.tif`. Here's a Python script to do the transformation, but it might be just as easy to do by hand:
-
-```python
-from glob import glob
-import os
-import re
-
-old_pattern = './data/eudem/eu_dem_v11_E*N*.TIF'
-old_paths = list(glob(old_pattern))
-print('Found {} files'.format(len(old_paths)))
-
-for old_path in old_paths:
-    folder = os.path.dirname(old_path)
-    old_filename = os.path.basename(old_path)
-
-    # Extract north and east coords, pad with zeroes.
-    res = re.search(r'(E\d\d)(N\d\d)', old_filename)
-    easting, northing = res.groups()
-    northing = northing + '00000'
-    easting = easting + '00000'
-
-    # Rename in place.
-    new_filename = '{}{}.tif'.format(northing, easting)
-    new_path = os.path.join(folder, new_filename)
-    os.rename(old_path, new_path)
+```bash
+mkdir ./data/eudem-vrt && cd ./data/eudem-vrt
+gdalbuildvrt eudem.vrt ../eudem/*.TIF
 ```
 
-You should have the following 27 files:
-
-```
-N0000000E1000000.tif
-N1000000E1000000.tif
-N1000000E2000000.tif
-N1000000E3000000.tif
-N1000000E4000000.tif
-N1000000E5000000.tif
-N1000000E6000000.tif
-N2000000E0000000.tif
-N2000000E1000000.tif
-N2000000E2000000.tif
-N2000000E3000000.tif
-N2000000E4000000.tif
-N2000000E5000000.tif
-N2000000E6000000.tif
-N2000000E7000000.tif
-N3000000E2000000.tif
-N3000000E3000000.tif
-N3000000E4000000.tif
-N3000000E5000000.tif
-N4000000E2000000.tif
-N4000000E3000000.tif
-N4000000E4000000.tif
-N4000000E5000000.tif
-N5000000E2000000.tif
-N5000000E3000000.tif
-N5000000E4000000.tif
-N5000000E5000000.tif
-```
-
-Create a `config.yaml` file:
+Then create a `config.yaml` file:
 
 ```yaml
 datasets:
 - name: eudem25m
-  path: data/eudem/
-  filename_epsg: 3035
-  filename_tile_size: 1000000
+  path: data/eudem-vrt/
 ```
 
-Rebuild to enable the new dataset at [localhost:5000/v1/eudem25m?locations=51.575,-3.220](http://localhost:5000/v1/eudem25m?locations=51.575,-3.220).
+And finally rebuild to enable the new dataset at [localhost:5000/v1/eudem25m?locations=51.575,-3.220](http://localhost:5000/v1/eudem25m?locations=51.575,-3.220).
 
 ```bash
 make build && make run
