@@ -14,7 +14,7 @@ SRTM has coverage from -60 to 60 degrees latitude. The dataset is released in 1 
 
 
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/srtm-coverage.png" alt="SRTM coverage">
+  <img src="/docs/img/srtm-coverage.png" alt="SRTM coverage">
   <br>
   <em>SRTM coverage (green area).</em>
 </p>
