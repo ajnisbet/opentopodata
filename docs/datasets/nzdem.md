@@ -7,7 +7,7 @@ The [8m NZ DEM](https://data.linz.govt.nz/layer/51768-nz-8m-digital-elevation-mo
 The datasets covers all of New Zealand except Chatham Island at an 8 metre resolution.
 
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/nzdem.png" alt="SRTM coverage">
+  <img src="/docs/img/nzdem.png" alt="SRTM coverage">
   <br>
   <em>NZ DEM elevation rendering.</em>
 </p>
