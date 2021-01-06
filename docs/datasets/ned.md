@@ -11,11 +11,11 @@ The most commonly used resolutions are 1 arcsecond (covering North America and M
 
 <div style="display:flex; justify-content: space-between; font-style: italic; text-align: center; flex-wrap: wrap">
   <div style="max-width: 49%; padding-bottom: 2rem">
-    <a href="/img/ned-1-sec.png"><img src="/img/ned-1-sec.png" alt="NED 1 arcsecond coverage."></a>
+    <a href="/docs/img/ned-1-sec.png"><img src="/docs/img/ned-1-sec.png" alt="NED 1 arcsecond coverage."></a>
     <span>1 arcsecond (30m).</span>
   </div>
   <div style="max-width: 49%; padding-bottom: 2rem">
-    <a href="/img/ned-13-sec.png"><img src="/img/ned-13-sec.png" alt="NED 1/3 arcsecond coverage."></a>
+    <a href="/docs/img/ned-13-sec.png"><img src="/docs/img/ned-13-sec.png" alt="NED 1/3 arcsecond coverage."></a>
     <span>1/3 arcsecond (10m).</span>
   </div>
 </div>
@@ -26,11 +26,11 @@ Two higher resolutions have partial coverage focused on more urbanised areas.
 
 <div style="display:flex; justify-content: space-between; font-style: italic; text-align: center; flex-wrap: wrap">
   <div style="max-width: 49%; padding-bottom: 2rem">
-    <a href="/img/ned-19-sec.png"><img src="/img/ned-19-sec.png" alt="NED 1/9 arcsecond coverage."></a>
+    <a href="/docs/img/ned-19-sec.png"><img src="/docs/img/ned-19-sec.png" alt="NED 1/9 arcsecond coverage."></a>
     <span>1/9 arcsecond (3m).</span>
   </div>
   <div style="max-width: 49%; padding-bottom: 2rem">
-    <a href="/img/ned-1-m.png"><img src="/img/ned-1-m.png" alt="NED 1 meter coverage."></a>
+    <a href="/docs/img/ned-1-m.png"><img src="/docs/img/ned-1-m.png" alt="NED 1 meter coverage."></a>
     <span>1m.</span>
   </div>
 </div>
@@ -40,11 +40,11 @@ And there are separate datasets with full coverage of Alaska at 2 arseconds (60m
 
 <div style="display:flex; justify-content: space-between; font-style: italic; text-align: center; flex-wrap: wrap">
   <div style="max-width: 49%; padding-bottom: 2rem">
-    <a href="/img/ned-2-sec-alaska.png"><img src="/img/ned-2-sec-alaska.png" alt="NED 2 arcsecond coverage."></a>
+    <a href="/docs/img/ned-2-sec-alaska.png"><img src="/docs/img/ned-2-sec-alaska.png" alt="NED 2 arcsecond coverage."></a>
     <span>2 arcsecond (60).</span>
   </div>
   <div style="max-width: 49%; padding-bottom: 2rem">
-    <a href="/img/ned-5-m-alaska.png"><img src="/img/ned-5-m-alaska.png" alt="NED 5 meter coverage."></a>
+    <a href="/docs/img/ned-5-m-alaska.png"><img src="/docs/img/ned-5-m-alaska.png" alt="NED 5 meter coverage."></a>
     <span>5m.</span>
   </div>
 </div>
