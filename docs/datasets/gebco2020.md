@@ -11,7 +11,7 @@ Elevation is given for land areas, largely using a [15-degree version](https://t
 Seafloor data comes from a variety of bathymetric sources, see [GEBCO](https://www.gebco.net/data_and_products/gridded_bathymetry_data/) for more details.
 
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/gebco-2020.png" alt="GEBCO 2020 elevation render.">
+  <img src="/docs/img/gebco-2020.png" alt="GEBCO 2020 elevation render.">
   <br>
   <em>Render of GEBCO 2020 elevation.</em>
 </p>
