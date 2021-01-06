@@ -8,7 +8,7 @@ ASTER GDEM is a 1 arc-second resolution, corresponding to a resolution of about 
 
 
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/aster-colourised.png" alt="ASTER elevation map">
+  <img src="/docs/datasets/aster-colorised.png" alt="ASTER elevation map">
   <br>
   <em>Render of ASTER elevation. <a href="https://asterweb.jpl.nasa.gov/gdem.asp">Source.</a></em>
 </p>
