@@ -16,7 +16,7 @@ Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format),
     * [Google polyline format](https://developers.google.com/maps/documentation/utilities/polylinealgorithm). Example: `locations=gfo}EtohhU`.
 * `interpolation`: How to interpolate between the points in the dataset. Options: `nearest`, `bilinear`, `cubic`. Default: `bilinear`.
 * `nodata_value`: What elevation to return if the dataset has a [NODATA](https://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/nodata-in-raster-datasets.htm) value at the requested location. Options: `null`, `nan`, or an integer like `-9999`. Default: `null`.
-    * The default option `null` makes NODATA indestiguisable from a location outside the dataset bounds. 
+    * The default option `null` makes NODATA indistinguishable from a location outside the dataset bounds. 
     * `NaN` (not a number) values aren't valid in json and will break some clients. The `nan` option was default before version 1.4 and is provided only for backwards compatibility. 
 
 
