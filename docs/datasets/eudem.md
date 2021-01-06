@@ -11,7 +11,7 @@ The dataset was created by merging elevation data from the SRTM and ASTER global
 The dataset covers European Environment Agency member states, plus some countries to the east. Coverage extends to small parts of Northern Africa. Unlike SRTM, EU-DEM includes the Scandinavian regions north of 60°.
 
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/eudem.jpg" alt="EU-DEM elevation">
+  <img src="/docs/img/eudem.jpg" alt="EU-DEM elevation">
   <br>
   <em>Render of EU-DEM elevation.</em>
 </p>
@@ -25,7 +25,7 @@ The stated vertical accuracy is ± 7m RMSE. Differences to SRTM and ASTER typica
 
 EU-DEM uses `NODATA` values for elevations over seas and oceans, where both ASTER and SRTM assign these areas an elevation of 0m. This means that Open Topo Data isn't able to interpolate elevations for locations very close to the coast and will return a value of `NaN` in places where SRTM and ASTER might return a 0m or 1m elevation.
 
-The advantage of the `NODATA` oceans is that you cane use EU-DEM without clipping to a coastline shapefile.
+The advantage of the `NODATA` oceans is that you can use EU-DEM without clipping to a coastline shapefile.
 
 
 ## Adding EU-DEM to Open Topo Data
