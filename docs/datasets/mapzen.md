@@ -8,7 +8,7 @@ Data is provided at a 1 arc-second resolution, corresponding to a resolution of 
 
 
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/mapzen-footprints.png" alt="Mapzen source datasets.">
+  <img src="/docs/img/mapzen-footprints.png" alt="Mapzen source datasets.">
   <br>
   <em>Resolution of Mapzen source datasets. Source: <a href="https://github.com/tilezen/joerd/blob/master/docs/data-sources.md">github.com/tilezen/joerd</a>.</em>
 </p>
