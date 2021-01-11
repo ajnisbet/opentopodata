@@ -4,49 +4,117 @@
 #
 #    pip-compile requirements.in
 #
-affine==2.3.0             # via rasterio
-appdirs==1.4.4            # via black
-attrs==20.3.0             # via pytest, rasterio
-black==20.8b1             # via -r requirements.in
-certifi==2020.12.5        # via pyproj, requests
-chardet==3.0.4            # via requests
-click-plugins==1.1.1      # via rasterio
-click==7.1.2              # via black, click-plugins, cligj, flask, pip-tools, rasterio
-cligj==0.7.1              # via rasterio
-coverage==5.3             # via pytest-cov
-flask-caching==1.9.0      # via -r requirements.in
-flask==1.1.2              # via -r requirements.in, flask-caching
-idna==2.10                # via requests
-importlib-metadata==3.1.1  # via pluggy, pytest
-iniconfig==1.1.1          # via pytest
-itsdangerous==1.1.0       # via flask
-jinja2==2.11.2            # via flask
-markupsafe==1.1.1         # via jinja2
-mypy-extensions==0.4.3    # via black
-numpy==1.19.4             # via -r requirements.in, rasterio, snuggs
-packaging==20.7           # via pytest
-pathspec==0.8.1           # via black
-pip-tools==5.4.0          # via -r requirements.in
-pluggy==0.13.1            # via pytest
-polyline==1.4.0           # via -r requirements.in
-py==1.9.0                 # via pytest
-pylibmc==1.6.1            # via -r requirements.in
-pyparsing==2.4.7          # via packaging, snuggs
-pyproj==3.0.0.post1       # via -r requirements.in
-pytest-cov==2.10.1        # via -r requirements.in
-pytest==6.1.2             # via -r requirements.in, pytest-cov
-pyyaml==5.3.1             # via -r requirements.in
-rasterio==1.1.8           # via -r requirements.in
-regex==2020.11.13         # via black
-requests==2.25.0          # via -r requirements.in
-six==1.15.0               # via pip-tools, polyline
-snuggs==1.4.7             # via rasterio
-toml==0.10.2              # via black, pytest
-typed-ast==1.4.1          # via black
-typing-extensions==3.7.4.3  # via black
-urllib3==1.26.2           # via requests
-werkzeug==1.0.1           # via flask
-zipp==3.4.0               # via importlib-metadata
+affine==2.3.0
+    # via rasterio
+appdirs==1.4.4
+    # via black
+attrs==20.3.0
+    # via
+    #   pytest
+    #   rasterio
+black==20.8b1
+    # via -r requirements.in
+certifi==2020.12.5
+    # via
+    #   pyproj
+    #   requests
+chardet==4.0.0
+    # via requests
+click-plugins==1.1.1
+    # via rasterio
+click==7.1.2
+    # via
+    #   black
+    #   click-plugins
+    #   cligj
+    #   flask
+    #   pip-tools
+    #   rasterio
+cligj==0.7.1
+    # via rasterio
+coverage==5.3.1
+    # via pytest-cov
+flask-caching==1.9.0
+    # via -r requirements.in
+flask==1.1.2
+    # via
+    #   -r requirements.in
+    #   flask-caching
+idna==2.10
+    # via requests
+importlib-metadata==3.4.0
+    # via
+    #   pluggy
+    #   pytest
+iniconfig==1.1.1
+    # via pytest
+itsdangerous==1.1.0
+    # via flask
+jinja2==2.11.2
+    # via flask
+markupsafe==1.1.1
+    # via jinja2
+mypy-extensions==0.4.3
+    # via black
+numpy==1.19.5
+    # via
+    #   -r requirements.in
+    #   rasterio
+    #   snuggs
+packaging==20.8
+    # via pytest
+pathspec==0.8.1
+    # via black
+pip-tools==5.5.0
+    # via -r requirements.in
+pluggy==0.13.1
+    # via pytest
+polyline==1.4.0
+    # via -r requirements.in
+py==1.10.0
+    # via pytest
+pylibmc==1.6.1
+    # via -r requirements.in
+pyparsing==2.4.7
+    # via
+    #   packaging
+    #   snuggs
+pyproj==3.0.0.post1
+    # via -r requirements.in
+pytest-cov==2.10.1
+    # via -r requirements.in
+pytest==6.2.1
+    # via
+    #   -r requirements.in
+    #   pytest-cov
+pyyaml==5.3.1
+    # via -r requirements.in
+rasterio==1.1.8
+    # via -r requirements.in
+regex==2020.11.13
+    # via black
+requests==2.25.1
+    # via -r requirements.in
+six==1.15.0
+    # via polyline
+snuggs==1.4.7
+    # via rasterio
+toml==0.10.2
+    # via
+    #   black
+    #   pytest
+typed-ast==1.4.2
+    # via black
+typing-extensions==3.7.4.3
+    # via
+    #   black
+    #   importlib-metadata
+urllib3==1.26.2
+    # via requests
+werkzeug==1.0.1
+    # via flask
+zipp==3.4.0
+    # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip
