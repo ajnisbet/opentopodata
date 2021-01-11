@@ -20,13 +20,13 @@ RUN set -e && \
 
 COPY --from=builder /root/wheels /root/wheels
 COPY requirements.txt /app/requirements.txt
-RUN pip install --upgrade pip &&\
-    pip install \
+RUN pip install \
         --no-index \
         --no-cache-dir \
+        --disable-pip-version-check \
         --find-links=/root/wheels \
         uwsgi regex && \
-    pip install --no-cache-dir -r /app/requirements.txt && \
+    pip install --no-cache-dir --disable-pip-version-check -r /app/requirements.txt && \
         rm -rf /root/.cache/pip/* && \
         rm root/wheels/* && \
         rm /app/requirements.txt
