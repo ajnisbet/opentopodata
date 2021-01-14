@@ -41,7 +41,7 @@ And there are separate datasets with full coverage of Alaska at 2 arseconds (60m
 <div style="display:flex; justify-content: space-between; font-style: italic; text-align: center; flex-wrap: wrap">
   <div style="max-width: 49%; padding-bottom: 2rem">
     <a href="/img/ned-2-sec-alaska.png"><img src="/img/ned-2-sec-alaska.png" alt="NED 2 arcsecond coverage."></a>
-    <span>2 arcsecond (60).</span>
+    <span>2 arcsecond (60m).</span>
   </div>
   <div style="max-width: 49%; padding-bottom: 2rem">
     <a href="/img/ned-5-m-alaska.png"><img src="/img/ned-5-m-alaska.png" alt="NED 5 meter coverage."></a>
