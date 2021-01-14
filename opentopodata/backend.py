@@ -64,13 +64,13 @@ def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
 
     # Raise exception if out of bounds.
     if not all(y_in_bounds):
-        i_oob = np.argmax(y_in_bounds)
+        i_oob = np.argmin(y_in_bounds)  # Index of first falsey (0) value.
         lat = lats[i_oob]
         lon = lons[i_oob]
         msg = "Location '{},{}' has latitude outside of raster bounds".format(lat, lon)
         raise InputError(msg)
     if not all(x_in_bounds):
-        i_oob = np.argmax(x_in_bounds)
+        i_oob = np.argmin(x_in_bounds)  # Index of first falsey (0) value.
         lat = lats[i_oob]
         lon = lons[i_oob]
         msg = "Location '{},{}' has longitude outside of raster bounds".format(lat, lon)
