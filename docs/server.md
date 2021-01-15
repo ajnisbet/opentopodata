@@ -116,6 +116,7 @@ Instructions are provided for adding the various datasets used in the public API
 * [SRTM (30m or 90m)](datasets/srtm.md)
 * [EMOD Bathymetry](datasets/emod2018.md)
 * [GEBCO Bathymetry](datasets/gebco2020.md)
+* [BKG Germany (200m)](datasets/bkg.md)
 
 
 

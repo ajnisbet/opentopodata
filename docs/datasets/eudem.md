@@ -60,6 +60,8 @@ gdalbuildvrt -tr 25 25 -tap -te 0 0 8000000 6000000 eudem.vrt ../data/eudem/*.TI
 cd ../../
 ```
 
+The `tr`, `tap`, and `te` options in the above command ensure that slices from the VRT will use the exact values and grid of the source rasters.
+
 
 Then create a `config.yaml` file:
 
@@ -75,12 +77,90 @@ Finally, rebuild to enable the new dataset at [localhost:5000/v1/eudem25m?locati
 make build && make run
 ```
 
+
 !!! note "Avoiding gdal"
     If you don't have gdal installed, you can use the tiles directly. There are instructions for this [here](https://github.com/ajnisbet/opentopodata/blob/f012ec136bebcd97e1dc05645e91a6d2487127dc/docs/datasets/eudem.md#adding-eu-dem-to-open-topo-data), but because the EU-DEM tiles don't come with an overlap you will get a `null` elevation at locations within 0.5 pixels of tile edges. 
 
 
-!!! tip "Extra performance"
-    `.vrt` files are slightly slower than `.tif` files. You can use the tiles directly, but you need to [add a 1 pixel buffer](../notes/buffering-tiles.md) to each raster as the EU-DEM tiles don't come with overlap.
+### Buffering tiles (optional)
+
+The tiles provided by EU-DEM don't overlap and cover slightly less than a 1000km square. This means you'll get a `null` result for coordinates along the tile edges.
+
+The `.vrt` approach above solves the overlap issue, but for improved performance you can leave the tiles separate and add a buffer to each one. This is the code I used on the public API to do this:
+
+
+```python
+import os
+from glob import glob
+import subprocess
+
+import rasterio
+
+
+# Prepare paths.
+input_pattern = 'data/eudem/*.TIF'
+input_paths = sorted(glob(input_pattern))
+assert input_paths
+vrt_path = 'data/eudem-vrt/eudem.vrt'
+output_dir = 'data/eudem-buffered/'
+os.makedirs(output_dir, exist_ok=True)
+
+
+
+# EU-DEM specific options.
+tile_size = 1_000_000
+buffer_size = 50
+
+for input_path in input_paths:
+
+    # Get tile bounds.
+    with raster.open(input_path) as f:
+        bottom = int(f.bounds.bottom)
+        left = int(f.bounds.left)
+
+    # For EU-DEM only: round this partial tile down to the nearest tile_size.
+    if left == 943750:
+        left = 0
+
+    # New tile name in SRTM format.
+    output_name = 'N' + str(bottom).zfill(7) + 'E' + str(left).zfill(7) + '.TIF'
+    output_path = os.path.join(output_dir, output_name)
+
+    # New bounds.
+    xmin = left - buffer_size
+    xmax = left + tile_size + buffer_size
+    ymin = bottom - buffer_size
+    ymax = bottom + tile_size + buffer_size
+
+    # EU-DEM tiles don't cover negative locations.
+    xmin = max(0, xmin)
+    ymin = max(0, ymin)
+
+    # Do the transformation.
+    cmd = [
+        '!gdal_translate',
+        '-a_srs', 'EPSG:3035',  # EU-DEM crs.
+        '-co', 'NUM_THREADS=ALL_CPUS',
+        '-co', 'COMPRESS=DEFLATE',
+        '-co', 'BIGTIFF=YES',
+        '--config', 'GDAL_CACHEMAX','512',
+        '-projwin', xmin, ymax, xmax, ymin,
+        vrt_path, output_path ,
+    ]
+    r = subprocess.run(cmd)
+    r.check_returncode()
+```
+
+These new files can be used in Open Topo Data with the following `config.yaml` file
+
+
+```yaml
+datasets:
+- name: eudem25m
+  path: data/eudem-buffered/
+  filename_epsg: 3035
+  filename_tile_size: 1000000
+```
 
 
 

@@ -157,6 +157,13 @@ The following datasets are available on the public API, with elevation shown for
 			<td><a href="https://api.opentopodata.org/v1/srtm90m?locations=39.747114,-104.996334">1603&nbsp;m</a></td>
 		</tr>
 		<tr>
+			<td><a href="/datasets/bkg/">bkg200m</a></td>
+			<td>200&nbsp;m</td>
+			<td>Germany.</td>
+			<td><a href="https://www.bkg.bund.de/">BKG</a></td>
+			<td><a href="https://api.opentopodata.org/v1/bkg200m?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
+		</tr>
+		<tr>
 			<td><a href="/datasets/etopo1/">etopo1</a></td>
 			<td>~1.8&nbsp;km</td>
 			<td>Global, including bathymetry and ice surface elevation near poles.</td>
