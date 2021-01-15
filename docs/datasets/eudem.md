@@ -50,12 +50,16 @@ ls ./data/eudem
 # ...
 ```
 
-Next, we build a [VRT](https://gdal.org/drivers/raster/vrt.html) file (via [GDAL](https://gdal.org/)), which represents a 'virtual' dataset and links to the `.TIF` files:
+
+If you have [gdal](https://gdal.org) installed, the easiest thing to do here is build a [VRT](https://gdal.org/drivers/raster/vrt.html) - a single raster file that links to the 27 tiles and which Open Topo Data can treat as a single-file dataset.
 
 ```bash
-mkdir ./data/eudem-vrt && cd ./data/eudem-vrt
-gdalbuildvrt eudem.vrt ../eudem/*.TIF
+mkdir ./data/eudem-vrt
+cd ./data/eudem-vrt
+gdalbuildvrt -tr 25 25 -tap -te 0 0 8000000 6000000 eudem.vrt ../data/eudem/*.TIF
+cd ../../
 ```
+
 
 Then create a `config.yaml` file:
 
@@ -65,11 +69,20 @@ datasets:
   path: data/eudem-vrt/
 ```
 
-And finally rebuild to enable the new dataset at [localhost:5000/v1/eudem25m?locations=51.575,-3.220](http://localhost:5000/v1/eudem25m?locations=51.575,-3.220).
+Finally, rebuild to enable the new dataset at [localhost:5000/v1/eudem25m?locations=51.575,-3.220](http://localhost:5000/v1/eudem25m?locations=51.575,-3.220).
 
 ```bash
 make build && make run
 ```
+
+!!! note "Avoiding gdal"
+    If you don't have gdal installed, you can use the tiles directly. There are instructions for this [here](https://github.com/ajnisbet/opentopodata/blob/f012ec136bebcd97e1dc05645e91a6d2487127dc/docs/datasets/eudem.md#adding-eu-dem-to-open-topo-data), but because the EU-DEM tiles don't come with an overlap you will get a `null` elevation at locations within 0.5 pixels of tile edges. 
+
+
+!!! tip "Extra performance"
+    `.vrt` files are slightly slower than `.tif` files. You can use the tiles directly, but you need to [add a 1 pixel buffer](../notes/buffering-tiles.md) to each raster as the EU-DEM tiles don't come with overlap.
+
+
 
 ## Public API
 
