@@ -9,7 +9,7 @@ WGS84_LATLON_EPSG = 4326
 # There's significant overhead in pyproj when building a Transformer object.
 # Without a cache a Transformer can be built many times per request, even for
 # the same CRS.
-TRANSFORMER_CACHE = {}
+_TRANSFORMER_CACHE = {}
 
 
 def reproject_latlons(lats, lons, epsg=None, wkt=None):
@@ -35,14 +35,14 @@ def reproject_latlons(lats, lons, epsg=None, wkt=None):
 
     # Load transformer.
     to_crs = wkt or f"EPSG:{epsg}"
-    if to_crs in TRANSFORMER_CACHE:
-        transformer = TRANSFORMER_CACHE[to_crs]
+    if to_crs in _TRANSFORMER_CACHE:
+        transformer = _TRANSFORMER_CACHE[to_crs]
     else:
         from_crs = f"EPSG:{WGS84_LATLON_EPSG}"
         transformer = pyproj.transformer.Transformer.from_crs(
             from_crs, to_crs, always_xy=True
         )
-        TRANSFORMER_CACHE[to_crs] = transformer
+        _TRANSFORMER_CACHE[to_crs] = transformer
 
     # Do the transform.
     x, y = transformer.transform(lons, lats)
