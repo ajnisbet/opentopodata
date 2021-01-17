@@ -1,13 +1,15 @@
-# NZ DEM
+# Australia DEM
 
-The [8m NZ DEM](https://data.linz.govt.nz/layer/51768-nz-8m-digital-elevation-model-2012/) is an interpolation of the 20m contours on the [1:50,000 scale LINZ topo maps](https://data.linz.govt.nz/layer/50768-nz-contours-topo-150k/).
+The [5m Australia DEM](https://data.gov.au/dataset/ds-ga-22be4b55-2465-4320-e053-10a3070a5236/details?q=) is a resampling of various 1m LiDAR surveys. 
+
+
 
 ## Coverage
 
-The dataset covers all of New Zealand except Chatham Island at an 8 metre resolution.
+The dataset only covers Australia's coastal regions,  .
 
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/nzdem.png" alt="NZ dem coverage">
+  <img src="/img/nzdem.png" alt="SRTM coverage">
   <br>
   <em>NZ DEM elevation rendering.</em>
 </p>
