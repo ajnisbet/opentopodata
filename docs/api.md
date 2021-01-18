@@ -29,7 +29,7 @@ A json object, compatible with the Google Maps Elevation API.
 * `status`: Will be `OK` for a successful request, `INVALID_REQUEST` for an input (4xx) error, and `SERVER_ERROR` for anything else (5xx). Required.
 * `error`: Description of what went wrong, when `status` isn't `OK`.
 * `results`: List of elevations for each location, in same order as input. Only provided for `OK` status.
-* `results[].elevation`: Elevation, using units and datum from the dataset. May be `null` if the given location is outside the dataset bounds. May be `null` for NODATA values depending on the `nodata_value` query argument.
+* `results[].elevation`: Elevation, using units and datum from the dataset. Will be `null` if the given location is outside the dataset bounds. May be `null` for NODATA values depending on the `nodata_value` query argument.
 * `results[].location.lat`: Latitude as parsed by Open Topo Data.
 * `results[].location.lng`: Longitude as parsed by Open Topo Data.
 

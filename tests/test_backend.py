@@ -37,41 +37,37 @@ class TestValidatePointsLieWithinRaster:
     def test_valid_points_on_boundary(self):
         lats = np.array([0, -50, 50])
         lons = np.array([0, -100, 100])
-        backend._validate_points_lie_within_raster(
+        assert [] == backend._validate_points_lie_within_raster(
             lons, lats, lats, lons, self.bounds, self.res
         )
 
     def test_invalid_bottom(self):
-        lats = np.array([self.bounds.bottom])
-        lons = np.array([0])
-        with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_raster(
-                lons, lats, lats, lons, self.bounds, self.res
-            )
+        lats = np.array([0, self.bounds.bottom])
+        lons = np.array([0, 0])
+        assert [1] == backend._validate_points_lie_within_raster(
+            lons, lats, lats, lons, self.bounds, self.res
+        )
 
     def test_invalid_top(self):
         lats = np.array([self.bounds.top])
         lons = np.array([0])
-        with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_raster(
-                lons, lats, lats, lons, self.bounds, self.res
-            )
+        assert [0] == backend._validate_points_lie_within_raster(
+            lons, lats, lats, lons, self.bounds, self.res
+        )
 
     def test_invalid_left(self):
         lats = np.array([0])
         lons = np.array([self.bounds.left])
-        with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_raster(
-                lons, lats, lats, lons, self.bounds, self.res
-            )
+        assert [0] == backend._validate_points_lie_within_raster(
+            lons, lats, lats, lons, self.bounds, self.res
+        )
 
     def test_invalid_right(self):
         lats = np.array([0])
         lons = np.array([self.bounds.right])
-        with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_raster(
-                lons, lats, lats, lons, self.bounds, self.res
-            )
+        assert [0] == backend._validate_points_lie_within_raster(
+            lons, lats, lats, lons, self.bounds, self.res
+        )
 
     def test_invalid_xy_valid_latlons(self):
         # Only x/y should be used for testing, latlon should be independent.
@@ -79,17 +75,16 @@ class TestValidatePointsLieWithinRaster:
         y = np.array([0])
         lats = y
         lons = np.array([0])
-        with pytest.raises(backend.InputError):
-            backend._validate_points_lie_within_raster(
-                x, y, lats, lons, self.bounds, self.res
-            )
+        assert [0] == backend._validate_points_lie_within_raster(
+            x, y, lats, lons, self.bounds, self.res
+        )
 
     def test_valid_xy_invalid_latlons(self):
         xs = np.array([0, -100, 100])
         ys = np.array([0, -50, 50])
         lats = np.array([1000, 1000, -1000])
         lons = np.array([1000, 1000, -1000])
-        backend._validate_points_lie_within_raster(
+        assert [] == backend._validate_points_lie_within_raster(
             xs, ys, lats, lons, self.bounds, self.res
         )
 
@@ -102,7 +97,9 @@ class TestValidatePointsLieWithinRaster:
 
         xs = np.array([150])
         ys = np.array([-33])
-        backend._validate_points_lie_within_raster(xs, ys, [], [], bounds, res)
+        assert [] == backend._validate_points_lie_within_raster(
+            xs, ys, [], [], bounds, res
+        )
 
 
 class TestGetElevationFromPath:
@@ -155,14 +152,14 @@ class TestGetElevationFromPath:
             0.4, 0.3, self.geotiff_z[:2, :2]
         )
 
-    def test_error_outside_dataset(self):
+    def test_none_outside_dataset(self):
         lats = [0, 0, -90.1, 90.1]
         lons = [-180.1, 180.1, 0, 0]
         for lat, lon in zip(lats, lons):
-            with pytest.raises(backend.InputError):
-                z = backend._get_elevation_from_path(
-                    [lat], [lon], ETOPO1_GEOTIFF_PATH, interpolation="lanczos"
-                )
+            z = backend._get_elevation_from_path(
+                [lat], [lon], ETOPO1_GEOTIFF_PATH, interpolation="lanczos"
+            )[0]
+            assert z is None
 
     def test_valid_read_from_dataset_with_nans(self):
         """

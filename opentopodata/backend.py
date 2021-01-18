@@ -42,6 +42,7 @@ def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
     Raises:
         InputError: if one of the points lies outside bounds.
     """
+    oob_indices = set()
 
     # Get actual extent. When storing point data in a pixel-based raster
     # format, the true extent is the centre of the outer pixels, but GDAL
@@ -62,19 +63,10 @@ def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
     x_in_bounds = (xs >= x_min) & (xs <= x_max)
     y_in_bounds = (ys >= y_min) & (ys <= y_max)
 
-    # Raise exception if out of bounds.
-    if not all(y_in_bounds):
-        i_oob = np.argmin(y_in_bounds)  # Index of first falsey (0) value.
-        lat = lats[i_oob]
-        lon = lons[i_oob]
-        msg = "Location '{},{}' has latitude outside of raster bounds".format(lat, lon)
-        raise InputError(msg)
-    if not all(x_in_bounds):
-        i_oob = np.argmin(x_in_bounds)  # Index of first falsey (0) value.
-        lat = lats[i_oob]
-        lon = lons[i_oob]
-        msg = "Location '{},{}' has longitude outside of raster bounds".format(lat, lon)
-        raise InputError(msg)
+    # Found out of bounds.
+    oob_indices.update(np.nonzero(~x_in_bounds)[0])
+    oob_indices.update(np.nonzero(~y_in_bounds)[0])
+    return sorted(oob_indices)
 
 
 def _get_elevation_from_path(lats, lons, path, interpolation):
@@ -110,7 +102,9 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
                 raise InputError("Unable to transform latlons to dataset projection.")
 
             # Check bounds.
-            _validate_points_lie_within_raster(xs, ys, lats, lons, f.bounds, f.res)
+            oob_indices = _validate_points_lie_within_raster(
+                xs, ys, lats, lons, f.bounds, f.res
+            )
             rows, cols = tuple(f.index(xs, ys, op=_noop))
 
             # Offset by 0.5 to convert from center coords (provided by
@@ -128,7 +122,10 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
             # rasterio replace NODATA values with np.nan. The `boundless` kwarg
             # forces the windowed elevation to be a 1x1 array, even when it all
             # values are NODATA.
-            for row, col in zip(rows, cols):
+            for i, (row, col) in enumerate(zip(rows, cols)):
+                if i in oob_indices:
+                    z_all.append(None)
+                    continue
                 window = rasterio.windows.Window(col, row, 1, 1)
                 z_array = f.read(
                     indexes=1,
