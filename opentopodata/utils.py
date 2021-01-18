@@ -1,3 +1,4 @@
+from decimal import Decimal
 import math
 
 import numpy as np
@@ -51,8 +52,16 @@ def reproject_latlons(lats, lons, epsg=None, wkt=None):
 
 
 def base_floor(x, base=1):
-    """Round number down no nearest multiple of base."""
+    """Round number down to nearest multiple of base."""
     return base * np.floor(x / base)
+
+
+def decimal_base_floor(x, base=1):
+    """Round decimal down to nearest multiple of base."""
+    if not isinstance(base, (Decimal, int)):
+        raise ValueError("Base must be an integer or decimal.")
+    integer = math.floor(x / float(base))
+    return base * Decimal(integer)
 
 
 def safe_is_nan(x):

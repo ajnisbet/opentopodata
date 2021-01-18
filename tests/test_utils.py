@@ -1,3 +1,4 @@
+from decimal import Decimal
 import pytest
 import numpy as np
 
@@ -79,6 +80,23 @@ class TestBaseFloor:
 
     def test_negative_value(self):
         assert utils.base_floor(-5.1, 5) == -10
+
+
+class TestDecimalBaseFloor:
+    def test_base_1_default(self):
+        values = [-1, 0, 1, -0.6, -0.4, 0.4, 0.6, 99.91]
+        for x in values:
+            assert np.floor(x) == utils.decimal_base_floor(x)
+            assert np.floor(x) == utils.decimal_base_floor(x, 1)
+
+    def test_other_base(self):
+        assert utils.decimal_base_floor(290.9, 50) == 250
+
+    def test_negative_value(self):
+        assert utils.decimal_base_floor(-5.1, 5) == -10
+
+    def test_fractional_base(self):
+        assert utils.decimal_base_floor(5.6, Decimal("0.25")) == Decimal("5.5")
 
 
 class TestSafeIsNan:

@@ -1,3 +1,4 @@
+from decimal import Decimal
 from glob import glob
 from urllib.parse import urlparse
 import abc
@@ -12,7 +13,7 @@ from opentopodata import utils
 
 CONFIG_PATH = "config.yaml"
 EXAMPLE_CONFIG_PATH = "example-config.yaml"
-FILENAME_TILE_REGEX = r"^.*?([NSns]\d+[WEwe]\d+).*?$"
+FILENAME_TILE_REGEX = r"^.*?([NS][\dx]+_?[WE][\dx]+).*?$"
 AUX_EXTENSIONS = [".tfw", ".aux", ".aux.xml", ".rdd", ".jpw", ".ovr", ".prj"]
 
 DEFAULTS = {
@@ -111,7 +112,7 @@ def load_config():
     if any("path" not in d for d in config["datasets"]):
         raise ConfigError("All datasets must have a 'path' attribute.")
 
-    # Set defualts.
+    # Set defaults.
     config["max_locations_per_request"] = config.get(
         "max_locations_per_request", DEFAULTS["max_locations_per_request"]
     )
@@ -188,7 +189,10 @@ class Dataset(abc.ABC):
 
         # Check for SRTM-style naming.
         all_filenames = [os.path.basename(p) for p in all_rasters]
-        if all([re.match(FILENAME_TILE_REGEX, f) for f in all_filenames]):
+        is_srtm_raster = [
+            re.match(FILENAME_TILE_REGEX, f, re.IGNORECASE) for f in all_filenames
+        ]
+        if all(is_srtm_raster):
             filename_epsg = kwargs.get(
                 "filename_epsg", DEFAULTS["dataset.filename_epsg"]
             )
@@ -265,62 +269,88 @@ class TiledDataset(Dataset):
         self.name = name
         self.path = path
         self.filename_epsg = filename_epsg
-        self.filename_tile_size = filename_tile_size
 
-        # Build lookup from filename without extension to path.
-        tile_filenames = [os.path.basename(p).split(".")[0] for p in tile_paths]
-        tile_names = [
-            re.match(FILENAME_TILE_REGEX, f).groups()[0].upper() for f in tile_filenames
-        ]
-        if len(tile_names) != len(set(tile_names)):
+        # Validate tile size.
+        if isinstance(filename_tile_size, float):
+            if filename_tile_size.is_integer():
+                filename_tile_size = int(filename_tile_size)
+            else:
+                msg = "Non-integer tile sizes should be specified as a string like "
+                msg += f" filename_tile_size: '{str(filename_tile_size)}"
+                msg += " to avoiding floating point precision issues."
+                raise ConfigError(msg)
+
+        # Parse tile size.
+        try:
+            self.filename_tile_size = Decimal(filename_tile_size)
+        except Exception as e:
+            msg = f"Unable to parse filename_tile_size {filename_tile_size}"
+            raise ConfigError(msg)
+
+        # Build tile lookup.
+        corners = [self._filename_to_tile_corner(p) for p in tile_paths]
+        if len(corners) > len(set(corners)):
             msg = "SRTM-type tile coords must be unique,"
             msg += " cannot be the same tile with different extensions."
             raise ConfigError(msg)
-
-        # Find if the filenames use fixed-width zero padding.
-        ns = [re.search(r"[NS](\d+)[WE]", x)[1] for x in tile_names]
-        ew = [re.search(r"[WE](\d+)", x)[1] for x in tile_names]
-        ns_lens = set(len(x) for x in ns)
-        ew_lens = set(len(x) for x in ew)
-        self.ns_fixed_width = ns_lens.pop() if len(ns_lens) == 1 else None
-        self.ew_fixed_width = ew_lens.pop() if len(ew_lens) == 1 else None
-
-        self._tile_lookup = dict(zip(tile_names, tile_paths))
+        self._tile_lookup = dict(zip(corners, tile_paths))
 
     @classmethod
-    def _location_to_tile_name(
-        cls, xs, ys, tile_size=1, ns_fixed_width=None, ew_fixed_width=None
-    ):
-        """Convert locations to SRTM tile name.
+    def _filename_to_tile_corner(cls, filename):
+        """Exctract the corner lat/lon or y/x location from a filename.
 
-        For example, (-120.5, 40.1) becomes N40W121. The lower left corner of
-        the tile is used. The numbers can be padded with leading zeroes to all
-        be the same width.
+
+        Args:
+            filename: Name of an SRTM style tile (like N50W25).
+
+        Returns:
+            y, x: decimal.Decimal location of lower-left corner.
+        """
+        # Normalise if a full path is passed.
+        filename = os.path.basename(filename)
+
+        # Extract components.
+        northing_str = (
+            re.search(r"([NS][\dx]+)_?[WE]", filename, re.IGNORECASE)[1]
+            .lower()
+            .replace("x", ".")
+        )
+        easting_str = (
+            re.search(r"[NS][\dx]+_?([WE][\dx]+)", filename, re.IGNORECASE)[1]
+            .lower()
+            .replace("x", ".")
+        )
+
+        # Positive or negative.
+        northing_sign = 1 if northing_str.startswith("n") else -1
+        easting_sign = 1 if easting_str.startswith("e") else -1
+
+        # Numerics.
+        northing = northing_sign * Decimal(northing_str[1:])
+        easting = easting_sign * Decimal(easting_str[1:])
+
+        return northing, easting
+
+    @classmethod
+    def _location_to_tile_corner(cls, xs, ys, tile_size=1):
+        """Convert locations to SRTM tile corner.
+
+        For example, (-120.5, 40.1) becomes (-120, 40). The lower left corner
+        of the tile is used. Decimals are used to preserve precsion for
+        fractional tile sizes.
 
         Args:
             xs, ys: Lists of x and y coordinates.
-            tile_size: Which value to round the tiles to.
-            ns_fixed_width, ew_fixed_width: Integer to pad with zeroes. None means no padding.
+            tile_size: Which value to round the tiles to. Int or Decimal.
 
         Returns:
-            tile_names: List of strings.
+            tile_names: List of (Decimal, Decimal) northing, easting tuples.
         """
 
-        n_or_s = np.where(ys >= 0, "N", "S")
-        e_or_w = np.where(xs >= 0, "E", "W")
+        northings = [utils.decimal_base_floor(y, tile_size) for y in ys]
+        eastings = [utils.decimal_base_floor(y, tile_size) for y in xs]
 
-        ns_value = np.abs(utils.base_floor(ys, tile_size)).astype(int).astype(str)
-        ew_value = np.abs(utils.base_floor(xs, tile_size)).astype(int).astype(str)
-
-        ns_fixed_width = ns_fixed_width or 0
-        ew_fixed_width = ew_fixed_width or 0
-
-        ns_value = [x.zfill(ns_fixed_width) for x in ns_value]
-        ew_value = [x.zfill(ew_fixed_width) for x in ew_value]
-
-        tile_names = np.char.add(n_or_s, ns_value)
-        tile_names = np.char.add(tile_names, e_or_w)
-        tile_names = np.char.add(tile_names, ew_value)
+        return list(zip(northings, eastings))
 
         return tile_names
 
@@ -339,10 +369,8 @@ class TiledDataset(Dataset):
         # Convert to filename projection.
         xs, ys = utils.reproject_latlons(lats, lons, epsg=self.filename_epsg)
 
-        # Use to look up.
-        filenames = self.__class__._location_to_tile_name(
-            xs, ys, self.filename_tile_size, self.ns_fixed_width, self.ew_fixed_width
-        )
+        # Find corresponding tile.
+        filenames = self._location_to_tile_corner(xs, ys, self.filename_tile_size)
         paths = [self._tile_lookup.get(f) for f in filenames]
 
         return paths
