@@ -200,9 +200,18 @@ class Dataset(abc.ABC):
         all_paths = list(glob(pattern, recursive=True))
         all_files = [p for p in all_paths if os.path.isfile(p)]
         all_rasters = [p for p in all_files if not cls._is_aux_file(p)]
-
         if not all_rasters:
             raise ConfigError("Dataset folder '{}' seems to be empty.".format(path))
+
+        # Build bounds.
+        wgs84_bounds = None
+        if "wgs84_bounds" in kwargs:
+            wgs84_bounds = rasterio.coords.BoundingBox(
+                kwargs["wgs84_bounds"]["left"],
+                kwargs["wgs84_bounds"]["bottom"],
+                kwargs["wgs84_bounds"]["right"],
+                kwargs["wgs84_bounds"]["top"],
+            )
 
         # Check for single file.
         if len(all_rasters) == 1:
@@ -252,7 +261,7 @@ class Dataset(abc.ABC):
 
 
 class SingleFileDataset(Dataset):
-    def __init__(self, name, tile_path):
+    def __init__(self, name, tile_path, wgs84_bounds=None):
         """A dataset consisting of a single raster file.
 
         Args:
@@ -261,6 +270,8 @@ class SingleFileDataset(Dataset):
         """
         self.name = name
         self.tile_path = tile_path
+        if wgs84_bounds:
+            self.wgs84_bounds = wgs84_bounds
 
     def location_paths(self, lats, lons):
         """File corresponding to each location.
@@ -276,7 +287,15 @@ class SingleFileDataset(Dataset):
 
 
 class TiledDataset(Dataset):
-    def __init__(self, name, path, tile_paths, filename_epsg, filename_tile_size):
+    def __init__(
+        self,
+        name,
+        path,
+        tile_paths,
+        filename_epsg,
+        filename_tile_size,
+        wgs84_bounds=None,
+    ):
         """A dataset of files named in SRTM format.
 
         Each file should be a square tile, named like N50W121 for the lower left (SW) corner.
@@ -296,6 +315,10 @@ class TiledDataset(Dataset):
         self.name = name
         self.path = path
         self.filename_epsg = filename_epsg
+
+        # Bounds.
+        if wgs84_bounds:
+            self.wgs84_bounds = wgs84_bounds
 
         # Validate tile size.
         if isinstance(filename_tile_size, float):
