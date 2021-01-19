@@ -151,16 +151,16 @@ class TestParseLocations:
         )
 
 
-class TestGetDataset:
+class TestGetDatasets:
     def test_valid_dataset(self, patch_config):
         with api.app.test_request_context():
-            dataset = api._get_dataset(ETOPO1_DATASET_NAME)
+            dataset = api._get_datasets(ETOPO1_DATASET_NAME)[0]
             assert dataset.name == ETOPO1_DATASET_NAME
 
     def test_missing_dataset(self):
         with api.app.test_request_context():
             with pytest.raises(api.ClientError):
-                api._get_dataset("Invalid dataset name")
+                api._get_datasets("Invalid dataset name")
 
 
 class TestGetElevation:
@@ -305,6 +305,16 @@ class TestGetElevation:
             assert response.status_code == 500
             assert rjson["status"] == "SERVER_ERROR"
             assert "config" in rjson["error"].lower()
+
+    def test_multi_dataset(self, patch_config):
+        url = "/v1/multi_eudem_etopo1?locations=47.625765,9.418759|-70,-170|0,1"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert rjson["results"][0]["dataset"] == "eudemsubset"
+        assert rjson["results"][1]["dataset"] == "etopo1deg"
+        assert rjson["results"][2]["dataset"] == "etopo1deg"
 
 
 class TestGetHelpMessage:

@@ -151,7 +151,9 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
     return z_all
 
 
-def get_elevation(lats, lons, dataset, interpolation="nearest"):
+def _get_elevation_for_single_dataset(
+    lats, lons, dataset, interpolation="nearest", nodata_value=None
+):
     """Read elevations from a dataset.
 
     A dataset may consist of multiple files, so need to determine which
@@ -194,4 +196,79 @@ def get_elevation(lats, lons, dataset, interpolation="nearest"):
         for i_path, i_original in enumerate(path_to_point_index[path]):
             elevations[i_original] = path_elevations[i_path]
 
+    elevations = utils.fill_na(elevations, nodata_value)
     return elevations
+
+
+class _Point:
+    def __init__(self, lat, lon, index):
+        self.lat = lat
+        self.lon = lon
+        self.index = index
+        self.elevation = None
+        self.dataset_name = None
+
+
+def get_elevation(lats, lons, datasets, interpolation="nearest", nodata_value=None):
+    """Read first non-null elevation from multiple datasets.
+
+
+    Args:
+        lats, lons: Arrays of latitudes/longitudes.
+        dataset: config.Dataset object.
+        interpolation: method name string.
+
+    Returns:
+        elevations: List of elevations, same length as lats/lons.
+    """
+
+    # # Early exit for single dataset.
+    # if len(datasets) == 1:
+    #     elevations = _get_elevation_for_single_dataset(
+    #         lats, lons, datasets[0], interpolation, nodata_value
+    #     )
+    #     dataset_names = [datasets[0].name] * len(lats)
+    #     return elevations, dataset_names
+
+    # Check
+    points = [_Point(lat, lon, idx) for idx, (lat, lon) in enumerate(zip(lats, lons))]
+    for dataset in datasets:
+
+        # Only check points that have no point yet. Can exit early if
+        # there's no unqueried points.
+        dataset_points = [p for p in points if p.elevation is None]
+        if not dataset_points:
+            break
+
+        # Only check points within the dataset bounds.
+        dataset_points = [
+            p for p in dataset_points if p.lat >= dataset.wgs84_bounds.bottom
+        ]
+        dataset_points = [
+            p for p in dataset_points if p.lat <= dataset.wgs84_bounds.top
+        ]
+        dataset_points = [
+            p for p in dataset_points if p.lon >= dataset.wgs84_bounds.left
+        ]
+        dataset_points = [
+            p for p in dataset_points if p.lon <= dataset.wgs84_bounds.right
+        ]
+        if not dataset_points:
+            continue
+
+        # Get locations.
+        elevations = _get_elevation_for_single_dataset(
+            [p.lat for p in dataset_points],
+            [p.lon for p in dataset_points],
+            dataset,
+            interpolation,
+            nodata_value,
+        )
+
+        # Save.
+        for point, elevation in zip(dataset_points, elevations):
+            points[point.index].elevation = elevation
+            points[point.index].dataset_name = dataset.name
+
+    # Return elevations.
+    return [p.elevation for p in points], [p.dataset_name for p in points]

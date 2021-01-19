@@ -167,6 +167,7 @@ def _parse_locations(locations, max_n_locations):
         msg += " Add locations in a query string: ?locations=lat1,lon1|lat2,lon2."
         raise ClientError(msg)
 
+    # "," isbn't a valid character in a polyline.
     if "," in locations:
         return _parse_latlon_locations(locations, max_n_locations)
     else:
@@ -286,22 +287,32 @@ def _load_datasets():
     return config.load_datasets()
 
 
-def _get_dataset(name):
-    """Retrieve a dataset with error handling.
+def _get_datasets(name):
+    """Retrieve datasets with error handling.
+
+    If the name refers to a MultiDataset, load all child datasets.
 
     Args:
         name: Dataset name string (as used in request url and config file).
 
     Returns:
-        config.Dataset object.
+        List of config.Dataset object.
 
     Raises:
         ClientError: If the name isn't defined in the config.
     """
-    datasets = _load_datasets()
-    if name not in datasets:
+
+    all_datasets = _load_datasets()
+    if name not in all_datasets:
         raise ClientError(f"Dataset '{name}' not in config.")
-    return datasets[name]
+    dataset = all_datasets[name]
+
+    if isinstance(dataset, config.MultiDataset):
+        datasets = [all_datasets[d] for d in dataset.child_dataset_names]
+    else:
+        datasets = [dataset]
+
+    return datasets
 
 
 @app.route("/")
@@ -345,14 +356,21 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
         )
 
         # Get the z values.
-        dataset = _get_dataset(dataset_name)
-        elevations = backend.get_elevation(lats, lons, dataset, interpolation)
-        elevations = utils.fill_na(elevations, nodata_value)
+        datasets = _get_datasets(dataset_name)
+        elevations, dataset_names = backend.get_elevation(
+            lats, lons, datasets, interpolation, nodata_value
+        )
 
         # Build response.
         results = []
-        for z, lat, lon in zip(elevations, lats, lons):
-            results.append({"elevation": z, "location": {"lat": lat, "lng": lon}})
+        for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
+            results.append(
+                {
+                    "elevation": z,
+                    "dataset": dataset_name,
+                    "location": {"lat": lat, "lng": lon},
+                }
+            )
         data = {"status": "OK", "results": results}
         return jsonify(data)
 

@@ -109,8 +109,21 @@ def load_config():
         raise ConfigError("Config must contain at least one dataset.")
     if any("name" not in d for d in config["datasets"]):
         raise ConfigError("All datasets must have a 'name' attribute.")
-    if any("path" not in d for d in config["datasets"]):
+    if any("path" not in d and "child_datasets" not in d for d in config["datasets"]):
         raise ConfigError("All datasets must have a 'path' attribute.")
+
+    # Check all child datasets are valid.
+    candidate_names = set()
+    child_names = set()
+    for d in config["datasets"]:
+        if "child_datasets" in d:
+            child_names.update(d["child_datasets"])
+        else:
+            candidate_names.add(d["name"])
+    missing_child_names = child_names - candidate_names
+    if missing_child_names:
+        msg = f"Child datasets {sorted(missing_child_names)} not in config."
+        raise ConfigError(msg)
 
     # Set defaults.
     config["max_locations_per_request"] = config.get(
@@ -137,6 +150,14 @@ def load_datasets():
     return datasets
 
 
+class MultiDataset:
+    def __init__(self, name, child_dataset_names):
+        if not child_dataset_names:
+            raise ConfigError(f"child_datasets for {name} can't be empty.")
+        self.name = name
+        self.child_dataset_names = child_dataset_names
+
+
 class Dataset(abc.ABC):
     """Base class for Dataset.
 
@@ -144,12 +165,14 @@ class Dataset(abc.ABC):
     to map a location to a particular file.
     """
 
+    wgs84_bounds = rasterio.coords.BoundingBox(-180, -90, 180, 90)
+
     @classmethod
     def _is_aux_file(cls, path):
         return any([path.lower().endswith(e) for e in AUX_EXTENSIONS])
 
     @classmethod
-    def from_config(cls, name, path, **kwargs):
+    def from_config(cls, name, path=None, **kwargs):
         """Initialise a Dataset from the config.
 
         Based on the filename format, the appropriate kind of Dataset will be
@@ -163,6 +186,10 @@ class Dataset(abc.ABC):
         Returns:
             Subclass of Dataset.
         """
+
+        # Multi datasets are handled separately.
+        if "child_datasets" in kwargs:
+            return MultiDataset(name, kwargs["child_datasets"])
 
         # Check the dataset is there.
         if not os.path.isdir(path):
