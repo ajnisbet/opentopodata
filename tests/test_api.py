@@ -162,6 +162,33 @@ class TestGetDatasets:
             with pytest.raises(api.ClientError):
                 api._get_datasets("Invalid dataset name")
 
+    def test_multi_dataset(self, patch_config):
+        with api.app.test_request_context():
+            datasets = api._get_datasets("multi_eudem_etopo1")
+            names = [d.name for d in datasets]
+            assert names == ["nodata", "eudemsubset", "etopo1deg"]
+
+    def test_comma_datasets(self, patch_config):
+        names = ["srtm90subset", "eudemsubset", "nodata"]
+        with api.app.test_request_context():
+            datasets = api._get_datasets(",".join(names))
+            assert names == [d.name for d in datasets]
+
+    def test_repeated_dataset_error(self, patch_config):
+        with api.app.test_request_context():
+            with pytest.raises(api.ClientError):
+                api._get_datasets(f"{ETOPO1_DATASET_NAME},{ETOPO1_DATASET_NAME}")
+
+    def test_nonexistent_dataset_error(self, patch_config):
+        with api.app.test_request_context():
+            with pytest.raises(api.ClientError):
+                api._get_datasets(f"{ETOPO1_DATASET_NAME},unreal_dataset,another")
+
+    def test_invalid_multi_dataset_error(self, patch_config):
+        with api.app.test_request_context():
+            with pytest.raises(api.ClientError):
+                api._get_datasets(f",  ,, , , ")
+
 
 class TestGetElevation:
     test_api = api.app.test_client()
@@ -308,6 +335,18 @@ class TestGetElevation:
 
     def test_multi_dataset(self, patch_config):
         url = "/v1/multi_eudem_etopo1?locations=47.625765,9.418759|-70,-170|0,1"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert rjson["results"][0]["dataset"] == "eudemsubset"
+        assert rjson["results"][1]["dataset"] == "etopo1deg"
+        assert rjson["results"][2]["dataset"] == "etopo1deg"
+
+    def test_comma_dataset_name(self, patch_config):
+        url = (
+            "/v1/nodata,eudemsubset,etopo1deg?locations=47.625765,9.418759|-70,-170|0,1"
+        )
         response = self.test_api.get(url)
         rjson = response.json
         assert response.status_code == 200

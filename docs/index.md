@@ -23,7 +23,8 @@ curl https://api.opentopodata.org/v1/test-dataset?locations=56,123
         "location": {
             "lat": 56.0,
             "lng": 123.0
-        }
+        },
+        "dataset": "test-dataset"
     }],
     "status": "OK"
 }
@@ -69,7 +70,8 @@ curl https://api.opentopodata.org/v1/test-dataset?locations=56.35,123.90
         "location": {
             "lat": 56.0,
             "lng": 123.0
-        }
+        },
+        "dataset": "test-dataset"
     }],
     "status": "OK"
 }

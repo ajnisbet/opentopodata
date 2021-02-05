@@ -180,7 +180,8 @@ curl https://api.opentopodata.org/v1/eudem25m?locations=57.688709,11.976404
       "location": {
         "lat": 57.688709,
         "lng": 11.976404
-      }
+      },
+      "dataset": "eudem25m"
     }
   ],
   "status": "OK"

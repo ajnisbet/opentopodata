@@ -5,11 +5,15 @@ A public API is available for testing at [api.opentopodata.org](https://api.open
 
 ## `GET /v1/<dataset_name>`
 
-Reads the elevation from a given dataset. The dataset must match one of the options in `config.yaml`.
+Reads the elevation from a given dataset.
+
+The dataset name must match one of the options in `config.yaml`. 
+
+Multiple datasets can be provided separated by commas: in this case, for each point, each dataset is queried in order until a non-null elevation is found. For more information see [Multi datasets]('../notes/multiple-datasets.md').
 
 Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format), they will be converted internally to whatever the dataset uses.
 
-### Args
+### Query Args
 
 * `locations`: Required. Either 
     * `latitutde,longitude` pairs, each separated by a pipe character `|`. Example: `locations=12.5,160.2|-10.6,130`.
@@ -32,6 +36,7 @@ A json object, compatible with the Google Maps Elevation API.
 * `results[].elevation`: Elevation, using units and datum from the dataset. Will be `null` if the given location is outside the dataset bounds. May be `null` for NODATA values depending on the `nodata_value` query argument.
 * `results[].location.lat`: Latitude as parsed by Open Topo Data.
 * `results[].location.lng`: Longitude as parsed by Open Topo Data.
+* `results[].dataset`: The name of the dataset which the returned elevation is from.
 
 Some notes about the elevation value:
 
@@ -56,14 +61,16 @@ Some notes about the elevation value:
             "location": {
                 "lat": -43.5,
                 "lng": 172.5
-            }
+            },
+            "dataset": "srtm90m"
         },
         {
             "elevation": 402,
             "location": {
                 "lat": 27.6,
                 "lng": 1.98
-            }
+            },
+            "dataset": "srtm90m"
         }
     ],
     "status": "OK"

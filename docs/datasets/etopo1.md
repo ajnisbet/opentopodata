@@ -71,7 +71,8 @@ curl https://api.opentopodata.org/v1/etopo1?locations=39.747114,-104.996334
       "location": {
         "lat": 39.747114, 
         "lng": -104.996334
-      }
+      },
+      "dataset": "etopo1"
     }
   ], 
   "status": "OK"

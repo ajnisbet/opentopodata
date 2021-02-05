@@ -71,7 +71,8 @@ curl https://api.opentopodata.org/v1/bkg200m?locations=49.427,7.753
       "location": {
         "lat": 49.427, 
         "lng": 7.753
-      }
+      },
+      "dataset": "bkg200m"
     }
   ], 
   "status": "OK"

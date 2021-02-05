@@ -37,13 +37,29 @@ else:
 cache.init_app(app)
 
 
-@cache.cached(key_prefix="_load_config")
+# Memcache has significant deserialisation overhead for large datasets. It
+# seems like a waste to do the exact same deserialisation work for each
+# request: instead it can be cached in a module-level dict that will persist
+# between requests. This isn't threadsafe but neither is flask_caching's
+# memcache. It will be fine as long as the value for a key will never change.
+# TODO: drop the dependency on flask_caching, make a merged simple and
+# memcached cache object.
+_SIMPLE_CACHE = {}
+
+
 def _load_config():
     """Config file as a dict.
 
     Returns:
         Config dict.
     """
+    if os.environ.get("DISABLE_MEMCACHE") or "config" not in _SIMPLE_CACHE:
+        _SIMPLE_CACHE["config"] = _load_config_memcache()
+    return _SIMPLE_CACHE["config"]
+
+
+@cache.cached(key_prefix="_load_config")
+def _load_config_memcache():
     return config.load_config()
 
 
@@ -277,13 +293,19 @@ def _parse_latlon_locations(locations, max_n_locations):
     return lats, lons
 
 
-@cache.cached(key_prefix="_load_datasets")
 def _load_datasets():
-    """Load datasets defined in config
+    """Load datasets defined in config.
 
     Returns:
         Dict of {dataset_name: config.Dataset object} items.
     """
+    if os.environ.get("DISABLE_MEMCACHE") or "datasets" not in _SIMPLE_CACHE:
+        _SIMPLE_CACHE["datasets"] = _load_datasets_memcache()
+    return _SIMPLE_CACHE["datasets"]
+
+
+@cache.cached(key_prefix="_load_datasets")
+def _load_datasets_memcache():
     return config.load_datasets()
 
 
@@ -303,14 +325,36 @@ def _get_datasets(name):
     """
 
     all_datasets = _load_datasets()
-    if name not in all_datasets:
-        raise ClientError(f"Dataset '{name}' not in config.")
-    dataset = all_datasets[name]
 
-    if isinstance(dataset, config.MultiDataset):
-        datasets = [all_datasets[d] for d in dataset.child_dataset_names]
-    else:
-        datasets = [dataset]
+    # Multiple datasets are separated by a comma.
+    names = name.strip(",").split(",")
+    names = [n.strip() for n in names]
+    names = [n for n in names if n]
+    if not names:
+        raise ClientError("No valid dataset names provided.")
+    if len(set(names)) < len(names):
+        raise ClientError("Duplicate dataset names provided.")
+
+    # Check all names exist.
+    unfound_names = [n for n in names if n not in all_datasets]
+    if len(unfound_names) == 1:
+        raise ClientError(f"Dataset '{unfound_names[0]}' not in config.")
+    elif len(unfound_names) > 1:
+        raise ClientError(f"Datasets '{', '.join(unfound_names)}' not in config.")
+
+    # Turn names into datasets.
+    datasets = []
+    for dataset_name in names:
+        dataset = all_datasets[dataset_name]
+        if isinstance(dataset, config.MultiDataset):
+            datasets += [all_datasets[d] for d in dataset.child_dataset_names]
+        else:
+            datasets.append(dataset)
+
+    # Ensure uniqueness after resolving multidatasets.
+    dataset_names = [d.name for d in datasets]
+    if len(dataset_names) > len(set(dataset_names)):
+        raise ConfigError("Datasets must be unique after resolving MultiDatasets.")
 
     return datasets
 

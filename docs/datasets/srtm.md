@@ -82,7 +82,8 @@ curl https://api.opentopodata.org/v1/srtm30m?locations=57.688709,11.976404
       "location": {
         "lat": 57.688709, 
         "lng": 11.976404
-      }
+      },
+      "dataset": "srtm30m"
     }
   ], 
   "status": "OK"
@@ -103,7 +104,8 @@ curl https://api.opentopodata.org/v1/srtm90m?locations=57.688709,11.976404
       "location": {
         "lat": 57.688709, 
         "lng": 11.976404
-      }
+      },
+      "dataset": "srtm90m"
     }
   ], 
   "status": "OK"

@@ -136,7 +136,8 @@ curl https://api.opentopodata.org/v1/ned10m?locations=37.6535,-119.4105
       "location": {
         "lat": 37.6535, 
         "lng": -119.4105
-      }
+      },
+      "dataset": "ned10m"
     }
   ], 
   "status": "OK"

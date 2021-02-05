@@ -111,8 +111,13 @@ def load_config():
         raise ConfigError("All datasets must have a 'name' attribute.")
     if any("path" not in d and "child_datasets" not in d for d in config["datasets"]):
         raise ConfigError("All datasets must have a 'path' attribute.")
+    if any("," in d["name"] for d in config["datasets"]):
+        msg = "Dataset can't contain the ',' character"
+        msg += ", as this is used as a delimiter for multiple datasets."
+        raise ConfigError(msg)
 
-    # Check all child datasets are valid.
+    # Check all child datasets are valid. This logic prevents cycles of
+    # datasets: a child dataset can't be a MultiDataset.
     candidate_names = set()
     child_names = set()
     for d in config["datasets"]:
@@ -122,7 +127,10 @@ def load_config():
             candidate_names.add(d["name"])
     missing_child_names = child_names - candidate_names
     if missing_child_names:
+        all_names = set(d["name"] for d in config["datasets"])
         msg = f"Child datasets {sorted(missing_child_names)} not in config."
+        if len(missing_child_names) > len(missing_child_names - all_names):
+            msg += " A child dataset can't be a MultiDataset."
         raise ConfigError(msg)
 
     # Set defaults.
@@ -165,6 +173,7 @@ class Dataset(abc.ABC):
     to map a location to a particular file.
     """
 
+    # By default, assume raster spans whole globe.
     wgs84_bounds = rasterio.coords.BoundingBox(-180, -90, 180, 90)
 
     @classmethod
@@ -221,7 +230,9 @@ class Dataset(abc.ABC):
                     pass
             except rasterio.RasterioIOError as e:
                 raise ConfigError("Unsupported filetype for '{}'.".format(tile_path))
-            return SingleFileDataset(name, tile_path=tile_path)
+            return SingleFileDataset(
+                name, tile_path=tile_path, wgs84_bounds=wgs84_bounds
+            )
 
         # Check for SRTM-style naming.
         all_filenames = [os.path.basename(p) for p in all_rasters]
@@ -241,6 +252,7 @@ class Dataset(abc.ABC):
                 tile_paths=all_rasters,
                 filename_epsg=filename_epsg,
                 filename_tile_size=filename_tile_size,
+                wgs84_bounds=wgs84_bounds,
             )
 
         # Unable to identify dataset type.
@@ -401,8 +413,6 @@ class TiledDataset(Dataset):
         eastings = [utils.decimal_base_floor(y, tile_size) for y in xs]
 
         return list(zip(northings, eastings))
-
-        return tile_names
 
     def location_paths(self, lats, lons):
         """File corresponding to each location.

@@ -16,7 +16,8 @@ curl http://localhost:5000/v1/test-dataset?locations=56,123
         "location": {
             "lat": 56.0,
             "lng": 123.0
-        }
+        },
+        "dataset": "test-dataset"
     }],
     "status": "OK"
 }
@@ -63,7 +64,8 @@ curl http://localhost:5000/v1/test-dataset?locations=56,123
         "location": {
             "lat": 56.0,
             "lng": 123.0
-        }
+        },
+        "dataset": "test-dataset"
     }],
     "status": "OK"
 }
@@ -93,7 +95,8 @@ curl https://api.opentopodata.org/v1/srtm30m?locations=57.688709,11.976404
       "location": {
         "lat": 57.688709,
         "lng": 11.976404
-      }
+      },
+      "dataset": "srtm30m"
     }
   ],
   "status": "OK"
@@ -111,6 +114,7 @@ The following datasets are available on the public API:
 * [SRTM (30m or 90m)](https://www.opentopodata.org/datasets/srtm/)
 * [EMOD Bathymetry](https://www.opentopodata.org/datasets/emod2018/)
 * [GEBCO Bathymetry](https://www.opentopodata.org/datasets/gebco2020/)
+* [BKG (200m)](https://www.opentopodata.org/datasets/bkg/)
 
 
 

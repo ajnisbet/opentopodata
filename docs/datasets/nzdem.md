@@ -107,7 +107,8 @@ curl https://api.opentopodata.org/v1/nzdem8m?locations=-37.86118,174.79974
       "location": {
         "lat": -37.86118, 
         "lng": 174.79974
-      }
+      },
+      "dataset": "nzdem8m"
     }
   ], 
   "status": "OK"

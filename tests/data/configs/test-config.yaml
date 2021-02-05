@@ -29,7 +29,6 @@ datasets:
   filename_epsg: 3035
   filename_tile_size: 1000000
 
-
 - name: multi_eudem_etopo1
   child_datasets:
   - nodata

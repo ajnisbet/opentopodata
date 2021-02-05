@@ -67,7 +67,8 @@ curl https://api.opentopodata.org/v1/mapzen?locations=57.688709,11.976404
       "location": {
         "lat": 57.688709, 
         "lng": 11.976404
-      }
+      },
+      "dataset": "mapzen"
     }
   ], 
   "status": "OK"
