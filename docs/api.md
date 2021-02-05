@@ -57,20 +57,20 @@ Some notes about the elevation value:
 {
     "results": [
         {
+            "dataset": "srtm90m",
             "elevation": 45,
             "location": {
                 "lat": -43.5,
                 "lng": 172.5
-            },
-            "dataset": "srtm90m"
+            }
         },
         {
+            "dataset": "srtm90m",
             "elevation": 402,
             "location": {
                 "lat": 27.6,
                 "lng": 1.98
-            },
-            "dataset": "srtm90m"
+            }
         }
     ],
     "status": "OK"

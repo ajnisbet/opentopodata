@@ -41,20 +41,30 @@ There are two ways to do this.
 ### Putting multiple datasets in the url
 
 ```bash
-curl https://api.opentopodata.org/v1/nzdem8m,mapzen?locations=56,123
+curl https://api.opentopodata.org/v1/nzdem8m,mapzen?locations=-43.801,172.968|-18.143,178.444
 ```
 
 ```json
 {
-    "results": [{
-        "elevation": 815.0,
-        "location": {
-            "lat": 56.0,
-            "lng": 123.0
-        },
-        "dataset": "test-dataset"
-    }],
-    "status": "OK"
+  "results": [
+    {
+      "dataset": "nzdem8m", 
+      "elevation": 1.4081547260284424, 
+      "location": {
+        "lat": -43.801, 
+        "lng": 172.968
+      }
+    }, 
+    {
+      "dataset": "mapzen", 
+      "elevation": 23.0, 
+      "location": {
+        "lat": -18.143, 
+        "lng": 178.444
+      }
+    }
+  ], 
+  "status": "OK"
 }
 ```
 
@@ -89,20 +99,30 @@ If you have a lot of datasets you want to merge, it's a pain to put them all in 
 Now you can query **nz-global** for the same result.
 
 ```bash
-curl https://api.opentopodata.org/v1/nz-global?locations=56,123
+curl https://api.opentopodata.org/v1/nz-global?locations=-43.801,172.968|-18.143,178.444
 ```
 
 ```json
 {
-    "results": [{
-        "elevation": 815.0,
-        "location": {
-            "lat": 56.0,
-            "lng": 123.0
-        },
-        "dataset": "test-dataset"
-    }],
-    "status": "OK"
+  "results": [
+    {
+      "dataset": "nzdem8m", 
+      "elevation": 1.4081547260284424, 
+      "location": {
+        "lat": -43.801, 
+        "lng": 172.968
+      }
+    }, 
+    {
+      "dataset": "mapzen", 
+      "elevation": 23.0, 
+      "location": {
+        "lat": -18.143, 
+        "lng": 178.444
+      }
+    }
+  ], 
+  "status": "OK"
 }
 ```
 
