@@ -200,3 +200,21 @@ See the [API docs](api.md) for more about request formats and parameters.
 Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
 
 
+---
+
+## Paid hosting
+
+If you'd like me to host and manage an Open Topo Data elevation API for your business, reach out to [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+
+Paid hosting offers the following features:
+
+* Managed hosting, load balanced for redundancy
+* Priority support
+* No hard usage limits
+* Uptime SLA
+* Custom dataset processing
+* EU-only servers if needed
+* GDPR compliance
+* CORS (so you can use the API in your frontend webapp)
+
+Paid hosting funds the development of Open Topo Data and keeps the public API free.
