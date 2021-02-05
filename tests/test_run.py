@@ -40,6 +40,7 @@ class TestRun:
             ["13.345,32.345"] * 50
         )  # Lots of locations to make response longer than min gzip size.
         url = "http://localhost:5000/v1/test-dataset?locations=" + locations
+        response = requests.get(url)
         assert response.headers.get("content-encoding") == "gzip"
 
     def test_health(self):
