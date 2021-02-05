@@ -34,7 +34,6 @@ class TestRun:
         client = pylibmc.Client([MEMCACHED_SOCKET])
         stats = client.get_stats()[0][1]
         assert int(stats["curr_items"]) > 0
-        assert int(stats["get_hits"]) > 0
 
     def test_gzip(self):
         locations = "|".join(

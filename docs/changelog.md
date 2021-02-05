@@ -2,6 +2,14 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.5.0 (5 Feb 2021)
+
+* Big performance improvements, thanks to caching expensive coordinate transforms, reducing the need to deserialise cached objects, and scaling processes to the machine being used.
+* Add [BKG](datasets/bkg.md) data.
+* Add [Multiple Dataset](notes/multiple-datasets.md) feature.
+* Updated rasterio and pyproj dependencies.
+
+
 ## Version 1.4.1 (10 Dec 2020)
 
 * [Increased](https://github.com/ajnisbet/opentopodata/issues/21) max URI length.

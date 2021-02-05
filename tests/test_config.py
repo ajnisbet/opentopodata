@@ -1,3 +1,4 @@
+from decimal import Decimal
 import os
 import re
 
@@ -101,7 +102,7 @@ class TestLoadConfig:
     def test_complete_dataset(self, patch_config):
         conf = config.load_config()
         assert "datasets" in conf
-        assert len(conf["datasets"]) == 6
+        assert len(conf["datasets"]) == 7
 
     def test_defaults_get_overridden(self):
         path = "tests/data/configs/non-default-values.yaml"
@@ -155,22 +156,22 @@ class TestDataset:
         assert dataset.name == name
 
     def test_filename_tile_regex(self):
-        assert re.match(config.FILENAME_TILE_REGEX, "S01W170.tif")
-        assert re.match(config.FILENAME_TILE_REGEX, "N80E001.hgt")  # SRTM filenames
-        assert re.match(
-            config.FILENAME_TILE_REGEX, "ASTGTMV003_N00E019.tif"
-        )  # Aster filenames
-        assert re.match(
-            config.FILENAME_TILE_REGEX, "S100000W900000.tif"
-        )  # EU-dem filenames
-        assert re.match(
-            config.FILENAME_TILE_REGEX, "USGS_13_n20w160.tif"
-        )  # NED filenames
-        assert re.match(
-            config.FILENAME_TILE_REGEX, "S01W170.geotiff.zip"
-        )  # Multiple extensions
-        assert re.match(config.FILENAME_TILE_REGEX, "lowercase_s01w170_cruft.zip")
-        assert not re.match(config.FILENAME_TILE_REGEX, "junk.tif")
+        matching_filenames = [
+            "S01W170.tif",
+            "N80E001.hgt",
+            "ASTGTMV003_N00E019.tif",
+            "S100000W900000.tif",
+            "USGS_13_n20w160.tif",
+            "fraction_N20x25w160x75.tif",
+            "underscore_frac_sep_N20x25_w160x75.tif",
+            "S01W170.geotiff.zip",
+            "lowercase_s01w170_cruft.zip",
+        ]
+        for f in matching_filenames:
+            assert re.match(config.FILENAME_TILE_REGEX, f, re.IGNORECASE)
+
+        # Not matching.
+        assert not re.match(config.FILENAME_TILE_REGEX, "junk.tif", re.IGNORECASE)
 
     def test_aux_case(self):
         for e in config.AUX_EXTENSIONS:
@@ -197,6 +198,39 @@ class TestSingleFileDataset:
 
 
 class TestTiledDataset:
+    def test_float_fractional_tile_size(self):
+        with pytest.raises(config.ConfigError):
+            dataset = config.TiledDataset(
+                name="test",
+                path=SRTM_FOLDER,
+                tile_paths=[],
+                filename_epsg=None,
+                filename_tile_size=0.25,
+            )
+
+    def test_float_whole_tile_size(self):
+        tile_size = 2.0
+        dataset = config.TiledDataset(
+            name="test",
+            path=SRTM_FOLDER,
+            tile_paths=[],
+            filename_epsg=None,
+            filename_tile_size=tile_size,
+        )
+        assert dataset.filename_tile_size == int(tile_size)
+        assert isinstance(dataset.filename_tile_size, Decimal)
+
+    def test_string_tile_size(self):
+        tile_size = "2.5"
+        dataset = config.TiledDataset(
+            name="test",
+            path=SRTM_FOLDER,
+            tile_paths=[],
+            filename_epsg=None,
+            filename_tile_size=tile_size,
+        )
+        assert dataset.filename_tile_size == Decimal(tile_size)
+
     def test_location_paths(self):
         dataset = config.Dataset.from_config(name="srtm", path=SRTM_FOLDER)
         lats = [0.1, 0.9]
@@ -216,28 +250,44 @@ class TestTiledDataset:
         assert paths[0] is None
 
     @pytest.mark.parametrize(
-        "xs,ys,tile_size,ns_fixed_width,ew_fixed_width,result",
+        "filename,northing,easting",
         [
-            ([120.1], [40.9], 1, None, None, ["N40E120"]),
-            ([120.1], [40.9], 1, 0, 0, ["N40E120"]),
-            ([120.1], [-40.9], 1, None, None, ["S41E120"]),
-            ([-120.1], [40.9], 1, None, None, ["N40W121"]),
-            ([-120.1], [-40.9], 1, None, None, ["S41W121"]),
-            ([120.1], [0.2], 1, None, None, ["N0E120"]),
-            ([9], [21], 5, None, None, ["N20E5"]),
-            ([120.1], [0.2], 1, 2, None, ["N00E120"]),
-            ([120.1], [0.2], 1, 0, None, ["N0E120"]),
-            ([13], [-7], 1, 2, 3, ["S07E013"]),
+            ("N40E060", 40, 60),
+            ("USGS_13_S40W60.tif", -40, -60),
+            ("n001000w500000.geotiff.zip", 1000, -500_000),
+            ("ASTGTMV003_N00E019", 0, 19),
+            ("fraction_N50x5W20x25", Decimal("50.5"), Decimal("-20.25")),
+            ("underscore_sep_N50X5_E20X25", Decimal("50.5"), Decimal("20.25")),
         ],
     )
-    def test_location_to_tile_name(
-        self, xs, ys, tile_size, ns_fixed_width, ew_fixed_width, result
-    ):
-        xs = np.array(xs)
-        ys = np.array(ys)
-        assert (
-            config.TiledDataset._location_to_tile_name(
-                xs, ys, tile_size, ns_fixed_width, ew_fixed_width
-            )
-            == result
+    def test_filename_to_tile_corner(self, filename, northing, easting):
+        assert (northing, easting) == config.TiledDataset._filename_to_tile_corner(
+            filename
         )
+
+    # @pytest.mark.parametrize(
+    #     "xs,ys,tile_size,ns_fixed_width,ew_fixed_width,result",
+    #     [
+    #         ([120.1], [40.9], 1, None, None, ["N40E120"]),
+    #         ([120.1], [40.9], 1, 0, 0, ["N40E120"]),
+    #         ([120.1], [-40.9], 1, None, None, ["S41E120"]),
+    #         ([-120.1], [40.9], 1, None, None, ["N40W121"]),
+    #         ([-120.1], [-40.9], 1, None, None, ["S41W121"]),
+    #         ([120.1], [0.2], 1, None, None, ["N0E120"]),
+    #         ([9], [21], 5, None, None, ["N20E5"]),
+    #         ([120.1], [0.2], 1, 2, None, ["N00E120"]),
+    #         ([120.1], [0.2], 1, 0, None, ["N0E120"]),
+    #         ([13], [-7], 1, 2, 3, ["S07E013"]),
+    #     ],
+    # )
+    # def test_location_to_tile_name(
+    #     self, xs, ys, tile_size, ns_fixed_width, ew_fixed_width, result
+    # ):
+    #     xs = np.array(xs)
+    #     ys = np.array(ys)
+    #     assert (
+    #         config.TiledDataset._location_to_tile_name(
+    #             xs, ys, tile_size, ns_fixed_width, ew_fixed_width
+    #         )
+    #         == result
+    #     )

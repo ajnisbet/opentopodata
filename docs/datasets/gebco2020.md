@@ -122,7 +122,8 @@ curl https://api.opentopodata.org/v1/gebco2020?locations=37.6535,-119.4105
       "location": {
         "lat": 37.6535, 
         "lng": -119.4105
-      }
+      },
+      "dataset": "gebco2020"
     }
   ], 
   "status": "OK"

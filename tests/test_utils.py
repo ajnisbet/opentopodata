@@ -1,3 +1,4 @@
+from decimal import Decimal
 import pytest
 import numpy as np
 
@@ -5,6 +6,7 @@ from opentopodata import utils
 
 WGS84_LATLON_WKT = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]'
 WGS84_LATLON_EPSG = 4326
+NAD83_WKT = 'GEOGCS["NAD83",DATUM["North_American_Datum_1983",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],AUTHORITY["EPSG","6269"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4269"]]'
 
 
 class TestReprojectLatlons:
@@ -58,6 +60,13 @@ class TestReprojectLatlons:
                 lats, lons, epsg=WGS84_LATLON_EPSG, wkt=WGS84_LATLON_WKT
             )
 
+    def test_cache_gets_populated(self):
+        lats = [10.5]
+        lons = [120.8]
+        assert NAD83_WKT not in utils._TRANSFORMER_CACHE
+        utils.reproject_latlons(lats, lons, wkt=NAD83_WKT)
+        assert NAD83_WKT in utils._TRANSFORMER_CACHE
+
 
 class TestBaseFloor:
     def test_base_1_default(self):
@@ -71,6 +80,23 @@ class TestBaseFloor:
 
     def test_negative_value(self):
         assert utils.base_floor(-5.1, 5) == -10
+
+
+class TestDecimalBaseFloor:
+    def test_base_1_default(self):
+        values = [-1, 0, 1, -0.6, -0.4, 0.4, 0.6, 99.91]
+        for x in values:
+            assert np.floor(x) == utils.decimal_base_floor(x)
+            assert np.floor(x) == utils.decimal_base_floor(x, 1)
+
+    def test_other_base(self):
+        assert utils.decimal_base_floor(290.9, 50) == 250
+
+    def test_negative_value(self):
+        assert utils.decimal_base_floor(-5.1, 5) == -10
+
+    def test_fractional_base(self):
+        assert utils.decimal_base_floor(5.6, Decimal("0.25")) == Decimal("5.5")
 
 
 class TestSafeIsNan:

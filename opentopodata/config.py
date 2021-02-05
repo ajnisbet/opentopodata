@@ -1,3 +1,4 @@
+from decimal import Decimal
 from glob import glob
 from urllib.parse import urlparse
 import abc
@@ -12,7 +13,7 @@ from opentopodata import utils
 
 CONFIG_PATH = "config.yaml"
 EXAMPLE_CONFIG_PATH = "example-config.yaml"
-FILENAME_TILE_REGEX = r"^.*?([NSns]\d+[WEwe]\d+).*?$"
+FILENAME_TILE_REGEX = r"^.*?([NS][\dx]+_?[WE][\dx]+).*?$"
 AUX_EXTENSIONS = [".tfw", ".aux", ".aux.xml", ".rdd", ".jpw", ".ovr", ".prj"]
 
 DEFAULTS = {
@@ -108,10 +109,31 @@ def load_config():
         raise ConfigError("Config must contain at least one dataset.")
     if any("name" not in d for d in config["datasets"]):
         raise ConfigError("All datasets must have a 'name' attribute.")
-    if any("path" not in d for d in config["datasets"]):
+    if any("path" not in d and "child_datasets" not in d for d in config["datasets"]):
         raise ConfigError("All datasets must have a 'path' attribute.")
+    if any("," in d["name"] for d in config["datasets"]):
+        msg = "Dataset can't contain the ',' character"
+        msg += ", as this is used as a delimiter for multiple datasets."
+        raise ConfigError(msg)
 
-    # Set defualts.
+    # Check all child datasets are valid. This logic prevents cycles of
+    # datasets: a child dataset can't be a MultiDataset.
+    candidate_names = set()
+    child_names = set()
+    for d in config["datasets"]:
+        if "child_datasets" in d:
+            child_names.update(d["child_datasets"])
+        else:
+            candidate_names.add(d["name"])
+    missing_child_names = child_names - candidate_names
+    if missing_child_names:
+        all_names = set(d["name"] for d in config["datasets"])
+        msg = f"Child datasets {sorted(missing_child_names)} not in config."
+        if len(missing_child_names) > len(missing_child_names - all_names):
+            msg += " A child dataset can't be a MultiDataset."
+        raise ConfigError(msg)
+
+    # Set defaults.
     config["max_locations_per_request"] = config.get(
         "max_locations_per_request", DEFAULTS["max_locations_per_request"]
     )
@@ -136,6 +158,14 @@ def load_datasets():
     return datasets
 
 
+class MultiDataset:
+    def __init__(self, name, child_dataset_names):
+        if not child_dataset_names:
+            raise ConfigError(f"child_datasets for {name} can't be empty.")
+        self.name = name
+        self.child_dataset_names = child_dataset_names
+
+
 class Dataset(abc.ABC):
     """Base class for Dataset.
 
@@ -143,12 +173,15 @@ class Dataset(abc.ABC):
     to map a location to a particular file.
     """
 
+    # By default, assume raster spans whole globe.
+    wgs84_bounds = rasterio.coords.BoundingBox(-180, -90, 180, 90)
+
     @classmethod
     def _is_aux_file(cls, path):
         return any([path.lower().endswith(e) for e in AUX_EXTENSIONS])
 
     @classmethod
-    def from_config(cls, name, path, **kwargs):
+    def from_config(cls, name, path=None, **kwargs):
         """Initialise a Dataset from the config.
 
         Based on the filename format, the appropriate kind of Dataset will be
@@ -163,6 +196,10 @@ class Dataset(abc.ABC):
             Subclass of Dataset.
         """
 
+        # Multi datasets are handled separately.
+        if "child_datasets" in kwargs:
+            return MultiDataset(name, kwargs["child_datasets"])
+
         # Check the dataset is there.
         if not os.path.isdir(path):
             raise ConfigError("No dataset folder found at location '{}'".format(path))
@@ -172,9 +209,18 @@ class Dataset(abc.ABC):
         all_paths = list(glob(pattern, recursive=True))
         all_files = [p for p in all_paths if os.path.isfile(p)]
         all_rasters = [p for p in all_files if not cls._is_aux_file(p)]
-
         if not all_rasters:
             raise ConfigError("Dataset folder '{}' seems to be empty.".format(path))
+
+        # Build bounds.
+        wgs84_bounds = None
+        if "wgs84_bounds" in kwargs:
+            wgs84_bounds = rasterio.coords.BoundingBox(
+                kwargs["wgs84_bounds"]["left"],
+                kwargs["wgs84_bounds"]["bottom"],
+                kwargs["wgs84_bounds"]["right"],
+                kwargs["wgs84_bounds"]["top"],
+            )
 
         # Check for single file.
         if len(all_rasters) == 1:
@@ -184,11 +230,16 @@ class Dataset(abc.ABC):
                     pass
             except rasterio.RasterioIOError as e:
                 raise ConfigError("Unsupported filetype for '{}'.".format(tile_path))
-            return SingleFileDataset(name, tile_path=tile_path)
+            return SingleFileDataset(
+                name, tile_path=tile_path, wgs84_bounds=wgs84_bounds
+            )
 
         # Check for SRTM-style naming.
         all_filenames = [os.path.basename(p) for p in all_rasters]
-        if all([re.match(FILENAME_TILE_REGEX, f) for f in all_filenames]):
+        is_srtm_raster = [
+            re.match(FILENAME_TILE_REGEX, f, re.IGNORECASE) for f in all_filenames
+        ]
+        if all(is_srtm_raster):
             filename_epsg = kwargs.get(
                 "filename_epsg", DEFAULTS["dataset.filename_epsg"]
             )
@@ -201,13 +252,13 @@ class Dataset(abc.ABC):
                 tile_paths=all_rasters,
                 filename_epsg=filename_epsg,
                 filename_tile_size=filename_tile_size,
+                wgs84_bounds=wgs84_bounds,
             )
 
-        raise ConfigError(
-            "Unknown dataset type for '{}'. Dataset should either be a single file, or split up into tiles with the lower-left corner coordinate in the filename like 'N20W120'.".format(
-                name
-            )
-        )
+        # Unable to identify dataset type.
+        msg = f"Unknown dataset type for '{name}'. Dataset should either be a single file,"
+        msg += " or split into tiles with the lower-left corner coord in the filename like 'N20W120'."
+        raise ConfigError(msg)
 
     @abc.abstractmethod
     def location_paths(self, lats, lons):
@@ -222,7 +273,7 @@ class Dataset(abc.ABC):
 
 
 class SingleFileDataset(Dataset):
-    def __init__(self, name, tile_path):
+    def __init__(self, name, tile_path, wgs84_bounds=None):
         """A dataset consisting of a single raster file.
 
         Args:
@@ -231,6 +282,8 @@ class SingleFileDataset(Dataset):
         """
         self.name = name
         self.tile_path = tile_path
+        if wgs84_bounds:
+            self.wgs84_bounds = wgs84_bounds
 
     def location_paths(self, lats, lons):
         """File corresponding to each location.
@@ -246,7 +299,15 @@ class SingleFileDataset(Dataset):
 
 
 class TiledDataset(Dataset):
-    def __init__(self, name, path, tile_paths, filename_epsg, filename_tile_size):
+    def __init__(
+        self,
+        name,
+        path,
+        tile_paths,
+        filename_epsg,
+        filename_tile_size,
+        wgs84_bounds=None,
+    ):
         """A dataset of files named in SRTM format.
 
         Each file should be a square tile, named like N50W121 for the lower left (SW) corner.
@@ -266,64 +327,92 @@ class TiledDataset(Dataset):
         self.name = name
         self.path = path
         self.filename_epsg = filename_epsg
-        self.filename_tile_size = filename_tile_size
 
-        # Build lookup from filename without extension to path.
-        tile_filenames = [os.path.basename(p).split(".")[0] for p in tile_paths]
-        tile_names = [
-            re.match(FILENAME_TILE_REGEX, f).groups()[0].upper() for f in tile_filenames
-        ]
-        if len(tile_names) != len(set(tile_names)):
+        # Bounds.
+        if wgs84_bounds:
+            self.wgs84_bounds = wgs84_bounds
+
+        # Validate tile size.
+        if isinstance(filename_tile_size, float):
+            if filename_tile_size.is_integer():
+                filename_tile_size = int(filename_tile_size)
+            else:
+                msg = "Non-integer tile sizes should be specified as a string like "
+                msg += f" filename_tile_size: '{str(filename_tile_size)}"
+                msg += " to avoiding floating point precision issues."
+                raise ConfigError(msg)
+
+        # Parse tile size.
+        try:
+            self.filename_tile_size = Decimal(filename_tile_size)
+        except Exception as e:
+            msg = f"Unable to parse filename_tile_size {filename_tile_size}"
+            raise ConfigError(msg)
+
+        # Build tile lookup.
+        corners = [self._filename_to_tile_corner(p) for p in tile_paths]
+        if len(corners) > len(set(corners)):
             msg = "SRTM-type tile coords must be unique,"
             msg += " cannot be the same tile with different extensions."
             raise ConfigError(msg)
-
-        # Find if the filenames use fixed-width zero padding.
-        ns = [re.search(r"[NS](\d+)[WE]", x)[1] for x in tile_names]
-        ew = [re.search(r"[WE](\d+)", x)[1] for x in tile_names]
-        ns_lens = set(len(x) for x in ns)
-        ew_lens = set(len(x) for x in ew)
-        self.ns_fixed_width = ns_lens.pop() if len(ns_lens) == 1 else None
-        self.ew_fixed_width = ew_lens.pop() if len(ew_lens) == 1 else None
-
-        self._tile_lookup = dict(zip(tile_names, tile_paths))
+        self._tile_lookup = dict(zip(corners, tile_paths))
 
     @classmethod
-    def _location_to_tile_name(
-        cls, xs, ys, tile_size=1, ns_fixed_width=None, ew_fixed_width=None
-    ):
-        """Convert locations to SRTM tile name.
+    def _filename_to_tile_corner(cls, filename):
+        """Exctract the corner lat/lon or y/x location from a filename.
 
-        For example, (-120.5, 40.1) becomes N40W121. The lower left corner of
-        the tile is used. The numbers can be padded with leading zeroes to all
-        be the same width.
+
+        Args:
+            filename: Name of an SRTM style tile (like N50W25).
+
+        Returns:
+            y, x: decimal.Decimal location of lower-left corner.
+        """
+        # Normalise if a full path is passed.
+        filename = os.path.basename(filename)
+
+        # Extract components.
+        northing_str = (
+            re.search(r"([NS][\dx]+)_?[WE]", filename, re.IGNORECASE)[1]
+            .lower()
+            .replace("x", ".")
+        )
+        easting_str = (
+            re.search(r"[NS][\dx]+_?([WE][\dx]+)", filename, re.IGNORECASE)[1]
+            .lower()
+            .replace("x", ".")
+        )
+
+        # Positive or negative.
+        northing_sign = 1 if northing_str.startswith("n") else -1
+        easting_sign = 1 if easting_str.startswith("e") else -1
+
+        # Numerics.
+        northing = northing_sign * Decimal(northing_str[1:])
+        easting = easting_sign * Decimal(easting_str[1:])
+
+        return northing, easting
+
+    @classmethod
+    def _location_to_tile_corner(cls, xs, ys, tile_size=1):
+        """Convert locations to SRTM tile corner.
+
+        For example, (-120.5, 40.1) becomes (-120, 40). The lower left corner
+        of the tile is used. Decimals are used to preserve precsion for
+        fractional tile sizes.
 
         Args:
             xs, ys: Lists of x and y coordinates.
-            tile_size: Which value to round the tiles to.
-            ns_fixed_width, ew_fixed_width: Integer to pad with zeroes. None means no padding.
+            tile_size: Which value to round the tiles to. Int or Decimal.
 
         Returns:
-            tile_names: List of strings.
+            tile_names: List of (Decimal, Decimal) northing, easting tuples.
         """
 
-        n_or_s = np.where(ys >= 0, "N", "S")
-        e_or_w = np.where(xs >= 0, "E", "W")
+        northings = [utils.decimal_base_floor(y, tile_size) for y in ys]
+        eastings = [utils.decimal_base_floor(y, tile_size) for y in xs]
 
-        ns_value = np.abs(utils.base_floor(ys, tile_size)).astype(int).astype(str)
-        ew_value = np.abs(utils.base_floor(xs, tile_size)).astype(int).astype(str)
-
-        ns_fixed_width = ns_fixed_width or 0
-        ew_fixed_width = ew_fixed_width or 0
-
-        ns_value = [x.zfill(ns_fixed_width) for x in ns_value]
-        ew_value = [x.zfill(ew_fixed_width) for x in ew_value]
-
-        tile_names = np.char.add(n_or_s, ns_value)
-        tile_names = np.char.add(tile_names, e_or_w)
-        tile_names = np.char.add(tile_names, ew_value)
-
-        return tile_names
+        return list(zip(northings, eastings))
 
     def location_paths(self, lats, lons):
         """File corresponding to each location.
@@ -340,10 +429,8 @@ class TiledDataset(Dataset):
         # Convert to filename projection.
         xs, ys = utils.reproject_latlons(lats, lons, epsg=self.filename_epsg)
 
-        # Use to look up.
-        filenames = self.__class__._location_to_tile_name(
-            xs, ys, self.filename_tile_size, self.ns_fixed_width, self.ew_fixed_width
-        )
+        # Find corresponding tile.
+        filenames = self._location_to_tile_corner(xs, ys, self.filename_tile_size)
         paths = [self._tile_lookup.get(f) for f in filenames]
 
         return paths

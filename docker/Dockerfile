@@ -1,15 +1,15 @@
 # Container for packages that need to be built from source but have massive dev dependencies.
-FROM python:3.7.7-slim-buster as builder
+FROM python:3.7.9-slim-buster as builder
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
         python3.7-dev
-RUN pip wheel --wheel-dir=/root/wheels uwsgi==2.0.18 && \
-    pip wheel --wheel-dir=/root/wheels regex==2020.10.23
+RUN pip wheel --wheel-dir=/root/wheels uwsgi==2.0.19.1 && \
+    pip wheel --wheel-dir=/root/wheels regex==2020.11.13
 
 # The actual container.
-FROM python:3.7.7-slim-buster
+FROM python:3.7.9-slim-buster
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -20,13 +20,13 @@ RUN set -e && \
 
 COPY --from=builder /root/wheels /root/wheels
 COPY requirements.txt /app/requirements.txt
-RUN pip install --upgrade pip &&\
-    pip install \
+RUN pip install \
         --no-index \
         --no-cache-dir \
+        --disable-pip-version-check \
         --find-links=/root/wheels \
         uwsgi regex && \
-    pip install --no-cache-dir -r /app/requirements.txt && \
+    pip install --no-cache-dir --disable-pip-version-check -r /app/requirements.txt && \
         rm -rf /root/.cache/pip/* && \
         rm root/wheels/* && \
         rm /app/requirements.txt

@@ -6,6 +6,11 @@ datasets:
 
 - name: srtm90subset
   path: tests/data/datasets/test-srtm90m-subset/
+  wgs84_bounds:
+    left: 10
+    right: 12
+    bottom: 0
+    top: 1
 
   # Made with gdalwarp -t_srs '+proj=utm +zone=32 +datum=WGS84 +units=m +no_defs'  
 - name: srtm90utm
@@ -23,3 +28,9 @@ datasets:
   path: tests/data/datasets/test-eu-dem-subset-no-epsg/
   filename_epsg: 3035
   filename_tile_size: 1000000
+
+- name: multi_eudem_etopo1
+  child_datasets:
+  - nodata
+  - eudemsubset
+  - etopo1deg

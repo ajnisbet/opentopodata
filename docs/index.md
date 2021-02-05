@@ -23,7 +23,8 @@ curl https://api.opentopodata.org/v1/test-dataset?locations=56,123
         "location": {
             "lat": 56.0,
             "lng": 123.0
-        }
+        },
+        "dataset": "test-dataset"
     }],
     "status": "OK"
 }
@@ -69,7 +70,8 @@ curl https://api.opentopodata.org/v1/test-dataset?locations=56.35,123.90
         "location": {
             "lat": 56.0,
             "lng": 123.0
-        }
+        },
+        "dataset": "test-dataset"
     }],
     "status": "OK"
 }
@@ -157,6 +159,13 @@ The following datasets are available on the public API, with elevation shown for
 			<td><a href="https://api.opentopodata.org/v1/srtm90m?locations=39.747114,-104.996334">1603&nbsp;m</a></td>
 		</tr>
 		<tr>
+			<td><a href="/datasets/bkg/">bkg200m</a></td>
+			<td>200&nbsp;m</td>
+			<td>Germany.</td>
+			<td><a href="https://www.bkg.bund.de/">BKG</a></td>
+			<td><a href="https://api.opentopodata.org/v1/bkg200m?locations=39.747114,-104.996334"><em>Not in dataset bounds</em></a></td>
+		</tr>
+		<tr>
 			<td><a href="/datasets/etopo1/">etopo1</a></td>
 			<td>~1.8&nbsp;km</td>
 			<td>Global, including bathymetry and ice surface elevation near poles.</td>
@@ -191,3 +200,21 @@ See the [API docs](api.md) for more about request formats and parameters.
 Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
 
 
+---
+
+## Paid hosting
+
+If you'd like me to host and manage an Open Topo Data elevation API for your business, reach out to [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+
+Paid hosting offers the following features:
+
+* Managed hosting, load balanced for redundancy
+* Priority support
+* No hard usage limits
+* Uptime SLA
+* Custom dataset processing
+* EU-only servers if needed
+* GDPR compliance
+* CORS (so you can use the API in your frontend webapp)
+
+Paid hosting funds the development of Open Topo Data and keeps the public API free.

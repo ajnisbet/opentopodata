@@ -5,18 +5,22 @@ A public API is available for testing at [api.opentopodata.org](https://api.open
 
 ## `GET /v1/<dataset_name>`
 
-Reads the elevation from a given dataset. The dataset must match one of the options in `config.yaml`.
+Reads the elevation from a given dataset.
+
+The dataset name must match one of the options in `config.yaml`. 
+
+Multiple datasets can be provided separated by commas: in this case, for each point, each dataset is queried in order until a non-null elevation is found. For more information see [Multi datasets]('../notes/multiple-datasets.md').
 
 Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format), they will be converted internally to whatever the dataset uses.
 
-### Args
+### Query Args
 
 * `locations`: Required. Either 
     * `latitutde,longitude` pairs, each separated by a pipe character `|`. Example: `locations=12.5,160.2|-10.6,130`.
     * [Google polyline format](https://developers.google.com/maps/documentation/utilities/polylinealgorithm). Example: `locations=gfo}EtohhU`.
 * `interpolation`: How to interpolate between the points in the dataset. Options: `nearest`, `bilinear`, `cubic`. Default: `bilinear`.
 * `nodata_value`: What elevation to return if the dataset has a [NODATA](https://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/nodata-in-raster-datasets.htm) value at the requested location. Options: `null`, `nan`, or an integer like `-9999`. Default: `null`.
-    * The default option `null` makes NODATA indestiguisable from a location outside the dataset bounds. 
+    * The default option `null` makes NODATA indistinguishable from a location outside the dataset bounds. 
     * `NaN` (not a number) values aren't valid in json and will break some clients. The `nan` option was default before version 1.4 and is provided only for backwards compatibility. 
 
 
@@ -29,9 +33,10 @@ A json object, compatible with the Google Maps Elevation API.
 * `status`: Will be `OK` for a successful request, `INVALID_REQUEST` for an input (4xx) error, and `SERVER_ERROR` for anything else (5xx). Required.
 * `error`: Description of what went wrong, when `status` isn't `OK`.
 * `results`: List of elevations for each location, in same order as input. Only provided for `OK` status.
-* `results[].elevation`: Elevation, using units and datum from the dataset. May be `null` if the given location is outside the dataset bounds. May be `null` for NODATA values depending on the `nodata_value` query argument.
+* `results[].elevation`: Elevation, using units and datum from the dataset. Will be `null` if the given location is outside the dataset bounds. May be `null` for NODATA values depending on the `nodata_value` query argument.
 * `results[].location.lat`: Latitude as parsed by Open Topo Data.
 * `results[].location.lng`: Longitude as parsed by Open Topo Data.
+* `results[].dataset`: The name of the dataset which the returned elevation is from.
 
 Some notes about the elevation value:
 
@@ -52,6 +57,7 @@ Some notes about the elevation value:
 {
     "results": [
         {
+            "dataset": "srtm90m",
             "elevation": 45,
             "location": {
                 "lat": -43.5,
@@ -59,6 +65,7 @@ Some notes about the elevation value:
             }
         },
         {
+            "dataset": "srtm90m",
             "elevation": 402,
             "location": {
                 "lat": 27.6,

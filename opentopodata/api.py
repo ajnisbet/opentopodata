@@ -37,19 +37,39 @@ else:
 cache.init_app(app)
 
 
-@cache.cached(key_prefix="_load_config")
+# Memcache has significant deserialisation overhead for large datasets. It
+# seems like a waste to do the exact same deserialisation work for each
+# request: instead it can be cached in a module-level dict that will persist
+# between requests. This isn't threadsafe but neither is flask_caching's
+# memcache. It will be fine as long as the value for a key will never change.
+# TODO: drop the dependency on flask_caching, make a merged simple and
+# memcached cache object.
+_SIMPLE_CACHE = {}
+
+
 def _load_config():
     """Config file as a dict.
 
     Returns:
         Config dict.
     """
+    if os.environ.get("DISABLE_MEMCACHE") or "config" not in _SIMPLE_CACHE:
+        _SIMPLE_CACHE["config"] = _load_config_memcache()
+    return _SIMPLE_CACHE["config"]
+
+
+@cache.cached(key_prefix="_load_config")
+def _load_config_memcache():
     return config.load_config()
 
 
-# Supporting CORSs enables browsers to make XHR requests.
 @app.after_request
 def apply_cors(response):
+    """Set CORs header.
+
+    Supporting CORSs enables browsers to make XHR requests. Applies the value
+    of the access_control_allow_origin config option.
+    """
     try:
         if _load_config()["access_control_allow_origin"]:
             response.headers["access-control-allow-origin"] = _load_config()[
@@ -69,8 +89,6 @@ class ClientError(ValueError):
     A 400 error should be raised. The error message should be safe to pass
     back to the client.
     """
-
-    pass
 
 
 def _parse_interpolation(method):
@@ -165,6 +183,7 @@ def _parse_locations(locations, max_n_locations):
         msg += " Add locations in a query string: ?locations=lat1,lon1|lat2,lon2."
         raise ClientError(msg)
 
+    # "," isbn't a valid character in a polyline.
     if "," in locations:
         return _parse_latlon_locations(locations, max_n_locations)
     else:
@@ -274,32 +293,70 @@ def _parse_latlon_locations(locations, max_n_locations):
     return lats, lons
 
 
-@cache.cached(key_prefix="_load_datasets")
 def _load_datasets():
-    """Load datasets defined in config
+    """Load datasets defined in config.
 
     Returns:
         Dict of {dataset_name: config.Dataset object} items.
     """
+    if os.environ.get("DISABLE_MEMCACHE") or "datasets" not in _SIMPLE_CACHE:
+        _SIMPLE_CACHE["datasets"] = _load_datasets_memcache()
+    return _SIMPLE_CACHE["datasets"]
+
+
+@cache.cached(key_prefix="_load_datasets")
+def _load_datasets_memcache():
     return config.load_datasets()
 
 
-def _get_dataset(name):
-    """Retrieve a dataset with error handling.
+def _get_datasets(name):
+    """Retrieve datasets with error handling.
+
+    If the name refers to a MultiDataset, load all child datasets.
 
     Args:
         name: Dataset name string (as used in request url and config file).
 
     Returns:
-        config.Dataset object.
+        List of config.Dataset object.
 
     Raises:
         ClientError: If the name isn't defined in the config.
     """
-    datasets = _load_datasets()
-    if name not in datasets:
-        raise ClientError(f"Dataset '{name}' not in config.")
-    return datasets[name]
+
+    all_datasets = _load_datasets()
+
+    # Multiple datasets are separated by a comma.
+    names = name.strip(",").split(",")
+    names = [n.strip() for n in names]
+    names = [n for n in names if n]
+    if not names:
+        raise ClientError("No valid dataset names provided.")
+    if len(set(names)) < len(names):
+        raise ClientError("Duplicate dataset names provided.")
+
+    # Check all names exist.
+    unfound_names = [n for n in names if n not in all_datasets]
+    if len(unfound_names) == 1:
+        raise ClientError(f"Dataset '{unfound_names[0]}' not in config.")
+    elif len(unfound_names) > 1:
+        raise ClientError(f"Datasets '{', '.join(unfound_names)}' not in config.")
+
+    # Turn names into datasets.
+    datasets = []
+    for dataset_name in names:
+        dataset = all_datasets[dataset_name]
+        if isinstance(dataset, config.MultiDataset):
+            datasets += [all_datasets[d] for d in dataset.child_dataset_names]
+        else:
+            datasets.append(dataset)
+
+    # Ensure uniqueness after resolving multidatasets.
+    dataset_names = [d.name for d in datasets]
+    if len(dataset_names) > len(set(dataset_names)):
+        raise ConfigError("Datasets must be unique after resolving MultiDatasets.")
+
+    return datasets
 
 
 @app.route("/")
@@ -343,14 +400,21 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
         )
 
         # Get the z values.
-        dataset = _get_dataset(dataset_name)
-        elevations = backend.get_elevation(lats, lons, dataset, interpolation)
-        elevations = utils.fill_na(elevations, nodata_value)
+        datasets = _get_datasets(dataset_name)
+        elevations, dataset_names = backend.get_elevation(
+            lats, lons, datasets, interpolation, nodata_value
+        )
 
         # Build response.
         results = []
-        for z, lat, lon in zip(elevations, lats, lons):
-            results.append({"elevation": z, "location": {"lat": lat, "lng": lon}})
+        for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
+            results.append(
+                {
+                    "elevation": z,
+                    "dataset": dataset_name,
+                    "location": {"lat": lat, "lng": lon},
+                }
+            )
         data = {"status": "OK", "results": results}
         return jsonify(data)
 
@@ -365,5 +429,5 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
         if app.debug:
             raise e
         app.logger.error(e)
-        msg = "Server error, please retry request."
+        msg = "Unhandled server error, see server logs for details."
         return jsonify({"status": "SERVER_ERROR", "error": msg}), 500

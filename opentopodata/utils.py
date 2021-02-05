@@ -1,3 +1,4 @@
+from decimal import Decimal
 import math
 
 import numpy as np
@@ -5,6 +6,11 @@ import pyproj
 
 
 WGS84_LATLON_EPSG = 4326
+
+# There's significant overhead in pyproj when building a Transformer object.
+# Without a cache a Transformer can be built many times per request, even for
+# the same CRS.
+_TRANSFORMER_CACHE = {}
 
 
 def reproject_latlons(lats, lons, epsg=None, wkt=None):
@@ -28,18 +34,34 @@ def reproject_latlons(lats, lons, epsg=None, wkt=None):
     if epsg is not None and (not 1024 <= epsg <= 32767):
         raise ValueError("Dataset has invalid epsg projection.")
 
-    # Do the transform. Pyproj assumes EPSG:4326 as default source projection.
-    if epsg:
-        projection = pyproj.Proj(f"EPSG:{epsg}")
+    # Load transformer.
+    to_crs = wkt or f"EPSG:{epsg}"
+    if to_crs in _TRANSFORMER_CACHE:
+        transformer = _TRANSFORMER_CACHE[to_crs]
     else:
-        projection = pyproj.Proj(wkt)
-    x, y = projection(lons, lats)
+        from_crs = f"EPSG:{WGS84_LATLON_EPSG}"
+        transformer = pyproj.transformer.Transformer.from_crs(
+            from_crs, to_crs, always_xy=True
+        )
+        _TRANSFORMER_CACHE[to_crs] = transformer
+
+    # Do the transform.
+    x, y = transformer.transform(lons, lats)
 
     return x, y
 
 
 def base_floor(x, base=1):
+    """Round number down to nearest multiple of base."""
     return base * np.floor(x / base)
+
+
+def decimal_base_floor(x, base=1):
+    """Round decimal down to nearest multiple of base."""
+    if not isinstance(base, (Decimal, int)):
+        raise ValueError("Base must be an integer or decimal.")
+    integer = math.floor(x / float(base))
+    return base * Decimal(integer)
 
 
 def safe_is_nan(x):

@@ -24,11 +24,14 @@ nav:
       - SRTM: 'datasets/srtm.md'
       - EMOD bathymetry: 'datasets/emod2018.md'
       - GEBCO bathymetry: 'datasets/gebco2020.md'
+      - BKG: 'datasets/bkg.md'
     - Notes:
       - Windows support: 'notes/windows-support.md'
       - Cloud storage: 'notes/cloud-storage.md'
       - Invalid SRTM zips: 'notes/invalid-srtm-zips.md'
       - Dataset sizes: 'notes/dataset-sizes.md'
+      - Buffering tiles: 'notes/buffering-tiles.md'
+      - Multiple datasets: 'notes/multiple-datasets.md'
 
 extra_javascript:
   - js/extra.js

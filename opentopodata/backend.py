@@ -1,8 +1,4 @@
-from glob import glob
 import collections
-import math
-import os
-import re
 
 from rasterio.enums import Resampling
 import numpy as np
@@ -29,8 +25,6 @@ class InputError(ValueError):
     The error message should be safe to pass back to the client.
     """
 
-    pass
-
 
 def _noop(x):
     return x
@@ -48,6 +42,7 @@ def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
     Raises:
         InputError: if one of the points lies outside bounds.
     """
+    oob_indices = set()
 
     # Get actual extent. When storing point data in a pixel-based raster
     # format, the true extent is the centre of the outer pixels, but GDAL
@@ -68,19 +63,10 @@ def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
     x_in_bounds = (xs >= x_min) & (xs <= x_max)
     y_in_bounds = (ys >= y_min) & (ys <= y_max)
 
-    # Raise exception if out of bounds.
-    if not all(y_in_bounds):
-        i_oob = np.argmax(y_in_bounds)
-        lat = lats[i_oob]
-        lon = lons[i_oob]
-        msg = "Location '{},{}' has latitude outside of raster bounds".format(lat, lon)
-        raise InputError(msg)
-    if not all(x_in_bounds):
-        i_oob = np.argmax(x_in_bounds)
-        lat = lats[i_oob]
-        lon = lons[i_oob]
-        msg = "Location '{},{}' has longitude outside of raster bounds".format(lat, lon)
-        raise InputError(msg)
+    # Found out of bounds.
+    oob_indices.update(np.nonzero(~x_in_bounds)[0])
+    oob_indices.update(np.nonzero(~y_in_bounds)[0])
+    return sorted(oob_indices)
 
 
 def _get_elevation_from_path(lats, lons, path, interpolation):
@@ -99,56 +85,75 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
     lons = np.asarray(lons)
     lats = np.asarray(lats)
 
-    with rasterio.open(path) as f:
-        if f.crs is None:
-            msg = "Dataset has no coordinate reference system."
-            msg += " Check the file '{path}' is a geo raster."
-            msg += " Otherwise you'll have to add the crs manually with a tool like gdaltranslate."
-            raise InputError(msg)
+    try:
+        with rasterio.open(path) as f:
+            if f.crs is None:
+                msg = "Dataset has no coordinate reference system."
+                msg += f" Check the file '{path}' is a geo raster."
+                msg += " Otherwise you'll have to add the crs manually with a tool like gdaltranslate."
+                raise InputError(msg)
 
-        try:
-            if f.crs.is_epsg_code:
-                xs, ys = utils.reproject_latlons(lats, lons, epsg=f.crs.to_epsg())
-            else:
-                xs, ys = utils.reproject_latlons(lats, lons, wkt=f.crs.to_wkt())
-        except ValueError:
-            raise InputError("Unable to transform latlons to dataset projection.")
+            try:
+                if f.crs.is_epsg_code:
+                    xs, ys = utils.reproject_latlons(lats, lons, epsg=f.crs.to_epsg())
+                else:
+                    xs, ys = utils.reproject_latlons(lats, lons, wkt=f.crs.to_wkt())
+            except ValueError:
+                raise InputError("Unable to transform latlons to dataset projection.")
 
-        # Check bounds.
-        _validate_points_lie_within_raster(xs, ys, lats, lons, f.bounds, f.res)
-        rows, cols = tuple(f.index(xs, ys, op=_noop))
-
-        # Offset by 0.5 to convert from center coords (provided by
-        # f.index) to ul coords (expected by f.read).
-        rows = np.array(rows) - 0.5
-        cols = np.array(cols) - 0.5
-
-        # Because of floating point precision, indices may slightly exceed
-        # array bounds. Because we've checked the locations are within the
-        # file bounds,  it's safe to clip to the array shape.
-        rows = rows.clip(0, f.height - 1)
-        cols = cols.clip(0, f.width - 1)
-
-        # Read the locations, using a 1x1 window. The `masked` kwarg makes
-        # rasterio replace NODATA values with np.nan. The `boundless` kwarg
-        # forces the windowed elevation to be a 1x1 array, even when it all
-        # values are NODATA.
-        for row, col in zip(rows, cols):
-            window = rasterio.windows.Window(col, row, 1, 1)
-            z_array = f.read(
-                indexes=1,
-                window=window,
-                resampling=interpolation,
-                out_dtype=float,
-                boundless=True,
-                masked=True,
+            # Check bounds.
+            oob_indices = _validate_points_lie_within_raster(
+                xs, ys, lats, lons, f.bounds, f.res
             )
-            z = np.ma.filled(z_array, np.nan)[0][0]
-            z_all.append(z)
+            rows, cols = tuple(f.index(xs, ys, op=_noop))
+
+            # Offset by 0.5 to convert from center coords (provided by
+            # f.index) to ul coords (expected by f.read).
+            rows = np.array(rows) - 0.5
+            cols = np.array(cols) - 0.5
+
+            # Because of floating point precision, indices may slightly exceed
+            # array bounds. Because we've checked the locations are within the
+            # file bounds,  it's safe to clip to the array shape.
+            rows = rows.clip(0, f.height - 1)
+            cols = cols.clip(0, f.width - 1)
+
+            # Read the locations, using a 1x1 window. The `masked` kwarg makes
+            # rasterio replace NODATA values with np.nan. The `boundless` kwarg
+            # forces the windowed elevation to be a 1x1 array, even when it all
+            # values are NODATA.
+            for i, (row, col) in enumerate(zip(rows, cols)):
+                if i in oob_indices:
+                    z_all.append(None)
+                    continue
+                window = rasterio.windows.Window(col, row, 1, 1)
+                z_array = f.read(
+                    indexes=1,
+                    window=window,
+                    resampling=interpolation,
+                    out_dtype=float,
+                    boundless=True,
+                    masked=True,
+                )
+                z = np.ma.filled(z_array, np.nan)[0][0]
+                z_all.append(z)
+
+    # Depending on the file format, when rasterio finds an invalid projection
+    # of file, it might load it with a None crs, or it might throw an error.
+    except rasterio.RasterioIOError as e:
+        if "not recognized as a supported file format" in str(e):
+            msg = f"Dataset file '{path}' not recognised as a geo raster."
+            msg += " Check that the file has projection information with gdalsrsinfo,"
+            msg += " and that the file is not corrupt."
+            raise InputError(msg)
+        raise e
+
     return z_all
 
 
-def get_elevation(lats, lons, dataset, interpolation="nearest"):
+def _get_elevation_for_single_dataset(
+    lats, lons, dataset, interpolation="nearest", nodata_value=None
+):
     """Read elevations from a dataset.
 
     A dataset may consist of multiple files, so need to determine which
@@ -191,4 +196,79 @@ def get_elevation(lats, lons, dataset, interpolation="nearest"):
         for i_path, i_original in enumerate(path_to_point_index[path]):
             elevations[i_original] = path_elevations[i_path]
 
+    elevations = utils.fill_na(elevations, nodata_value)
     return elevations
+
+
+class _Point:
+    def __init__(self, lat, lon, index):
+        self.lat = lat
+        self.lon = lon
+        self.index = index
+        self.elevation = None
+        self.dataset_name = None
+
+
+def get_elevation(lats, lons, datasets, interpolation="nearest", nodata_value=None):
+    """Read first non-null elevation from multiple datasets.
+
+
+    Args:
+        lats, lons: Arrays of latitudes/longitudes.
+        dataset: config.Dataset object.
+        interpolation: method name string.
+
+    Returns:
+        elevations: List of elevations, same length as lats/lons.
+    """
+
+    # # Early exit for single dataset.
+    # if len(datasets) == 1:
+    #     elevations = _get_elevation_for_single_dataset(
+    #         lats, lons, datasets[0], interpolation, nodata_value
+    #     )
+    #     dataset_names = [datasets[0].name] * len(lats)
+    #     return elevations, dataset_names
+
+    # Check
+    points = [_Point(lat, lon, idx) for idx, (lat, lon) in enumerate(zip(lats, lons))]
+    for dataset in datasets:
+
+        # Only check points that have no point yet. Can exit early if
+        # there's no unqueried points.
+        dataset_points = [p for p in points if p.elevation is None]
+        if not dataset_points:
+            break
+
+        # Only check points within the dataset bounds.
+        dataset_points = [
+            p for p in dataset_points if p.lat >= dataset.wgs84_bounds.bottom
+        ]
+        dataset_points = [
+            p for p in dataset_points if p.lat <= dataset.wgs84_bounds.top
+        ]
+        dataset_points = [
+            p for p in dataset_points if p.lon >= dataset.wgs84_bounds.left
+        ]
+        dataset_points = [
+            p for p in dataset_points if p.lon <= dataset.wgs84_bounds.right
+        ]
+        if not dataset_points:
+            continue
+
+        # Get locations.
+        elevations = _get_elevation_for_single_dataset(
+            [p.lat for p in dataset_points],
+            [p.lon for p in dataset_points],
+            dataset,
+            interpolation,
+            nodata_value,
+        )
+
+        # Save.
+        for point, elevation in zip(dataset_points, elevations):
+            points[point.index].elevation = elevation
+            points[point.index].dataset_name = dataset.name
+
+    # Return elevations.
+    return [p.elevation for p in points], [p.dataset_name for p in points]
