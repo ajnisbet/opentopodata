@@ -25,7 +25,6 @@ nav:
       - EMOD bathymetry: 'datasets/emod2018.md'
       - GEBCO bathymetry: 'datasets/gebco2020.md'
       - BKG: 'datasets/bkg.md'
-      - Australia DEM: 'datasets/australia-dem-5m.md'
     - Notes:
       - Windows support: 'notes/windows-support.md'
       - Cloud storage: 'notes/cloud-storage.md'
