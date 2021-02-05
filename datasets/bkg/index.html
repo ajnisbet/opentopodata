@@ -13,7 +13,7 @@
         <meta name="description" content="Open DEM server.">
       
       
-        <link rel="canonical" href="https://www.opentopodata.org/datasets/emod2018/">
+        <link rel="canonical" href="https://www.opentopodata.org/datasets/bkg/">
       
       
       
@@ -40,7 +40,7 @@
     
     
       
-        <title>EMOD bathymetry - Open Topo Data</title>
+        <title>BKG - Open Topo Data</title>
       
     
     
@@ -106,7 +106,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#emodnet-2018-bathymetry" tabindex="1" class="md-skip">
+      <a href="#bkg" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -132,7 +132,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                EMOD bathymetry
+                BKG
               
             </span>
           
@@ -394,63 +394,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        EMOD bathymetry
-      </label>
-    
-    <a href="./" title="EMOD bathymetry" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../emod2018/" title="EMOD bathymetry" class="md-nav__link">
       EMOD bathymetry
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#coverage" class="md-nav__link">
-    Coverage
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#adding-emodnet-2018-bathymetry-to-open-topo-data" class="md-nav__link">
-    Adding EMODnet 2018 Bathymetry to Open Topo Data
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#public-api" class="md-nav__link">
-    Public API
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
-    
   </li>
 
         
@@ -470,11 +418,63 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../bkg/" title="BKG" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        BKG
+      </label>
+    
+    <a href="./" title="BKG" class="md-nav__link md-nav__link--active">
       BKG
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#adding-200m-bkg-digital-terrain-model-to-open-topo-data" class="md-nav__link">
+    Adding 200m BKG Digital Terrain Model to Open Topo Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adding-5m-germany-dem-to-open-topo-data" class="md-nav__link">
+    Adding 5m Germany DEM to Open Topo Data
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-api" class="md-nav__link">
+    Public API
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -600,15 +600,15 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#coverage" class="md-nav__link">
-    Coverage
+  <a href="#adding-200m-bkg-digital-terrain-model-to-open-topo-data" class="md-nav__link">
+    Adding 200m BKG Digital Terrain Model to Open Topo Data
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#adding-emodnet-2018-bathymetry-to-open-topo-data" class="md-nav__link">
-    Adding EMODnet 2018 Bathymetry to Open Topo Data
+  <a href="#adding-5m-germany-dem-to-open-topo-data" class="md-nav__link">
+    Adding 5m Germany DEM to Open Topo Data
   </a>
   
 </li>
@@ -636,81 +636,65 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/datasets/emod2018.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/datasets/bkg.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="emodnet-2018-bathymetry">EMODnet 2018 Bathymetry</h1>
-<p><a href="https://www.emodnet-bathymetry.eu/">EMODnet</a> maintains a number of bathymetry (sea floor depth) datasets.</p>
-<p>There are currently two datasets with full coverage of Europe: a 1/8 arc minute (~200m) version released in 2016, and a 1/16 arc minute (~100m) version released in 2018. The datasets are a composite of bathymetric surveys, Landsat 8 imagery, and GEBCO data.</p>
-<p>The vertical datum used is <a href="https://tidesandcurrents.noaa.gov/datum_options.html">Lowest Astronomical Tide</a>.</p>
-<h2 id="coverage">Coverage</h2>
-<p>The 2018 dataset covers a large area around Europe: 15° to 90° latitude, and -36° to 43° longitude. The elevation over land areas is given as <code>NODATA</code> values.</p>
+                <h1 id="bkg">BKG</h1>
+<p><a href="https://www.bkg.bund.de/">BKG</a> (Bundesamt für Kartographie und Geodäsie) has published a number of elevation datasets for Germany. The <a href="http://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle/digitales-gelandemodell-gitterweite-200-m-dgm200.html">200m</a> and <a href="https://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle/digitales-gelandemodell-gitterweite-1000-m-dgm1000.html">1000m</a> resolutions are freely available, while resolutions <a href="https://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle.html">up to 5m</a> can be purchased for a small fee.</p>
 <p style="text-align:center; padding: 1rem 0">
-  <img src="/img/emod.png" alt="EMOD 2018 coverage map.">
+  <img src="/img/bkg200m.png" alt="EU-DEM elevation">
   <br>
-  <em>Render of EMODnet 2018 sea floor depth.</em>
+  <em>Render of BKG 200m DTM elevation.</em>
 </p>
 
-<h2 id="adding-emodnet-2018-bathymetry-to-open-topo-data">Adding EMODnet 2018 Bathymetry to Open Topo Data</h2>
+<h2 id="adding-200m-bkg-digital-terrain-model-to-open-topo-data">Adding 200m BKG Digital Terrain Model to Open Topo Data</h2>
 <p>Make a new folder for the dataset:</p>
-<div class="codehilite"><pre><span></span>mkdir ./data/emod2018
+<div class="codehilite"><pre><span></span>mkdir ./data/bkg200m
 </pre></div>
 
 
-<p>Download the files from <a href="https://portal.emodnet-bathymetry.eu/">EMODnet</a> into <code>./data/emod2018</code>. You want the 2018 dataset, in <code>ESRI ASCII</code> format. Extract the zip folders, you should have 59 <code>.asc</code> named like <code>A1_2018.asc</code>.</p>
-<p>Unlike other datasets, the EMOD tiles aren't aligned on a nice whole-number grid, so Open Topo Data can't tell from the filenames which tile covers which area. To handle this we can build a <a href="https://gdal.org/drivers/raster/vrt.html">https://gdal.org/drivers/raster/vrt.html</a> - a single raster file that links to the 59 tiles and which Open Topo Data can treat as a single-file dataset. Unfortunately you'll need to install <a href="https://gdal.org/">GDAL</a> for this.</p>
-<p>Create a new folder for the VRT:</p>
-<div class="codehilite"><pre><span></span>mkdir ./data/emod2018-vrt
+<p>Download the <a href="https://daten.gdz.bkg.bund.de/produkte/dgm/dgm200/aktuell/dgm200.utm32s.gridascii.zip">dataset</a>, the link here is for the UTM referenced dataset in <code>.asc</code> format. Extract the zip and copy only <code>dgm200_utm32s.asc</code> and <code>dgm200_utm32s.prj</code> into <code>./data/bkg200m</code>. </p>
+<p>Add the dataset to <code>config.yaml</code>:</p>
+<div class="codehilite"><pre><span></span><span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">bkg200m</span>
+  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/bkg200m</span>
 </pre></div>
 
 
-<p>Build the vrt using relative paths so the file will work inside the docker image:</p>
-<div class="codehilite"><pre><span></span><span class="nb">cd</span> ./data/emod2018-vrt
-gdalbuildvrt -co <span class="nv">VRT_SHARED_SOURCE</span><span class="o">=</span><span class="m">0</span> emod2018.vrt ../emod2018/*.asc
-<span class="nb">cd</span> ../
-</pre></div>
-
-
-<p>Create a <code>config.yaml</code> file, pointing to the VRT folder:</p>
-<div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">emod2018</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/emod2018-vrt/</span>
-</pre></div>
-
-
-<p>Rebuild to enable the new dataset at <a href="http://localhost:5000/v1/emod2018?locations=37.653512,-119.410503">localhost:5000/v1/emod2018</a>.</p>
+<p>Finally, rebuild to enable the new dataset at <a href="http://localhost:5000/v1/bkg200m?locations=49.427,7.753">localhost:5000/v1/bkg200m?locations=49.427,7.753</a>.</p>
 <div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
 </pre></div>
 
 
-<div class="admonition tip">
-<p class="admonition-title">Extra performance</p>
-<p><code>.asc</code> files take up a lot of disk space and are slow for random reads. Consider converting to a compressed geotiff:</p>
-<p><code>gdal_translate -co COMPRESS=DEFLATE -co PREDICTOR=2 {asc_filename} {tif_filename}</code></p>
-</div>
+<h2 id="adding-5m-germany-dem-to-open-topo-data">Adding 5m Germany DEM to Open Topo Data</h2>
+<p>I don't have access to the higher-resolution datasets, but one user managed to get them working with Open Topo Data in issues <a href="https://github.com/ajnisbet/opentopodata/issues/22">#22</a> and <a href="https://github.com/ajnisbet/opentopodata/issues/24">#24</a>.</p>
+<p>The files come with a projection format that isn't supported by GDAL and with non-overlapping tiles so queries near the edges will return <code>null</code> data. Probably the easiest way to handle these issues is to merge all the files into one big geotiff:</p>
+<div class="codehilite"><pre><span></span>gdalbuildvrt -tap -a_srs epsg:3044 -o bkg-dgm5.vrt dgm5/*.asc
+gdaltranslate -co <span class="nv">COMPRESS</span><span class="o">=</span>DEFLATE -co <span class="nv">BIGTIFF</span><span class="o">=</span>YES -co <span class="nv">NUM_THREADS</span><span class="o">=</span>ALL_CPUS bkg-dgm5.vrt bkg-dgm5.tif
+</pre></div>
+
+
+<p>You could also <a href="../../notes/buffering-tiles/">add a buffer</a> to each tile, fixing the projection with <code>-a_srs epsg:3044</code>.</p>
+<p>If anyone has got this working and would like to share their steps, please open an <a href="https://github.com/ajnisbet/opentopodata/issues">issue</a> or <a href="https://github.com/ajnisbet/opentopodata/pulls">pull request</a>!</p>
 <h2 id="public-api">Public API</h2>
-<p>The Open Topo Data public API lets you query NED 10m for free:</p>
-<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/emod2018?locations=55.884323,2.528276
+<p>The Open Topo Data public API lets you query 200m BKG DEM over Germany for free:</p>
+<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/bkg200m?locations=49.427,7.753
 </pre></div>
 
 
 <div class="codehilite"><pre><span></span><span class="p">{</span>
   <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">-81.94999694824219</span><span class="p">,</span> 
+      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">269.9404602050781</span><span class="p">,</span> 
       <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">55.884323</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">2.528276</span>
+        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">49.427</span><span class="p">,</span> 
+        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">7.753</span>
       <span class="p">},</span>
-      <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;emod2018&quot;</span>
+      <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;bkg200m&quot;</span>
     <span class="p">}</span>
   <span class="p">],</span> 
   <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
 <span class="p">}</span>
 </pre></div>
-
-
-<p>The public API uses the 2018 version of the dataset.</p>
                 
                   
                 
@@ -732,7 +716,7 @@ gdalbuildvrt -co <span class="nv">VRT_SHARED_SOURCE</span><span class="o">=</spa
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../srtm/" title="SRTM" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../gebco2020/" title="GEBCO bathymetry" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -741,19 +725,19 @@ gdalbuildvrt -co <span class="nv">VRT_SHARED_SOURCE</span><span class="o">=</spa
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                SRTM
+                GEBCO bathymetry
               </span>
             </div>
           </a>
         
         
-          <a href="../gebco2020/" title="GEBCO bathymetry" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../../notes/windows-support/" title="Windows support" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                GEBCO bathymetry
+                Windows support
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

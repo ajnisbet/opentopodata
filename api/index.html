@@ -302,8 +302,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#args" class="md-nav__link">
-    Args
+  <a href="#query-args" class="md-nav__link">
+    Query Args
   </a>
   
 </li>
@@ -504,6 +504,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../datasets/bkg/" title="BKG" class="md-nav__link">
+      BKG
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -576,6 +588,30 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../notes/buffering-tiles/" title="Buffering tiles" class="md-nav__link">
+      Buffering tiles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../notes/multiple-datasets/" title="Multiple datasets" class="md-nav__link">
+      Multiple datasets
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -610,8 +646,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#args" class="md-nav__link">
-    Args
+  <a href="#query-args" class="md-nav__link">
+    Query Args
   </a>
   
 </li>
@@ -684,9 +720,11 @@
                 <h1 id="api-documentation">API Documentation</h1>
 <p>A public API is available for testing at <a href="https://api.opentopodata.org/v1/test-dataset">api.opentopodata.org</a>.</p>
 <h2 id="get-v1ltdataset_namegt"><code>GET /v1/&lt;dataset_name&gt;</code></h2>
-<p>Reads the elevation from a given dataset. The dataset must match one of the options in <code>config.yaml</code>.</p>
+<p>Reads the elevation from a given dataset.</p>
+<p>The dataset name must match one of the options in <code>config.yaml</code>. </p>
+<p>Multiple datasets can be provided separated by commas: in this case, for each point, each dataset is queried in order until a non-null elevation is found. For more information see <a href="" title="../notes/multiple-datasets.md">Multi datasets</a>.</p>
 <p>Latitudes and longitudes should be in <code>EPSG:4326</code> (also known as WGS-84 format), they will be converted internally to whatever the dataset uses.</p>
-<h3 id="args">Args</h3>
+<h3 id="query-args">Query Args</h3>
 <ul>
 <li><code>locations</code>: Required. Either <ul>
 <li><code>latitutde,longitude</code> pairs, each separated by a pipe character <code>|</code>. Example: <code>locations=12.5,160.2|-10.6,130</code>.</li>
@@ -695,7 +733,7 @@
 </li>
 <li><code>interpolation</code>: How to interpolate between the points in the dataset. Options: <code>nearest</code>, <code>bilinear</code>, <code>cubic</code>. Default: <code>bilinear</code>.</li>
 <li><code>nodata_value</code>: What elevation to return if the dataset has a <a href="https://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/nodata-in-raster-datasets.htm">NODATA</a> value at the requested location. Options: <code>null</code>, <code>nan</code>, or an integer like <code>-9999</code>. Default: <code>null</code>.<ul>
-<li>The default option <code>null</code> makes NODATA indestiguisable from a location outside the dataset bounds. </li>
+<li>The default option <code>null</code> makes NODATA indistinguishable from a location outside the dataset bounds. </li>
 <li><code>NaN</code> (not a number) values aren't valid in json and will break some clients. The <code>nan</code> option was default before version 1.4 and is provided only for backwards compatibility. </li>
 </ul>
 </li>
@@ -706,9 +744,10 @@
 <li><code>status</code>: Will be <code>OK</code> for a successful request, <code>INVALID_REQUEST</code> for an input (4xx) error, and <code>SERVER_ERROR</code> for anything else (5xx). Required.</li>
 <li><code>error</code>: Description of what went wrong, when <code>status</code> isn't <code>OK</code>.</li>
 <li><code>results</code>: List of elevations for each location, in same order as input. Only provided for <code>OK</code> status.</li>
-<li><code>results[].elevation</code>: Elevation, using units and datum from the dataset. May be <code>null</code> if the given location is outside the dataset bounds. May be <code>null</code> for NODATA values depending on the <code>nodata_value</code> query argument.</li>
+<li><code>results[].elevation</code>: Elevation, using units and datum from the dataset. Will be <code>null</code> if the given location is outside the dataset bounds. May be <code>null</code> for NODATA values depending on the <code>nodata_value</code> query argument.</li>
 <li><code>results[].location.lat</code>: Latitude as parsed by Open Topo Data.</li>
 <li><code>results[].location.lng</code>: Longitude as parsed by Open Topo Data.</li>
+<li><code>results[].dataset</code>: The name of the dataset which the returned elevation is from.</li>
 </ul>
 <p>Some notes about the elevation value:</p>
 <ul>
@@ -721,6 +760,7 @@
 <div class="codehilite"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
         <span class="p">{</span>
+            <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;srtm90m&quot;</span><span class="p">,</span>
             <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
             <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">-43.5</span><span class="p">,</span>
@@ -728,6 +768,7 @@
             <span class="p">}</span>
         <span class="p">},</span>
         <span class="p">{</span>
+            <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;srtm90m&quot;</span><span class="p">,</span>
             <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mi">402</span><span class="p">,</span>
             <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
                 <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">27.6</span><span class="p">,</span>

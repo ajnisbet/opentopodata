@@ -491,6 +491,18 @@
   </li>
 
         
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../datasets/bkg/" title="BKG" class="md-nav__link">
+      BKG
+    </a>
+  </li>
+
+        
       </ul>
     </nav>
   </li>
@@ -559,6 +571,30 @@
   <li class="md-nav__item">
     <a href="../notes/dataset-sizes/" title="Dataset sizes" class="md-nav__link">
       Dataset sizes
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../notes/buffering-tiles/" title="Buffering tiles" class="md-nav__link">
+      Buffering tiles
+    </a>
+  </li>
+
+        
+          
+          
+          
+
+
+  <li class="md-nav__item">
+    <a href="../notes/multiple-datasets/" title="Multiple datasets" class="md-nav__link">
+      Multiple datasets
     </a>
   </li>
 
@@ -725,7 +761,12 @@ docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p <span 
 <li><code>datasets[].name</code>: Dataset name, used in url. Required.</li>
 <li><code>datasets[].path</code>: Path to folder containing the dataset. If the dataset is a single file it must be placed inside a folder. This path is relative to the repository directory inside docker. I suggest placing datasets inside the provided <code>data</code> folder, which is mounted in docker by <code>make run</code>. Files can be nested arbitrarily inside the dataset path. Required.</li>
 <li><code>datasets[].filename_epsg</code>: For tiled datasets, the projection of the filename coordinates. The default value is <code>4326</code>, which is latitude/longitude with the <a href="https://spatialreference.org/ref/epsg/wgs-84/">WGS84 datum</a>.</li>
-<li><code>datasets[].filename_tile_size</code>: For tiled datasets, how large each square tile is, in the units of <code>filename_epsg</code>. For example, a lat,lon location of <code>38.2,121.2</code> would lie in the tile <code>N38W121</code> for a tile size of 1, but lie in <code>N35W120</code> for a tile size of 5. Default: <code>1</code>.</li>
+<li><code>datasets[].filename_tile_size</code>: For tiled datasets, how large each square tile is in the units of <code>filename_epsg</code>. For example, a lat,lon location of <code>38.2,121.2</code> would lie in the tile <code>N38W121</code> for a tile size of 1, but lie in <code>N35W120</code> for a tile size of 5. For non-integer tile sizes like <code>2.5</code>, specify them as a string to avoid floating point parsing issues: <code>"2.5"</code>. Default: <code>1</code>.</li>
+<li><code>datasets[].wgs84_bounds.left</code>: Leftmost (westmost) longitude of the dataset, in WGS84. Used as a performance optimisation for <a href="" title="../notes/multiple-datasets.md">Multi datasets</a>. Default: <code>-180</code>.</li>
+<li><code>datasets[].wgs84_bounds.right</code>: Rightmost (eastmost) longitude of the dataset. Default: <code>180</code>.</li>
+<li><code>datasets[].wgs84_bounds.bottom</code>: Bottommost (southmost) latitude of the dataset. Default: <code>-90</code>.</li>
+<li><code>datasets[].wgs84_bounds.top</code>: Topmost (northmost) latitude of the dataset. Default: <code>90</code>.</li>
+<li><code>datasets[].child_datasets[]</code>: A list of names of other datasets. Querying this MultiDataset will check each dataset in <code>child_datasets</code> in order until a non-null elevation is found. For more information see <a href="" title="../notes/multiple-datasets.md">Multi datasets</a>. </li>
 </ul>
 <h2 id="adding-datasets">Adding datasets</h2>
 <p>An important goal of Open Topo Data is make is easy to add new datasets. The included dataset is very low resolution (about 100km) and is intended only for testing.</p>
@@ -745,6 +786,7 @@ docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p <span 
 <li><a href="../datasets/srtm/">SRTM (30m or 90m)</a></li>
 <li><a href="../datasets/emod2018/">EMOD Bathymetry</a></li>
 <li><a href="../datasets/gebco2020/">GEBCO Bathymetry</a></li>
+<li><a href="../datasets/bkg/">BKG Germany (200m)</a></li>
 </ul>
                 
                   
