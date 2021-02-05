@@ -49,7 +49,7 @@ gdalbuildvrt -tap -a_srs epsg:3044 -o bkg-dgm5.vrt dgm5/*.asc
 gdaltranslate -co COMPRESS=DEFLATE -co BIGTIFF=YES -co NUM_THREADS=ALL_CPUS bkg-dgm5.vrt bkg-dgm5.tif
 ```
 
-You could also [add a buffer](eudem.md) to each tile, fixing the projection with `-a_srs epsg:3044`.
+You could also [add a buffer](../notes/buffering-tiles.md) to each tile, fixing the projection with `-a_srs epsg:3044`.
 
 If anyone has got this working and would like to share their steps, please open an [issue](https://github.com/ajnisbet/opentopodata/issues) or [pull request](https://github.com/ajnisbet/opentopodata/pulls)!
 

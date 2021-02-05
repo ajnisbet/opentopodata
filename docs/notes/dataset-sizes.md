@@ -19,6 +19,12 @@ In most cases I converted the source files to compressed geotiffs, and the sizes
 	</thead>
 	<tbody>
 		<tr>
+			<td><a href="/datasets/bkg/">bkg200</a></td>
+			<td>BKG 200m, Germany</td>
+			<td>32&nbsp;MB</td>
+			<td></td>
+		</tr>
+		<tr>
 			<td><a href="/datasets/etopo1/">etopo1</a></td>
 			<td>ETOPO 1 arcminute land and bathymetry</td>
 			<td>1&nbsp;GB</td>
