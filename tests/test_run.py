@@ -42,10 +42,3 @@ class TestRun:
         url = "http://localhost:5000/v1/test-dataset?locations=" + locations
         response = requests.get(url)
         assert response.headers.get("content-encoding") == "gzip"
-
-    def test_health(self):
-        url = "http://localhost:5000/health"
-        response = requests.get(url)
-        rjson = response.json()
-        assert response.status_code == 200
-        assert rjson["status"] == "OK"
