@@ -33,6 +33,7 @@ The most optimal way to store rasters depends heavily on the dataset, but here's
 	* `-co PREDICTOR=1` is often fastest to read, though can make files larger.
 	* `-co COMPRESS=DEFLATE` is often fastest to read, though can be larger than `lzw` and `zstd` especially for floating point data.
 	* `-co ZLEVEL=1` gives a small read performance boost, makes writing noticeably faster, while barely increasing size. 
+	* All of the above are minor differences compared to using uncompressed GeoTIFFs or other formats, don't stress it.
 
 
 Open Topo Data doesn't support zstd (as it's not supported yet by rasterio and compiling GDAL from source greatly increases build times) but there's an old branch `zstd` that has support
@@ -62,3 +63,24 @@ ab -n 500 -c 8 http://localhost:5000/v1/test-dataset?locations=56,123
 ```
 
 You should test on your particular dataset and batch size. It doesn't seem to matter much if you use a fixed url or build a list with different urls for each request: there's no response caching (though your OS may cache files and GDAL may cache raster blocks.)
+
+
+## Benchmark results
+
+Here are some plots I made benchmarking version 1.5.0 with 8m NZ DEM. The specific results probably won't apply to your dataset and the general takeaways I included above.  
+
+
+<p style="text-align:center; padding: 1rem 0">
+  <img src="/img/bench-random.png" alt="Random location benchmark">
+  <br>
+  <em>Response time vs batch size.</em>
+</p>
+
+
+<p style="text-align:center; padding: 1rem 0">
+  <img src="/img/bench-table.png" alt="GeoTIFF compression methods.">
+  <br>
+  <em>Read time and file size for different GeoTIFF compression methods.</em>
+</p>
+
+
