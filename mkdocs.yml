@@ -32,6 +32,7 @@ nav:
       - Dataset sizes: 'notes/dataset-sizes.md'
       - Buffering tiles: 'notes/buffering-tiles.md'
       - Multiple datasets: 'notes/multiple-datasets.md'
+      - Performance optimisation: 'notes/performance-optimisation.md'
 
 extra_javascript:
   - js/extra.js
