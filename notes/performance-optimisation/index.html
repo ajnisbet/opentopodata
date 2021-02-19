@@ -13,7 +13,7 @@
         <meta name="description" content="Open DEM server.">
       
       
-        <link rel="canonical" href="https://www.opentopodata.org/notes/multiple-datasets/">
+        <link rel="canonical" href="https://www.opentopodata.org/notes/performance-optimisation/">
       
       
       
@@ -40,7 +40,7 @@
     
     
       
-        <title>Multiple datasets - Open Topo Data</title>
+        <title>Performance optimisation - Open Topo Data</title>
       
     
     
@@ -106,7 +106,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#querying-multiple-datasets" tabindex="1" class="md-skip">
+      <a href="#performance-optimisation" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -132,7 +132,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Multiple datasets
+                Performance optimisation
               
             </span>
           
@@ -514,6 +514,18 @@
           
           
 
+
+  <li class="md-nav__item">
+    <a href="../multiple-datasets/" title="Multiple datasets" class="md-nav__link">
+      Multiple datasets
+    </a>
+  </li>
+
+        
+          
+          
+          
+
   
 
 
@@ -525,11 +537,11 @@
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Multiple datasets
+        Performance optimisation
       </label>
     
-    <a href="./" title="Multiple datasets" class="md-nav__link md-nav__link--active">
-      Multiple datasets
+    <a href="./" title="Performance optimisation" class="md-nav__link md-nav__link--active">
+      Performance optimisation
     </a>
     
       
@@ -543,22 +555,50 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#putting-multiple-datasets-in-the-url" class="md-nav__link">
-    Putting multiple datasets in the url
+  <a href="#server-hardware" class="md-nav__link">
+    Server hardware
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#defining-multi-dataset-in-configyaml" class="md-nav__link">
-    Defining multi dataset in config.yaml
+  <a href="#queries" class="md-nav__link">
+    Queries
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#performance-optimisation" class="md-nav__link">
-    Performance optimisation
+  <a href="#dataset-format" class="md-nav__link">
+    Dataset format
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-datasets" class="md-nav__link">
+    Multiple datasets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-performance" class="md-nav__link">
+    Testing performance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmark-results" class="md-nav__link">
+    Benchmark results
   </a>
   
 </li>
@@ -571,18 +611,6 @@
   
 </nav>
     
-  </li>
-
-        
-          
-          
-          
-
-
-  <li class="md-nav__item">
-    <a href="../performance-optimisation/" title="Performance optimisation" class="md-nav__link">
-      Performance optimisation
-    </a>
   </li>
 
         
@@ -612,22 +640,50 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#putting-multiple-datasets-in-the-url" class="md-nav__link">
-    Putting multiple datasets in the url
+  <a href="#server-hardware" class="md-nav__link">
+    Server hardware
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#defining-multi-dataset-in-configyaml" class="md-nav__link">
-    Defining multi dataset in config.yaml
+  <a href="#queries" class="md-nav__link">
+    Queries
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#performance-optimisation" class="md-nav__link">
-    Performance optimisation
+  <a href="#dataset-format" class="md-nav__link">
+    Dataset format
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#multiple-datasets" class="md-nav__link">
+    Multiple datasets
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#version" class="md-nav__link">
+    Version
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-performance" class="md-nav__link">
+    Testing performance
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmark-results" class="md-nav__link">
+    Benchmark results
   </a>
   
 </li>
@@ -648,140 +704,59 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/notes/multiple-datasets.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/notes/performance-optimisation.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="querying-multiple-datasets">Querying multiple datasets</h1>
-<p>From v1.5.0, Open Topo Data has the ability to request the "best" elevation from multiple datasets in a single query.</p>
-<p>I'm still improving the functionality, please open an issue if you find a problem.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>While Open Topo Data lets you query multiple datasets seamlessly, it doesn't ensure that the datasets you're using share the same vertical datum or have seamless transitions.</p>
-<p>A great usecase for Multi Datasets would be if your usage is mostly focussed on an area with contiguous DEM coverage (like the island nation of New Zealand), but you want to technically be able to query worldwide. </p>
-<p>A bad usecase for Multi Datasets is layering a bunch of patchy 10cm lidar data on top of a 1.8km base DEM and using it to draw small scale elevation profiles.</p>
-</div>
-<p>Say your <code>config.yaml</code> looks like this:</p>
-<div class="codehilite"><pre><span></span><span class="c1"># Hi-res New Zealand.</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nzdem8m</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/nzdem8m/</span>
-  <span class="nt">filename_tile_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">65536</span>
-  <span class="nt">filename_epsg</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2193</span>
-
-<span class="c1"># Mapzen global.</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mapzen</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/mapzen/</span>
-</pre></div>
-
-
-<p>You want the following:</p>
+                <h1 id="performance-optimisation">Performance optimisation</h1>
+<p>If you're self-hosting Open Topo Data and want better throughput or to run on a cheaper instance there's a few things you can do.</p>
+<h2 id="server-hardware">Server hardware</h2>
+<p>Open Topo Data is mostly CPU bound. It benefits from fast CPUs and high virtual core count.</p>
+<p>A spinning hard drive is enough to saturate the CPU so an SSD is not needed. Using a network filestore or keeping tiles in cloud storage will probably introduce enough latency to become the bottleneck.</p>
+<p>It uses very little memory.</p>
+<h2 id="queries">Queries</h2>
+<p>Batch request are faster (per point queried) than single-point requests, and large batches are faster than small ones. Increase <code>max_locations_per_request</code> to as much as you can fit in a a URL.</p>
+<p>Batch queries are fastest if the points are located next to each other. Sorting the locations you are querying before batching will improve performance. Ideally sort by some block-level attribute like postal code or state/county/region, or by something like  <code>round(lat, 1), round(lon, 1)</code> depending on your tile size.</p>
+<h2 id="dataset-format">Dataset format</h2>
+<p>A request spends 90% of its time reading the dataset, so the format your raster tiles are in can greatly impact performance. </p>
+<p>The most optimal way to store rasters depends heavily on the dataset, but here's some rules of thumb:</p>
 <ul>
-<li>If you query a location in New Zealand, return the hi-res <strong>nzdem</strong> result.</li>
-<li>If you query a location in New Zealand and nzdem is <code>null</code> at that location, return the <strong>mapzen</strong> result for that location.</li>
-<li>If you query a location outside New Zealand, return the <strong>mapzen</strong> result for that location.</li>
+<li><strong>Tile size</strong> Files around 2,000 to 20,000 are pixels square are good. Too small and you end up opening lots of files for batch requests; too large and read time is slower.</li>
+<li><strong>Format</strong> Actually this one is clear: use GeoTIFFs. I haven't found anything faster (supported by GDAL) for any of the datasets in the public API.</li>
+<li><strong>Compression</strong> GDAL options<ul>
+<li><code>-co PREDICTOR=1</code> is often fastest to read, though can make files larger.</li>
+<li><code>-co COMPRESS=DEFLATE</code> is often fastest to read, though can be larger than <code>lzw</code> and <code>zstd</code> especially for floating point data.</li>
+<li><code>-co ZLEVEL=1</code> gives a small read performance boost, makes writing noticeably faster, while barely increasing size. </li>
+<li>All of the above are minor differences compared to using uncompressed GeoTIFFs or other formats, don't stress it.</li>
 </ul>
-<p>There are two ways to do this.</p>
-<h3 id="putting-multiple-datasets-in-the-url">Putting multiple datasets in the url</h3>
-<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/nzdem8m,mapzen?locations<span class="o">=</span>-43.801,172.968<span class="p">|</span>-18.143,178.444
+</li>
+</ul>
+<p>Open Topo Data doesn't support zstd (as it's not supported yet by rasterio and compiling GDAL from source greatly increases build times) but there's an old branch <code>zstd</code> that has support</p>
+<h2 id="multiple-datasets">Multiple datasets</h2>
+<p>Add tight <code>wgs84_bounds</code> for multiple datasets. If your dataset isn't a filled rectangle (e.g., you have one dataset covering CONUS, AK, and HI but not Canada) you might want to split it into multiple datasets with tight bounds.</p>
+<h2 id="version">Version</h2>
+<p>Open Topo Data gets faster each release, either though performance improvements or from updated dependencies.</p>
+<p>Use the latest version.</p>
+<p>This is especially true if you're using a version older than 1.5.0, as this release gives a 2x+ speedup.</p>
+<h2 id="testing-performance">Testing performance</h2>
+<p>You can easily test throughput using <a href="https://httpd.apache.org/docs/2.4/programs/ab.html">ab</a>:</p>
+<div class="codehilite"><pre><span></span>ab -n <span class="m">500</span> -c <span class="m">8</span> http://localhost:5000/v1/test-dataset?locations<span class="o">=</span><span class="m">56</span>,123
 </pre></div>
 
 
-<div class="codehilite"><pre><span></span><span class="p">{</span>
-  <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;nzdem8m&quot;</span><span class="p">,</span> 
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">1.4081547260284424</span><span class="p">,</span> 
-      <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">-43.801</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">172.968</span>
-      <span class="p">}</span>
-    <span class="p">},</span> 
-    <span class="p">{</span>
-      <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;mapzen&quot;</span><span class="p">,</span> 
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">23.0</span><span class="p">,</span> 
-      <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">-18.143</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">178.444</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">],</span> 
-  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
-<span class="p">}</span>
-</pre></div>
+<p>You should test on your particular dataset and batch size. It doesn't seem to matter much if you use a fixed url or build a list with different urls for each request: there's no response caching (though your OS may cache files and GDAL may cache raster blocks.)</p>
+<h2 id="benchmark-results">Benchmark results</h2>
+<p>Here are some plots I made benchmarking version 1.5.0 with 8m NZ DEM. The specific results probably won't apply to your dataset, and I included the general takeaways above.  </p>
+<p style="text-align:center; padding: 1rem 0">
+  <img src="/img/bench-random.png" alt="Random location benchmark">
+  <br>
+  <em>Response time grows sublinearly with batch size. Querying locations that lie on the same tile is 2x faster than locations over multiple tiles.</em>
+</p>
 
-
-<p>For each location, the first non-null dataset elevation is returned.</p>
-<h3 id="defining-multi-dataset-in-configyaml">Defining multi dataset in <code>config.yaml</code></h3>
-<p>If you have a lot of datasets you want to merge, it's a pain to put them all in the url. Instead you can define a MultiDataset in <code>config.yaml</code>:</p>
-<div class="codehilite"><pre><span></span><span class="c1"># Hi-res New Zealand.</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nzdem8m</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/nzdem8m/</span>
-  <span class="nt">filename_tile_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">65536</span>
-  <span class="nt">filename_epsg</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2193</span>
-
-<span class="c1"># Mapzen global.</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mapzen</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/mapzen/</span>
-
-
-<span class="c1"># NZ with mapzen fallback.</span>
-<span class="nt">-name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nz-global</span>
-  <span class="l l-Scalar l-Scalar-Plain">- child_datasets</span><span class="p p-Indicator">:</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">nzdem8m</span>
-    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">mapzen</span>
-</pre></div>
-
-
-<p>Now you can query <strong>nz-global</strong> for the same result.</p>
-<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/nz-global?locations<span class="o">=</span>-43.801,172.968<span class="p">|</span>-18.143,178.444
-</pre></div>
-
-
-<div class="codehilite"><pre><span></span><span class="p">{</span>
-  <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
-    <span class="p">{</span>
-      <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;nzdem8m&quot;</span><span class="p">,</span> 
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">1.4081547260284424</span><span class="p">,</span> 
-      <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">-43.801</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">172.968</span>
-      <span class="p">}</span>
-    <span class="p">},</span> 
-    <span class="p">{</span>
-      <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;mapzen&quot;</span><span class="p">,</span> 
-      <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">23.0</span><span class="p">,</span> 
-      <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">-18.143</span><span class="p">,</span> 
-        <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">178.444</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">],</span> 
-  <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<h2 id="performance-optimisation">Performance optimisation</h2>
-<p>Querying multiple datasets is more performance-intensive than querying a single one. For a Multi Dataset with 10 child datasets where the first 9 are <code>null</code> at the queried location, Open Topo Data will have to cover the lat/lon coordinates into the CRS of all 10 datasets to try to find a tile. Worst case, if those 10 tiles exist, Open Topo Data will have to open and read from all 10 files sequentially.</p>
-<p>To reduce the number of checks Open Topo Data has to do, you can manually specify the bounds of each dataset, in WGS84 format. If a location is outside those bounds, Open Topo Data doesn't need to check that dataset.</p>
-<p>If your <code>config.yaml</code> file looks like</p>
-<div class="codehilite"><pre><span></span><span class="c1"># Hi-res New Zealand.</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">nzdem8m</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/nzdem8m/</span>
-  <span class="nt">filename_tile_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">65536</span>
-  <span class="nt">filename_epsg</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">2193</span>
-    <span class="l l-Scalar l-Scalar-Plain">wgs84_bounds</span><span class="p p-Indicator">:</span>
-    <span class="nt">left</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">165</span>
-    <span class="nt">right</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">180</span>
-    <span class="nt">bottom</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-48</span>
-    <span class="nt">top</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">-33</span>
-
-<span class="c1"># Mapzen global.</span>
-<span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">mapzen</span>
-  <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/mapzen/</span>
-</pre></div>
-
-
-<p>then querying <code>nzdem8m,mapzen</code> with a location in Europe will go straight to mapzen without needing to convert the location to <code>epsg:2193</code> and check for a tile.</p>
+<p style="text-align:center; padding: 1rem 0">
+  <img src="/img/bench-table.png" alt="GeoTIFF compression methods.">
+  <br>
+  <em>Read time and file size for different GeoTIFF compression methods.</em>
+</p>
                 
                   
                 
@@ -803,7 +778,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../buffering-tiles/" title="Buffering tiles" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../multiple-datasets/" title="Multiple datasets" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -812,25 +787,11 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Buffering tiles
+                Multiple datasets
               </span>
             </div>
           </a>
         
-        
-          <a href="../performance-optimisation/" title="Performance optimisation" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Performance optimisation
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
         
       </nav>
     </div>
