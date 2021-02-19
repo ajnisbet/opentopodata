@@ -27,9 +27,9 @@ A request spends 90% of its time reading the dataset, so the format your raster 
 
 The most optimal way to store rasters depends heavily on the dataset, but here's some rules of thumb:
 
-* *Tile size* Files around 2,000 to 20,000 are pixels square are good. Too small and you end up opening lots of files for batch requests; too large and read time is slower.
-* *Format* Actually this one is clear: use GeoTIFFs. I haven't found anything faster (supported by GDAL) for any of the datasets in the public API.
-* *Compression* GDAL options
+* **Tile size** Files around 2,000 to 20,000 are pixels square are good. Too small and you end up opening lots of files for batch requests; too large and read time is slower.
+* **Format** Actually this one is clear: use GeoTIFFs. I haven't found anything faster (supported by GDAL) for any of the datasets in the public API.
+* **Compression** GDAL options
 	* `-co PREDICTOR=1` is often fastest to read, though can make files larger.
 	* `-co COMPRESS=DEFLATE` is often fastest to read, though can be larger than `lzw` and `zstd` especially for floating point data.
 	* `-co ZLEVEL=1` gives a small read performance boost, makes writing noticeably faster, while barely increasing size. 
@@ -67,13 +67,13 @@ You should test on your particular dataset and batch size. It doesn't seem to ma
 
 ## Benchmark results
 
-Here are some plots I made benchmarking version 1.5.0 with 8m NZ DEM. The specific results probably won't apply to your dataset and the general takeaways I included above.  
+Here are some plots I made benchmarking version 1.5.0 with 8m NZ DEM. The specific results probably won't apply to your dataset, and I included the general takeaways above.  
 
 
 <p style="text-align:center; padding: 1rem 0">
   <img src="/img/bench-random.png" alt="Random location benchmark">
   <br>
-  <em>Response time vs batch size.</em>
+  <em>Response time grows sublinearly with batch size. Querying locations that lie on the same tile is 2x faster than locations over multiple tiles.</em>
 </p>
 
 
