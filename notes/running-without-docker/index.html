@@ -13,7 +13,7 @@
         <meta name="description" content="Open DEM server.">
       
       
-        <link rel="canonical" href="https://www.opentopodata.org/notes/dataset-sizes/">
+        <link rel="canonical" href="https://www.opentopodata.org/notes/running-without-docker/">
       
       
       
@@ -40,7 +40,7 @@
     
     
       
-        <title>Dataset sizes - Open Topo Data</title>
+        <title>Run without docker - Open Topo Data</title>
       
     
     
@@ -106,7 +106,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#dataset-sizes" tabindex="1" class="md-skip">
+      <a href="#running-without-docker" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -132,7 +132,7 @@
             </span>
             <span class="md-header-nav__topic">
               
-                Dataset sizes
+                Run without docker
               
             </span>
           
@@ -490,20 +490,11 @@
           
           
 
-  
 
-
-  <li class="md-nav__item md-nav__item--active">
-    
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-    
-      
-    
-    
-    <a href="./" title="Dataset sizes" class="md-nav__link md-nav__link--active">
+  <li class="md-nav__item">
+    <a href="../dataset-sizes/" title="Dataset sizes" class="md-nav__link">
       Dataset sizes
     </a>
-    
   </li>
 
         
@@ -547,11 +538,69 @@
           
           
 
+  
 
-  <li class="md-nav__item">
-    <a href="../running-without-docker/" title="Run without docker" class="md-nav__link">
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Run without docker
+      </label>
+    
+    <a href="./" title="Run without docker" class="md-nav__link md-nav__link--active">
       Run without docker
     </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#running-open-topo-data-150-on-debian-10" class="md-nav__link">
+    Running Open Topo Data 1.5.0 on Debian 10
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimal-install" class="md-nav__link">
+    Minimal install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-install" class="md-nav__link">
+    Full install
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
   </li>
 
         
@@ -577,6 +626,42 @@
     
   
   
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#running-open-topo-data-150-on-debian-10" class="md-nav__link">
+    Running Open Topo Data 1.5.0 on Debian 10
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#minimal-install" class="md-nav__link">
+    Minimal install
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#full-install" class="md-nav__link">
+    Full install
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -587,90 +672,120 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/notes/dataset-sizes.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/notes/running-without-docker.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
                 
                 
-                <h1 id="dataset-sizes">Dataset sizes</h1>
-<p>The table below lists the file sizes of the datasets on the public APIs server.</p>
-<p>In most cases I converted the source files to compressed geotiffs, and the sizes given are after that conversion. A freshly downloaded dataset could be much larger depending on the format, but compressing with <a href="https://gdal.org/programs/gdal_translate.html">gdal</a> should result in a size similar to what I ended up with.</p>
-<table>
-    <thead>
-        <tr>
-            <th>API id</th>
-            <th>Dataset</th>
-            <th>Compressed File Size</th>
-            <th>Notes</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><a href="/datasets/bkg/">bkg200</a></td>
-            <td>BKG 200m, Germany</td>
-            <td>32&nbsp;MB</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><a href="/datasets/etopo1/">etopo1</a></td>
-            <td>ETOPO 1 arcminute land and bathymetry</td>
-            <td>1&nbsp;GB</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><a href="/datasets/gebco2020/">gebco2020</a></td>
-            <td>GEBCO global bathymetry (2020)</td>
-            <td>3&nbsp;GB</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><a href="/datasets/emod2018/">emod2018</a></td>
-            <td>EMOD Europe bathymetry (2018)</td>
-            <td>3&nbsp;GB</td>
-            <td>After conversion from <code>.asc</code> to compressed <code>.geotiff</code>.</td>
-        </tr>
-        <tr>
-            <td><a href="/datasets/nzdem/">nzdem8m</a></td>
-            <td>New Zealand 8m DEM</td>
-            <td>9&nbsp;GB</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><a href="/datasets/srtm/">srtm90m</a></td>
-            <td>SRTM ~90m</td>
-            <td>12&nbsp;GB</td>
-            <td>After conversion from <code>.hgt</code> to compressed <code>.geotiff</code>.</td>
-        <tr>
-            <td><a href="/datasets/eudem/">eudem25m</a></td>
-            <td>Europe 25m DEM</td>
-            <td>22&nbsp;GB</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><a href="/datasets/srtm/">srtm30m</a></td>
-            <td>SRTM ~30m</td>
-            <td>73&nbsp;GB</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td><a href="/datasets/mapzen/">mapzen</a></td>
-            <td>Mapzen ~30m</td>
-            <td>142&nbsp;GB</td>
-            <td>After conversion from <code>.hgt</code> format to compressed <code>.geotiff</code>. The source files are 100s of GB larger.</td>
-        </tr>
-        <tr>
-            <td><a href="/datasets/aster/">aster30m</a></td>
-            <td>ASTER ~30m</td>
-            <td>151&nbsp;GB</td>
-            <td></td>
-        </tr>
-        </tr>
-        <tr>
-            <td><a href="/datasets/ned/">ned10m</a></td>
-            <td>US National Elevation Dataset (1/3 arcsecond)</td>
-            <td>260&nbsp;GB</td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
+                <h1 id="running-without-docker">Running without Docker</h1>
+<p>Open Topo Data uses docker to manage dependencies, builds, and processes. Containerisation is especially helpful in the geospatial domain, where compatibility between system libraries, compiled packages, and python scripts is flakey. </p>
+<p>So I highly recommend running Open Topo Data with docker, it saves me a bunch of headaches. But if you've read this far you already know that 🐉.</p>
+<h2 id="running-open-topo-data-150-on-debian-10">Running Open Topo Data 1.5.0 on Debian 10</h2>
+<p>A user was able to get Open Topo Data running on Debian 10 without docker and was kind enough to share their instructions.</p>
+<h3 id="minimal-install">Minimal install</h3>
+<p>Download Open Topo Data.</p>
+<div class="codehilite"><pre><span></span>git clone https://github.com/ajnisbet/opentopodata.git
+<span class="nb">cd</span> opentopodata
+</pre></div>
+
+
+<p>Install system dependencies</p>
+<div class="codehilite"><pre><span></span>apt install gcc python3.7-dev python3-pip
+</pre></div>
+
+
+<p>Debian 10 comes with an old version of pip, it needs to be updated:</p>
+<div class="codehilite"><pre><span></span>pip3 install --upgrade pip
+</pre></div>
+
+
+<p>For some reason <code>pyproj</code> needs to be installed on its own, otherwise it will use the outdated system PROJ library instead of the packaged wheel version. Find the version of <code>pyproj</code> required</p>
+<div class="codehilite"><pre><span></span>cat requirements.txt <span class="p">|</span> grep pyproj
+</pre></div>
+
+
+<p>and install that pinned version</p>
+<div class="codehilite"><pre><span></span>pip3 install <span class="nv">pyproj</span><span class="o">==</span><span class="m">3</span>.0.0.post1
+</pre></div>
+
+
+<p>then the remaining python packages can be installed:</p>
+<div class="codehilite"><pre><span></span>pip3 install requirements.txt
+</pre></div>
+
+
+<p>This should give a minimal install of Open Topo Data that can be started with </p>
+<div class="codehilite"><pre><span></span><span class="nv">FLASK_APP</span><span class="o">=</span>opentopodata/api.py <span class="nv">DISABLE_MEMCACHE</span><span class="o">=</span><span class="m">1</span> flask run --port <span class="m">5000</span>
+</pre></div>
+
+
+<h3 id="full-install">Full install</h3>
+<p>The minimal instructions above install Open Topo Data without memcache or a web server. This is fine if you have a small dataset, few requests per second, and don't expose the insecure flask server to the internet. </p>
+<p>For a faster and more secure server, you can install memcache and uwsgi, and run the service with systemd.</p>
+<p>Install some more dependencies:</p>
+<div class="codehilite"><pre><span></span>apt install memcached
+pip3 install regex uwsgi
+</pre></div>
+
+
+<p>Set up memcached. On Debian 10, memcached comes with "PrivateTemp" enabled, which prevents saving the socket where Open Topo Data expects it:</p>
+<div class="codehilite"><pre><span></span>usermod -g www-data memcache
+mkdir -p /etc/systemd/system/memcached.service.d/
+<span class="nb">echo</span> -e <span class="s2">&quot;[Service]\n\nPrivateTmp=false&quot;</span> &gt; /etc/systemd/system/memcached.service.d/override.conf
+systemctl daemon-reload
+<span class="nb">echo</span> -e <span class="s2">&quot;-s /tmp/memcached.sock\n-a 0775\n-c 1024\n-I 8m&quot;</span> &gt;&gt; /etc/memcached.conf
+service memcached restart
+</pre></div>
+
+
+<p>Create a file <code>uwsgi.ini</code> somewhere, say <code>/home/opentopodata/uwsgi.ini</code>, that points to the repo you downloaded:</p>
+<div class="codehilite"><pre><span></span><span class="k">[uwsgi]</span>
+<span class="na">strict</span> <span class="o">=</span> <span class="s">true</span>
+<span class="na">need-app</span> <span class="o">=</span> <span class="s">true</span>
+
+<span class="na">http-socket</span> <span class="o">=</span> <span class="s">:9090</span>
+<span class="na">vacuum</span> <span class="o">=</span> <span class="s">true</span>
+<span class="na">uid</span> <span class="o">=</span> <span class="s">www-data</span>
+<span class="na">gid</span> <span class="o">=</span> <span class="s">www-data</span>
+
+<span class="na">master</span> <span class="o">=</span> <span class="s">true</span>
+
+<span class="na">chdir</span> <span class="o">=</span> <span class="s">/home/opentopodata</span>
+<span class="na">pythonpath</span> <span class="o">=</span> <span class="s">/home/opentopodata</span>
+<span class="na">wsgi-file</span> <span class="o">=</span> <span class="s">/home/opentopodata/opentopodata/api.py</span>
+<span class="na">callable</span> <span class="o">=</span> <span class="s">app</span>
+<span class="na">manage-script-name</span> <span class="o">=</span> <span class="s">true</span>
+
+<span class="na">die-on-term</span> <span class="o">=</span> <span class="s">true</span>
+
+<span class="na">buffer-size</span> <span class="o">=</span> <span class="s">65535</span>
+</pre></div>
+
+
+<p>If uwsgi works with </p>
+<div class="codehilite"><pre><span></span>/usr/local/bin/uwsgi --ini /home/opentopodata/uwsgi.ini --processes 10s
+</pre></div>
+
+
+<p>Then you can create a systemd script in <code>/etc/systemd/system/opentopodata.service</code>:</p>
+<div class="codehilite"><pre><span></span><span class="k">[Unit]</span>
+<span class="na">Description</span><span class="o">=</span><span class="s">OpenTopoData web application</span>
+<span class="na">After</span><span class="o">=</span><span class="s">network.target</span>
+
+<span class="k">[Service]</span>
+<span class="na">User</span><span class="o">=</span><span class="s">www-data</span>
+<span class="na">WorkingDirectory</span><span class="o">=</span><span class="s">/home/opentopodata</span>
+<span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/uwsgi /home/opentopodata/uwsgi.ini --processes 10s</span>
+<span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+
+<span class="k">[Install]</span>
+<span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span>
+</pre></div>
+
+
+<p>Then manage Open Topo Data with</p>
+<div class="codehilite"><pre><span></span>systemctl daemon-reload 
+systemctl enable opentopodata.service 
+systemctl start opentopodata.service 
+</pre></div>
                 
                   
                 
@@ -692,7 +807,7 @@
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../invalid-srtm-zips/" title="Invalid SRTM zips" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../performance-optimisation/" title="Performance optimisation" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -701,25 +816,11 @@
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Invalid SRTM zips
+                Performance optimisation
               </span>
             </div>
           </a>
         
-        
-          <a href="../buffering-tiles/" title="Buffering tiles" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
-                <span class="md-footer-nav__direction">
-                  Next
-                </span>
-                Buffering tiles
-              </span>
-            </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
-            </div>
-          </a>
         
       </nav>
     </div>
