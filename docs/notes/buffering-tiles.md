@@ -50,7 +50,7 @@ buffer_size = 25
 for input_path in input_paths:
 
     # Get tile bounds.
-    with raster.open(input_path) as f:
+    with rasterio.open(input_path) as f:
         bottom = int(f.bounds.bottom)
         left = int(f.bounds.left)
 
@@ -74,14 +74,14 @@ for input_path in input_paths:
 
     # Do the transformation.
     cmd = [
-        '!gdal_translate',
+        'gdal_translate',
         '-a_srs', 'EPSG:3035',  # EU-DEM crs.
         '-co', 'NUM_THREADS=ALL_CPUS',
         '-co', 'COMPRESS=DEFLATE',
         '-co', 'BIGTIFF=YES',
         '--config', 'GDAL_CACHEMAX','512',
-        '-projwin', xmin, ymax, xmax, ymin,
-        vrt_path, output_path ,
+        '-projwin', str(xmin), str(ymax), str(xmax), str(ymin),
+        vrt_path, output_path,
     ]
     r = subprocess.run(cmd)
     r.check_returncode()
