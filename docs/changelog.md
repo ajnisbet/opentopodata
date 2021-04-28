@@ -2,6 +2,12 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+
+## Version 1.5.1 (28 Apr 2021)
+
+* Updated dependencies, including to rasterio 1.2.3.
+* Fix some typos in scripts in the documentation.
+
 ## Version 1.5.0 (5 Feb 2021)
 
 * Big performance improvements, thanks to caching expensive coordinate transforms, reducing the need to deserialise cached objects, and scaling processes to the machine being used.

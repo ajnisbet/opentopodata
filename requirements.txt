@@ -12,7 +12,7 @@ attrs==20.3.0
     # via
     #   pytest
     #   rasterio
-black==20.8b1
+black==21.4b1
     # via -r requirements.in
 certifi==2020.12.5
     # via
@@ -33,9 +33,9 @@ click==7.1.2
     #   rasterio
 cligj==0.7.1
     # via rasterio
-coverage==5.4
+coverage==5.5
     # via pytest-cov
-flask-caching==1.9.0
+flask-caching==1.10.1
     # via -r requirements.in
 flask==1.1.2
     # via
@@ -43,8 +43,9 @@ flask==1.1.2
     #   flask-caching
 idna==2.10
     # via requests
-importlib-metadata==3.4.0
+importlib-metadata==4.0.1
     # via
+    #   pep517
     #   pluggy
     #   pytest
 iniconfig==1.1.1
@@ -57,7 +58,7 @@ markupsafe==1.1.1
     # via jinja2
 mypy-extensions==0.4.3
     # via black
-numpy==1.20.0
+numpy==1.20.2
     # via
     #   -r requirements.in
     #   rasterio
@@ -66,7 +67,9 @@ packaging==20.9
     # via pytest
 pathspec==0.8.1
     # via black
-pip-tools==5.5.0
+pep517==0.10.0
+    # via pip-tools
+pip-tools==6.1.0
     # via -r requirements.in
 pluggy==0.13.1
     # via pytest
@@ -80,19 +83,19 @@ pyparsing==2.4.7
     # via
     #   packaging
     #   snuggs
-pyproj==3.0.0.post1
+pyproj==3.0.1
     # via -r requirements.in
 pytest-cov==2.11.1
     # via -r requirements.in
-pytest==6.2.2
+pytest==6.2.3
     # via
     #   -r requirements.in
     #   pytest-cov
 pyyaml==5.4.1
     # via -r requirements.in
-rasterio==1.2.0
+rasterio==1.2.3
     # via -r requirements.in
-regex==2020.11.13
+regex==2021.4.4
     # via black
 requests==2.25.1
     # via -r requirements.in
@@ -103,19 +106,22 @@ snuggs==1.4.7
 toml==0.10.2
     # via
     #   black
+    #   pep517
     #   pytest
-typed-ast==1.4.2
+typed-ast==1.4.3
     # via black
 typing-extensions==3.7.4.3
     # via
     #   black
     #   importlib-metadata
-urllib3==1.26.3
+urllib3==1.26.4
     # via requests
 werkzeug==1.0.1
     # via flask
-zipp==3.4.0
-    # via importlib-metadata
+zipp==3.4.1
+    # via
+    #   importlib-metadata
+    #   pep517
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

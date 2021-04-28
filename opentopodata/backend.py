@@ -107,10 +107,16 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
             )
             rows, cols = tuple(f.index(xs, ys, op=_noop))
 
+            # Different versions of rasterio may or may not collapse single
+            # f.index() lookups into scalars. We want to always have an
+            # array.
+            rows = np.atleast_1d(rows)
+            cols = np.atleast_1d(cols)
+
             # Offset by 0.5 to convert from center coords (provided by
             # f.index) to ul coords (expected by f.read).
-            rows = np.array(rows) - 0.5
-            cols = np.array(cols) - 0.5
+            rows = rows - 0.5
+            cols = cols - 0.5
 
             # Because of floating point precision, indices may slightly exceed
             # array bounds. Because we've checked the locations are within the

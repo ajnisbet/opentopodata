@@ -66,7 +66,7 @@ for tif_path in tif_paths:
     te = ' '.join(str(x) for x in new_bounds)
     ts = ' '.join(str(x) for x in new_shape)
     
-    cmd = f'gdalwarp -te {te} -ts {ts} -r near -co NUM_THREADS=ALL_CPUS -co COMPRESS=DEFLATE  -co PREDICTOR=3 {vrt_path} {buffer_path}'
+    cmd = f'gdalwarp -te {te} -ts {ts} -r near -co NUM_THREADS=ALL_CPUS -co COMPRESS=DEFLATE -co PREDICTOR=3 {vrt_path} {buffer_path}'
     assert not os.system(cmd)
 
 assert not os.system(f'rm {vrt_path}')
