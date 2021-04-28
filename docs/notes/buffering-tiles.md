@@ -15,7 +15,7 @@ Next we'll make a VRT file for the rasters
 ```bash
 mkdir ./data/eudem-vrt
 cd ./data/eudem-vrt
-gdalbuildvrt -tr 25 25 -tap -te 0 0 8000000 6000000 -co VRT_SHARED_SOURCE=0 eudem.vrt ../data/eudem/*.TIF
+gdalbuildvrt -tr 25 25 -tap -te 0 0 8000000 6000000 -co VRT_SHARED_SOURCE=0 eudem.vrt ../eudem/*.TIF
 cd ../../
 ```
 
