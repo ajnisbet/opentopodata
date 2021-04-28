@@ -599,7 +599,7 @@
 <p>Next we'll make a VRT file for the rasters</p>
 <div class="codehilite"><pre><span></span>mkdir ./data/eudem-vrt
 <span class="nb">cd</span> ./data/eudem-vrt
-gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <span class="m">0</span> <span class="m">0</span> <span class="m">8000000</span> <span class="m">6000000</span> -co <span class="nv">VRT_SHARED_SOURCE</span><span class="o">=</span><span class="m">0</span> eudem.vrt ../data/eudem/*.TIF
+gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <span class="m">0</span> <span class="m">0</span> <span class="m">8000000</span> <span class="m">6000000</span> -co <span class="nv">VRT_SHARED_SOURCE</span><span class="o">=</span><span class="m">0</span> eudem.vrt ../eudem/*.TIF
 <span class="nb">cd</span> ../../
 </pre></div>
 
@@ -630,7 +630,7 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
 <span class="k">for</span> <span class="n">input_path</span> <span class="ow">in</span> <span class="n">input_paths</span><span class="p">:</span>
 
     <span class="c1"># Get tile bounds.</span>
-    <span class="k">with</span> <span class="n">raster</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">input_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">bottom</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span>
         <span class="n">left</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">bounds</span><span class="o">.</span><span class="n">left</span><span class="p">)</span>
 
@@ -654,14 +654,14 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
 
     <span class="c1"># Do the transformation.</span>
     <span class="n">cmd</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s1">&#39;!gdal_translate&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;gdal_translate&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-a_srs&#39;</span><span class="p">,</span> <span class="s1">&#39;EPSG:3035&#39;</span><span class="p">,</span>  <span class="c1"># EU-DEM crs.</span>
         <span class="s1">&#39;-co&#39;</span><span class="p">,</span> <span class="s1">&#39;NUM_THREADS=ALL_CPUS&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-co&#39;</span><span class="p">,</span> <span class="s1">&#39;COMPRESS=DEFLATE&#39;</span><span class="p">,</span>
         <span class="s1">&#39;-co&#39;</span><span class="p">,</span> <span class="s1">&#39;BIGTIFF=YES&#39;</span><span class="p">,</span>
         <span class="s1">&#39;--config&#39;</span><span class="p">,</span> <span class="s1">&#39;GDAL_CACHEMAX&#39;</span><span class="p">,</span><span class="s1">&#39;512&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;-projwin&#39;</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span>
-        <span class="n">vrt_path</span><span class="p">,</span> <span class="n">output_path</span> <span class="p">,</span>
+        <span class="s1">&#39;-projwin&#39;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">xmin</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">ymax</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">xmax</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">ymin</span><span class="p">),</span>
+        <span class="n">vrt_path</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
     <span class="n">r</span><span class="o">.</span><span class="n">check_returncode</span><span class="p">()</span>
@@ -674,6 +674,11 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
   <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/eudem-buffered/</span>
   <span class="nt">filename_epsg</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3035</span>
   <span class="nt">filename_tile_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1000000</span>
+</pre></div>
+
+
+<p>after rebuilding:</p>
+<div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
 </pre></div>
                 
                   
