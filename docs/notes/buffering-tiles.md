@@ -97,3 +97,9 @@ datasets:
   filename_epsg: 3035
   filename_tile_size: 1000000
 ```
+
+after rebuilding:
+
+```bash
+make build && make run
+```

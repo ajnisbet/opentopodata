@@ -162,6 +162,12 @@ datasets:
   filename_tile_size: 1000000
 ```
 
+and rebuilding:
+
+```bash
+make build && make run
+```
+
 
 
 ## Public API
