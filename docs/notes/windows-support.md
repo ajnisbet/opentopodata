@@ -31,10 +31,10 @@ docker build --tag opentopodata --file docker/Dockerfile .
 To run the server, instead of using `make run`, run with
 
 ```
-docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p 5000:5000 -e N_UWSGI_THREADS=8 opentopodata sh -c "/usr/bin/supervisord -c /app/docker/supervisord.conf"
+docker run --rm -it --volume "C:/path/to/opentopodata/data:/app/data:ro" -p 5000:5000 -e N_UWSGI_THREADS=8 opentopodata sh -c "/usr/bin/supervisord -c /app/docker/supervisord.conf"
 ```
 
-Replace `-e N_UWSGI_THREADS=8` in the `docker run` command above with the number of logical CPU cores on your system. Open Topo Data is [CPU bound](/notes/performance-optimisation/) for most compressed datasets.
+Modify `-e N_UWSGI_THREADS=8` in the `docker run` command above with the number of logical CPU cores on your system. Open Topo Data is [CPU bound](/notes/performance-optimisation/) for most compressed datasets.
 
 
 
