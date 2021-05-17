@@ -36,6 +36,8 @@ docker run --rm -it --volume "C:/path/to/opentopodata/data:/app/data:ro" -p 5000
 
 Modify `-e N_UWSGI_THREADS=8` in the `docker run` command above with the number of logical CPU cores on your system. Open Topo Data is [CPU bound](/notes/performance-optimisation/) for most compressed datasets.
 
+Also modify `C:/path/to/opentopodata/data` in that command with the path to the folder containing your datasets.
+
 
 
 ## Troubleshooting
