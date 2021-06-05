@@ -40,4 +40,8 @@ RUN echo > /etc/nginx/sites-available/default && \
 
 CMD ["sh", "/app/docker/run.sh"]
 EXPOSE 5000
+
 ENV CURL_CA_BUNDLE=/etc/ssl/certs/ca-certificates.crt
+ENV GDAL_DISABLE_READDIR_ON_OPEN=TRUE
+ENV GDAL_NUM_THREADS=ALL_CPUS
+ENV GDAL_CACHEMAX=512
