@@ -6,7 +6,7 @@ RUN set -e && \
         gcc \
         python3.7-dev
 RUN pip wheel --wheel-dir=/root/wheels uwsgi==2.0.19.1 && \
-    pip wheel --wheel-dir=/root/wheels regex==2021.4.4
+    pip wheel --wheel-dir=/root/wheels regex==2020.11.13
 
 # The actual container.
 FROM python:3.7.9-slim-buster
