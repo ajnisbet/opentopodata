@@ -159,7 +159,7 @@ class TestGetElevationFromPath:
         lons = [-180.1, 180.1, 0, 0]
         for lat, lon in zip(lats, lons):
             z = backend._get_elevation_from_path(
-                [lat], [lon], ETOPO1_GEOTIFF_PATH, interpolation="lanczos"
+                [lat], [lon], ETOPO1_GEOTIFF_PATH, interpolation="cubic"
             )[0]
             assert z is None
 
