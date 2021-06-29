@@ -1,5 +1,5 @@
 black
-Flask
+Flask==1.1.2
 flask-caching
 numpy
 pip-tools
