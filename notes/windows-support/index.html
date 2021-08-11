@@ -724,10 +724,12 @@
 
 
 <p>To run the server, instead of using <code>make run</code>, run with</p>
-<div class="codehilite"><pre><span></span>docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p 5000:5000 opentopodata sh -c &quot;/usr/bin/supervisord -c /app/docker/supervisord.conf&quot;
+<div class="codehilite"><pre><span></span>docker run --rm -it --volume &quot;C:/path/to/opentopodata/data:/app/data:ro&quot; -p 5000:5000 -e N_UWSGI_THREADS=8 opentopodata sh -c &quot;/usr/bin/supervisord -c /app/docker/supervisord.conf&quot;
 </pre></div>
 
 
+<p>Modify <code>-e N_UWSGI_THREADS=8</code> in the <code>docker run</code> command above with the number of logical CPU cores on your system. Open Topo Data is <a href="/notes/performance-optimisation/">CPU bound</a> for most compressed datasets.</p>
+<p>Also modify <code>C:/path/to/opentopodata/data</code> in that command with the path to the folder containing your datasets.</p>
 <h2 id="troubleshooting">Troubleshooting</h2>
 <h3 id="error-during-connect">Error during connect</h3>
 <p>An error like </p>
