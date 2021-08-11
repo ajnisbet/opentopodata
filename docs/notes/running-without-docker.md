@@ -6,7 +6,7 @@ So I highly recommend running Open Topo Data with docker, it saves me a bunch of
 
 ## Running Open Topo Data 1.5.0 on Debian 10
 
-A user (thanks [Luca](https://www.lucabert.de/!)was able to get Open Topo Data running on Debian 10 without docker and was kind enough to share their instructions.
+A user (thanks [Luca](https://www.lucabert.de/)!) was able to get Open Topo Data running on Debian 10 without docker and was kind enough to share their instructions.
 
 ### Minimal install
 
