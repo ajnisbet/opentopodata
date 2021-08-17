@@ -91,9 +91,9 @@ If you have a lot of datasets you want to merge, it's a pain to put them all in 
 
 # NZ with mapzen fallback.
 - name: nz-global
-  - child_datasets:
-  	- nzdem8m
-  	- mapzen
+  child_datasets:
+	- nzdem8m
+	- mapzen
 ```
 
 Now you can query **nz-global** for the same result.

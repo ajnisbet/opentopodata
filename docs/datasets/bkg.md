@@ -79,3 +79,11 @@ curl https://api.opentopodata.org/v1/bkg200m?locations=49.427,7.753
 }
 ```
 
+## Attribution
+
+© GeoBasis-DE / BKG (Jahr des Datenbezugs)
+
+[Datenlizenz Deutschland – Namensnennung – Version 2.0](https://www.govdata.de/dl-de/by-2-0)
+
+
+

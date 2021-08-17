@@ -116,3 +116,8 @@ curl https://api.opentopodata.org/v1/nzdem8m?locations=-37.86118,174.79974
 ```
 
 The data files used in the public API were downloaded from LINZ May 2020.
+
+
+## Attribution 
+
+Released by [LINZ](https://www.linz.govt.nz/) under the (https://creativecommons.org/licenses/by/4.0/)[Creative Commons Attribution 4.0 International] licence.

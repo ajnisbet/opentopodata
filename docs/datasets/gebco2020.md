@@ -131,3 +131,12 @@ curl https://api.opentopodata.org/v1/gebco2020?locations=37.6535,-119.4105
 ```
 
 The public API uses the 2020 version of the dataset.
+
+
+## Attribution
+
+[GEBCO](https://www.gebco.net/data_and_products/gridded_bathymetry_data/gebco_2019/grid_terms_of_use.html) released the dataset into the public domain under the following terms:
+
+* *Acknowledge the source of The GEBCO Grid. A suitable form of attribution is given in the documentation that accompanies The GEBCO Grid.*
+* *Not use The GEBCO Grid in a way that suggests any official status or that GEBCO, or the IHO or IOC, endorses any particular application of The GEBCO Grid.*
+* *Not mislead others or misrepresent The GEBCO Grid or its source.*

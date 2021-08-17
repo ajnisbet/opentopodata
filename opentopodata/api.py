@@ -25,11 +25,11 @@ LON_MAX = 180
 # disabled for testing as it breaks tests which change the config. It can also
 # be disabled if not installed for local development.
 if os.environ.get("DISABLE_MEMCACHE"):
-    cache = Cache(config={"CACHE_TYPE": "null", "CACHE_NO_NULL_WARNING": True})
+    cache = Cache(config={"CACHE_TYPE": "NullCache", "CACHE_NO_NULL_WARNING": True})
 else:
     cache = Cache(
         config={
-            "CACHE_TYPE": "memcached",
+            "CACHE_TYPE": "MemcachedCache",
             "CACHE_MEMCACHED_SERVERS": [MEMCACHED_SOCKET],
             "CACHE_DEFAULT_TIMEOUT": 0,
         }

@@ -6,7 +6,7 @@ So I highly recommend running Open Topo Data with docker, it saves me a bunch of
 
 ## Running Open Topo Data 1.5.0 on Debian 10
 
-A user (thanks [Luca](https://www.lucabert.de/!)was able to get Open Topo Data running on Debian 10 without docker and was kind enough to share their instructions.
+A user (thanks [Luca](https://www.lucabert.de/)!) was able to get Open Topo Data running on Debian 10 without docker and was kind enough to share their instructions.
 
 ### Minimal install
 
@@ -44,7 +44,7 @@ pip3 install pyproj==3.0.0.post1
 then the remaining python packages can be installed:
 
 ```bash
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 
 This should give a minimal install of Open Topo Data that can be started with 
