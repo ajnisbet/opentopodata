@@ -80,3 +80,7 @@ curl https://api.opentopodata.org/v1/etopo1?locations=39.747114,-104.996334
 ```
 
 Open Topo Data hosts the ice-elevation version of the dataset (the same as seen in the image above).
+
+## Attribution
+
+[doi:10.7289/V5C8276M](https://www.ncei.noaa.gov/access/metadata/landing-page/bin/iso?id=gov.noaa.ngdc.mgg.dem:316)
