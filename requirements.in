@@ -1,6 +1,7 @@
 black
 Flask
 flask-caching
+geographiclib
 numpy
 pip-tools
 polyline

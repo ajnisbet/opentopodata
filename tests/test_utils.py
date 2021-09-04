@@ -132,3 +132,54 @@ class TestFillNa:
         values = [np.nan, float("nan"), 0]
         replaced_values = [na_value, na_value, 0]
         assert utils.fill_na(values, na_value) == replaced_values
+
+
+class TestSamplePointsOnPath:
+    def test_two_points(self):
+        start = (12.3, -45.6)
+        middle = (12.7, 45.1)
+        end = (12.9, 45.9)
+        lats = [start[0], middle[0], end[0]]
+        lons = [start[1], middle[1], end[1]]
+        rlats, rlons = utils.sample_points_on_path(lats, lons, 2)
+        assert len(rlats) == 2
+        assert len(rlons) == 2
+        assert (rlats[0], rlons[0]) == start
+        assert (rlats[1], rlons[1]) == end
+
+    def test_start_end(self):
+        start = (12.3, -45.6)
+        end = (12.9, -45.9)
+        lats = [start[0], end[0]]
+        lons = [start[1], end[1]]
+        rlats, rlons = utils.sample_points_on_path(lats, lons, 2)
+        assert len(rlats) == 2
+        assert len(rlons) == 2
+        assert (rlats[0], rlons[0]) == start
+        assert (rlats[1], rlons[1]) == end
+
+    def test_lat_wraparound(self):
+        """Path should take short route over the north pole."""
+        lat = 88
+        n_points = 7
+        start = (lat, -90)
+        end = (lat, 90)
+        lats = [start[0], end[0]]
+        lons = [start[1], end[1]]
+        rlats, rlons = utils.sample_points_on_path(lats, lons, n_points)
+        assert len(rlats) == n_points
+        assert len(rlons) == n_points
+        assert all(rlat >= lat for rlat in rlats)
+
+    def test_lon_wraparound(self):
+        """Path should take short route over date line."""
+        lon = 178
+        n_points = 18
+        start = (1, -lon)
+        end = (-1, lon)
+        lats = [start[0], end[0]]
+        lons = [start[1], end[1]]
+        rlats, rlons = utils.sample_points_on_path(lats, lons, n_points)
+        assert len(rlats) == n_points
+        assert len(rlons) == n_points
+        assert all(rlon >= lon or rlon <= -lon for rlon in rlons)

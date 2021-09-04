@@ -362,6 +362,34 @@ class TestGetElevation:
         response = self.test_api.get(url)
         assert response.headers["x-opentopodata-version"]
 
+    def test_samples(self, patch_config):
+        n_samples = 10
+        url = f"/v1/etopo1deg?locations=-30,16|-18,112&samples={n_samples}"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert len(rjson["results"]) == n_samples
+
+    def test_invalid_samples(self, patch_config):
+        url = "/v1/etopo1deg?locations=-30,16|-18,112&samples=blah"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 400
+
+    def test_single_samples(self, patch_config):
+        url = "/v1/etopo1deg?locations=-30,16|-18,112&samples=1"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 400
+
+    def test_too_many_samples(self, patch_config):
+        n_too_many_points = 101
+        url = f"/v1/etopo1deg?locations=-30,16|-18,112&samples={n_too_many_points}"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 400
+
 
 class TestGetHelpMessage:
     test_api = api.app.test_client()
