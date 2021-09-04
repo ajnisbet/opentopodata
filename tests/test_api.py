@@ -355,6 +355,13 @@ class TestGetElevation:
         assert rjson["results"][1]["dataset"] == "etopo1deg"
         assert rjson["results"][2]["dataset"] == "etopo1deg"
 
+    def test_version(self, patch_config):
+        url = (
+            "/v1/nodata,eudemsubset,etopo1deg?locations=47.625765,9.418759|-70,-170|0,1"
+        )
+        response = self.test_api.get(url)
+        assert response.headers["x-opentopodata-version"]
+
 
 class TestGetHelpMessage:
     test_api = api.app.test_client()

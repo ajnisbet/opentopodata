@@ -18,6 +18,7 @@ LAT_MIN = -90
 LAT_MAX = 90
 LON_MIN = -180
 LON_MAX = 180
+VERSION_PATH = "VERSION"
 
 
 # Memcache is used to store the latlon -> filename lookups, which can take a
@@ -431,3 +432,13 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
         app.logger.error(e)
         msg = "Unhandled server error, see server logs for details."
         return jsonify({"status": "SERVER_ERROR", "error": msg}), 500
+
+
+@app.after_request
+def add_version(response):
+    if "version" not in _SIMPLE_CACHE:
+        with open(VERSION_PATH) as f:
+            version = f.read().strip()
+        _SIMPLE_CACHE["version"] = version
+    response.headers["x-opentopodata-version"] = _SIMPLE_CACHE["version"]
+    return response
