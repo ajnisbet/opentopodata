@@ -7,7 +7,7 @@ max_locations_per_request: 100
 
 # CORS header. Should be None for no CORS, '*' for all domains, or a url with
 # protocol, domain, and port ('https://api.example.com/'). Default is null.
-access_control_allow_origin: null
+access_control_allow_origin: "*"
 
 datasets:
 

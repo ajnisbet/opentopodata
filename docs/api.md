@@ -18,6 +18,7 @@ Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format),
 * `locations`: Required. Either 
     * `latitutde,longitude` pairs, each separated by a pipe character `|`. Example: `locations=12.5,160.2|-10.6,130`.
     * [Google polyline format](https://developers.google.com/maps/documentation/utilities/polylinealgorithm). Example: `locations=gfo}EtohhU`.
+* `samples`: If provided, instead of using `locations` directly, query elevation for `sample` [equally-spaced points](https://www.gpxz.io/blog/sampling-points-on-a-line) along the path specified by `locations`. Example: `samples=5`.
 * `interpolation`: How to interpolate between the points in the dataset. Options: `nearest`, `bilinear`, `cubic`. Default: `bilinear`.
 * `nodata_value`: What elevation to return if the dataset has a [NODATA](https://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/nodata-in-raster-datasets.htm) value at the requested location. Options: `null`, `nan`, or an integer like `-9999`. Default: `null`.
     * The default option `null` makes NODATA indistinguishable from a location outside the dataset bounds. 

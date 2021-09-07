@@ -18,6 +18,7 @@ LAT_MIN = -90
 LAT_MAX = 90
 LON_MIN = -180
 LON_MAX = 180
+VERSION_PATH = "VERSION"
 
 
 # Memcache is used to store the latlon -> filename lookups, which can take a
@@ -114,6 +115,46 @@ def _parse_interpolation(method):
         raise ClientError(msg)
 
     return method
+
+
+def _parse_n_samples(samples_str, max_n_locations):
+    """Check the number if interpolated samples.
+
+    Args:
+        samples_str: String representing number of samples.
+        max_n_locations: The max allowable number of locations, to keep query times reasonable.
+
+    Returns:
+        n_samples: Integer number of samples, or None if no samples provided.
+
+    Raises:
+        ClientError: Invalid n_samples.
+    """
+    if not samples_str:
+        return None
+
+    # Try to parse.
+    try:
+        n_samples = int(samples_str)
+    except Exception as e:
+        msg = f"Invalid value for samples argument '{samples_str}'."
+        msg += " Samples should be an integer."
+        raise ClientError(msg)
+
+    # Must give 2+ samples.
+    if n_samples < 2:
+        msg = "Must provide at least 2 samples."
+        msg += " The ends of the path are included as samples."
+        raise ClientError(msg)
+
+    # N samples will become the number of locations, so need to revalidate that.
+    if n_samples > max_n_locations:
+        msg = (
+            f"Too many samples requested ({n_samples}), the limit is {max_n_locations}."
+        )
+        raise ClientError(msg)
+
+    return n_samples
 
 
 def _parse_nodata_value(nodata_value):
@@ -399,6 +440,13 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
             request.args.get("locations"), _load_config()["max_locations_per_request"]
         )
 
+        # Check if need to do sampling.
+        n_samples = _parse_n_samples(
+            request.args.get("samples"), _load_config()["max_locations_per_request"]
+        )
+        if n_samples:
+            lats, lons = utils.sample_points_on_path(lats, lons, n_samples)
+
         # Get the z values.
         datasets = _get_datasets(dataset_name)
         elevations, dataset_names = backend.get_elevation(
@@ -431,3 +479,13 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
         app.logger.error(e)
         msg = "Unhandled server error, see server logs for details."
         return jsonify({"status": "SERVER_ERROR", "error": msg}), 500
+
+
+@app.after_request
+def add_version(response):
+    if "version" not in _SIMPLE_CACHE:
+        with open(VERSION_PATH) as f:
+            version = f.read().strip()
+        _SIMPLE_CACHE["version"] = version
+    response.headers["x-opentopodata-version"] = _SIMPLE_CACHE["version"]
+    return response

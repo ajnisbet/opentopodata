@@ -27,17 +27,17 @@ def patch_config():
 
 
 class TestCORS:
-    def test_no_cors(self):
-        test_api = api.app.test_client()
-        url = "/v1/etopo1deg?locations=90,-180"
-        response = test_api.get(url)
-        assert response.headers.get("access-control-allow-origin") is None
-
-    def test_cors(self, patch_config):
+    def test_default_cors(self):
         test_api = api.app.test_client()
         url = "/v1/etopo1deg?locations=90,-180"
         response = test_api.get(url)
         assert response.headers.get("access-control-allow-origin") == "*"
+
+    def test_no_cors(self, patch_config):
+        test_api = api.app.test_client()
+        url = "/v1/etopo1deg?locations=90,-180"
+        response = test_api.get(url)
+        assert response.headers.get("access-control-allow-origin") is None
 
 
 class TestParseInterpolation:
@@ -354,6 +354,41 @@ class TestGetElevation:
         assert rjson["results"][0]["dataset"] == "eudemsubset"
         assert rjson["results"][1]["dataset"] == "etopo1deg"
         assert rjson["results"][2]["dataset"] == "etopo1deg"
+
+    def test_version(self, patch_config):
+        url = (
+            "/v1/nodata,eudemsubset,etopo1deg?locations=47.625765,9.418759|-70,-170|0,1"
+        )
+        response = self.test_api.get(url)
+        assert response.headers["x-opentopodata-version"]
+
+    def test_samples(self, patch_config):
+        n_samples = 10
+        url = f"/v1/etopo1deg?locations=-30,16|-18,112&samples={n_samples}"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert len(rjson["results"]) == n_samples
+
+    def test_invalid_samples(self, patch_config):
+        url = "/v1/etopo1deg?locations=-30,16|-18,112&samples=blah"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 400
+
+    def test_single_samples(self, patch_config):
+        url = "/v1/etopo1deg?locations=-30,16|-18,112&samples=1"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 400
+
+    def test_too_many_samples(self, patch_config):
+        n_too_many_points = 101
+        url = f"/v1/etopo1deg?locations=-30,16|-18,112&samples={n_too_many_points}"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 400
 
 
 class TestGetHelpMessage:

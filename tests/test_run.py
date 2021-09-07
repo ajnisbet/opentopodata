@@ -27,6 +27,7 @@ class TestRun:
         assert response.status_code == 200
         assert rjson["status"] == "OK"
         assert len(rjson["results"]) == 1
+        assert response.headers["x-opentopodata-version"]
 
     def test_memcache(self):
         url = "http://localhost:5000/v1/test-dataset?locations=1,1"
