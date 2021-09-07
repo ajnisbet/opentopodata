@@ -27,17 +27,17 @@ def patch_config():
 
 
 class TestCORS:
-    def test_no_cors(self):
-        test_api = api.app.test_client()
-        url = "/v1/etopo1deg?locations=90,-180"
-        response = test_api.get(url)
-        assert response.headers.get("access-control-allow-origin") is None
-
-    def test_cors(self, patch_config):
+    def test_default_cors(self):
         test_api = api.app.test_client()
         url = "/v1/etopo1deg?locations=90,-180"
         response = test_api.get(url)
         assert response.headers.get("access-control-allow-origin") == "*"
+
+    def test_no_cors(self, patch_config):
+        test_api = api.app.test_client()
+        url = "/v1/etopo1deg?locations=90,-180"
+        response = test_api.get(url)
+        assert response.headers.get("access-control-allow-origin") is None
 
 
 class TestParseInterpolation:
