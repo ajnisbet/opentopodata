@@ -2,6 +2,11 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.6.0 (7 Sep 2021)
+
+* Added support for samples along a path ([#37](https://github.com/ajnisbet/opentopodata/issues/37)).
+* Added version response header ([#47](https://github.com/ajnisbet/opentopodata/issues/47)).
+* Enabled cors in example config file.
 
 ## Version 1.5.2 (17 Aug 2021)
 
