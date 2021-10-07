@@ -277,4 +277,7 @@ def get_elevation(lats, lons, datasets, interpolation="nearest", nodata_value=No
             points[point.index].dataset_name = dataset.name
 
     # Return elevations.
-    return [p.elevation for p in points], [p.dataset_name for p in points]
+    fallback_dataset_name = datasets[-1].name
+    dataset_names = [p.dataset_name or fallback_dataset_name for p in points]
+    elevations = [p.elevation for p in points]
+    return elevations, dataset_names
