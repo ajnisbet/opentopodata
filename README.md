@@ -126,3 +126,8 @@ The following datasets are available on the public API:
 ## Support
 
 Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+
+
+## Paid hosting
+
+If you'd like me to host and manage an elevation API for your business, email me at [andrew@opentopodata.org](mailto:andrew@opentopodata.org) or check out my sister project [GPXZ](https://www.gpxz.io).
