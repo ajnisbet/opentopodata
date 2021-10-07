@@ -92,6 +92,42 @@ class ClientError(ValueError):
     """
 
 
+def _find_request_argument(request, arg):
+    """Find an argument of a request.
+
+    For GET requests, will check query arguments.
+
+    For POST requests, will check form data first, and json body data second.
+    Query args aren't checked for POST requests. JSON arguments are cast to
+    strings for consistency.
+
+    Args:
+        request: Flask request object.
+        arg: Argument name string.
+
+    Returns:
+        String argument value.
+    """
+
+    # First GET requests.
+    if request.method != "POST":
+        return request.args.get(arg)
+
+    # For post requests, try form.
+    if arg in request.form:
+        return request.form[arg]
+
+    # Also try json. is_json just checks mimetype, still need to handle error
+    # for malformed json.
+    if request.is_json:
+        try:
+            json_data = request.get_json()
+            if arg in json_data:
+                return str(json_data[arg])
+        except:
+            raise ClientError("Invalid JSON.")
+
+
 def _parse_interpolation(method):
     """Check the interpolation method is supported.
 
@@ -400,17 +436,17 @@ def _get_datasets(name):
     return datasets
 
 
-@app.route("/")
-@app.route("/v1/")
-def get_help_message(methods=["GET", "OPTIONS", "HEAD"]):
+@app.route("/", methods=["GET", "POST", "OPTIONS", "HEAD"])
+@app.route("/v1/", methods=["GET", "POST", "OPTIONS", "HEAD"])
+def get_help_message():
     msg = "No dataset name provided."
     msg += " Try a url like '/v1/test-dataset?locations=-10,120' to get started,"
     msg += " and see https://www.opentopodata.org for full documentation."
     return jsonify({"status": "INVALID_REQUEST", "error": msg}), 404
 
 
-@app.route("/health")
-def get_health_status(methods=["GET", "OPTIONS", "HEAD"]):
+@app.route("/health", methods=["GET", "OPTIONS", "HEAD"])
+def get_health_status():
     """Status endpoint for e.g., uptime check or load balancing."""
     try:
         _load_config()
@@ -421,8 +457,8 @@ def get_health_status(methods=["GET", "OPTIONS", "HEAD"]):
         return jsonify(data), 500
 
 
-@app.route("/v1/<dataset_name>")
-def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
+@app.route("/v1/<dataset_name>", methods=["GET", "POST", "OPTIONS", "HEAD"])
+def get_elevation(dataset_name):
     """Calculate the elevation for the given locations.
 
     Args:
@@ -434,15 +470,21 @@ def get_elevation(dataset_name, methods=["GET", "OPTIONS", "HEAD"]):
 
     try:
         # Parse inputs.
-        interpolation = _parse_interpolation(request.args.get("interpolation"))
-        nodata_value = _parse_nodata_value(request.args.get("nodata_value"))
+        interpolation = _parse_interpolation(
+            _find_request_argument(request, "interpolation")
+        )
+        nodata_value = _parse_nodata_value(
+            _find_request_argument(request, "nodata_value")
+        )
         lats, lons = _parse_locations(
-            request.args.get("locations"), _load_config()["max_locations_per_request"]
+            _find_request_argument(request, "locations"),
+            _load_config()["max_locations_per_request"],
         )
 
         # Check if need to do sampling.
         n_samples = _parse_n_samples(
-            request.args.get("samples"), _load_config()["max_locations_per_request"]
+            _find_request_argument(request, "samples"),
+            _load_config()["max_locations_per_request"],
         )
         if n_samples:
             lats, lons = utils.sample_points_on_path(lats, lons, n_samples)
