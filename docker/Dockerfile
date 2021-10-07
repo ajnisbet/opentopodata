@@ -1,15 +1,15 @@
 # Container for packages that need to be built from source but have massive dev dependencies.
-FROM python:3.7.9-slim-buster as builder
+FROM python:3.7.12-slim-buster as builder
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
         python3.7-dev
 RUN pip wheel --wheel-dir=/root/wheels uwsgi==2.0.19.1 && \
-    pip wheel --wheel-dir=/root/wheels regex==2020.11.13
+    pip wheel --wheel-dir=/root/wheels regex==2021.9.30
 
 # The actual container.
-FROM python:3.7.9-slim-buster
+FROM python:3.7.12-slim-buster
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
