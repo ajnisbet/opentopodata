@@ -81,6 +81,79 @@ Some notes about the elevation value:
 ---
 
 
+
+## `POST /v1/<dataset_name>`
+
+When querying many locations in a single request, you can run into issues fitting them all in one url. To avoid these issues, you can also send a POST request to `/v1/<dataset_name>`.
+
+The arguments are the same, but must be provided either as json-encoded data or form data instead of url query parameters.
+
+The response is the same.
+
+Other solutions for fitting many points in a URL are polyline encoding and rounding your coordinates.
+
+
+### Example 
+
+With json:
+
+```python
+import requests
+
+url = "https://api.opentopodata.org/v1/srtm90m"
+data = {
+    "locations": "-43.5,172.5|27.6,1.98",
+     "interpolation": "cubic",
+}
+response = requests.post(url json=data)
+```
+
+
+With form data:
+
+
+```python
+import requests
+
+url = "https://api.opentopodata.org/v1/srtm90m"
+data = {
+    "locations": "-43.5,172.5|27.6,1.98",
+     "interpolation": "cubic",
+}
+response = requests.post(url data=data)
+```
+
+The response is the same as for GET requests:
+
+```json
+{
+    "results": [
+        {
+            "dataset": "srtm90m",
+            "elevation": 45,
+            "location": {
+                "lat": -43.5,
+                "lng": 172.5
+            }
+        },
+        {
+            "dataset": "srtm90m",
+            "elevation": 402,
+            "location": {
+                "lat": 27.6,
+                "lng": 1.98
+            }
+        }
+    ],
+    "status": "OK"
+}
+```
+
+
+
+---
+
+
 ## `GET /health`
 
 

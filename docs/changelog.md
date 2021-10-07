@@ -2,6 +2,14 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+
+## Version 1.7.0 (7 Oct 2021)
+
+* Support POST requests ([#49](https://github.com/ajnisbet/opentopodata/issues/49)).
+* Dataset name can no longer be null for multi-dataset requests.
+
+
+
 ## Version 1.6.0 (7 Sep 2021)
 
 * Added support for samples along a path ([#37](https://github.com/ajnisbet/opentopodata/issues/37)).

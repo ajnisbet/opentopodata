@@ -5,6 +5,7 @@ from flask_caching import Cache
 import rasterio
 from unittest.mock import patch
 import numpy as np
+from flask import request
 
 from opentopodata import api
 from opentopodata import backend
@@ -38,6 +39,58 @@ class TestCORS:
         url = "/v1/etopo1deg?locations=90,-180"
         response = test_api.get(url)
         assert response.headers.get("access-control-allow-origin") is None
+
+
+class TestFindRequestAgument:
+    def test_no_argument(self, patch_config):
+        url = f"/v1/{ETOPO1_DATASET_NAME}"
+        with api.app.test_request_context(url):
+            assert api._find_request_argument(request, "no-arg") is None
+
+    def test_get_argument(self, patch_config):
+        arg_name = "test-arg"
+        arg_value = "test-value"
+        url = f"/v1/{ETOPO1_DATASET_NAME}?{arg_name}={arg_value}"
+        with api.app.test_request_context(url):
+            assert api._find_request_argument(request, arg_name) == arg_value
+
+    def test_post_argument_json(self, patch_config):
+        arg_name = "test-arg"
+        arg_value = "test-value"
+        url = f"/v1/{ETOPO1_DATASET_NAME}"
+        with api.app.test_request_context(
+            url, method="POST", json={arg_name: arg_value}
+        ):
+            assert api._find_request_argument(request, arg_name) == arg_value
+
+    def test_post_argument_form(self, patch_config):
+        arg_name = "test-arg"
+        arg_value = "test-value"
+        url = f"/v1/{ETOPO1_DATASET_NAME}"
+        with api.app.test_request_context(
+            url, method="POST", data={arg_name: arg_value}
+        ):
+            assert api._find_request_argument(request, arg_name) == arg_value
+
+    def test_post_invalid_json(self, patch_config):
+        arg_name = "test-arg"
+        arg_value = "test-value"
+        url = f"/v1/{ETOPO1_DATASET_NAME}"
+        with api.app.test_request_context(
+            url,
+            method="POST",
+            data={arg_name: arg_value},
+            headers={"content-type": "application/json"},
+        ):
+            with pytest.raises(api.ClientError):
+                assert api._find_request_argument(request, arg_name) == arg_value
+
+    def test_post_query_args_are_ignored(self, patch_config):
+        arg_name = "test-arg"
+        arg_value = "test-value"
+        url = f"/v1/{ETOPO1_DATASET_NAME}?{arg_name}={arg_value}"
+        with api.app.test_request_context(url, method="POST"):
+            assert api._find_request_argument(request, arg_name) is None
 
 
 class TestParseInterpolation:
@@ -198,6 +251,18 @@ class TestGetElevation:
     def test_single_location(self, patch_config):
         url = "/v1/etopo1deg?locations=90,-180"
         response = self.test_api.get(url)
+        rjson = response.json
+        z = self.geotiff_z[0, 0]
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert len(rjson["results"]) == 1
+        assert rjson["results"][0]["location"]["lat"] == 90
+        assert rjson["results"][0]["location"]["lng"] == -180
+        assert rjson["results"][0]["elevation"] == z
+
+    def test_post(self, patch_config):
+        url = "/v1/etopo1deg"
+        response = self.test_api.post(url, data={"locations": "90,-180"})
         rjson = response.json
         z = self.geotiff_z[0, 0]
         assert response.status_code == 200

@@ -197,14 +197,34 @@ See the [API docs](api.md) for more about request formats and parameters.
 
 ## Support
 
-Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+Need some help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org)!
 
 
 ---
 
 ## Paid hosting
 
-If you'd like me to host and manage an Open Topo Data elevation API for your business, reach out to [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+If you need an elevation API service with high-quality 1m lidar data, check out my sister project [GPXZ](https://www.gpxz.io).
+
+The GPXZ Elevation API offers the following features:
+
+* Managed hosting, load balanced for redundancy
+* [Seamless, global, hi-res elevation dataset](https://www.gpxz.io/dataset)
+* [Drop-in replacement endpoint for the Google Maps Elevation API](https://www.gpxz.io/docs)
+* Priority support
+* No hard usage limits
+* EU-only servers if needed
+* CORS (so you can use the API in your frontend webapp)
+
+For more details, reach out to [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+
+
+Paid hosting funds the development of Open Topo Data and keeps the public API free.
+
+
+
+
+<!-- If you'd like me to host and manage an Open Topo Data elevation API for your business, reach out to [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
 
 Paid hosting offers the following features:
 
@@ -217,4 +237,4 @@ Paid hosting offers the following features:
 * GDPR compliance
 * CORS (so you can use the API in your frontend webapp)
 
-Paid hosting funds the development of Open Topo Data and keeps the public API free.
+Paid hosting funds the development of Open Topo Data and keeps the public API free. -->
