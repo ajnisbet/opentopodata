@@ -294,6 +294,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#post-v1dataset_name" class="md-nav__link">
+    POST /v1/&lt;dataset_name&gt;
+  </a>
+  
+    <nav class="md-nav" aria-label="POST /v1/&lt;dataset_name&gt;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#get-health" class="md-nav__link">
     GET /health
   </a>
@@ -309,7 +329,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example_1" class="md-nav__link">
+  <a href="#example_2" class="md-nav__link">
     Example
   </a>
   
@@ -691,6 +711,26 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#post-v1dataset_name" class="md-nav__link">
+    POST /v1/&lt;dataset_name&gt;
+  </a>
+  
+    <nav class="md-nav" aria-label="POST /v1/&lt;dataset_name&gt;">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example_1" class="md-nav__link">
+    Example
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#get-health" class="md-nav__link">
     GET /health
   </a>
@@ -706,7 +746,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#example_1" class="md-nav__link">
+  <a href="#example_2" class="md-nav__link">
     Example
   </a>
   
@@ -799,6 +839,59 @@
 </code></pre></div>
 
 <hr />
+<h2 id="post-v1dataset_name"><code>POST /v1/&lt;dataset_name&gt;</code></h2>
+<p>When querying many locations in a single request, you can run into issues fitting them all in one url. To avoid these issues, you can also send a POST request to <code>/v1/&lt;dataset_name&gt;</code>.</p>
+<p>The arguments are the same, but must be provided either as json-encoded data or form data instead of url query parameters.</p>
+<p>The response is the same.</p>
+<p>Other solutions for fitting many points in a URL are polyline encoding and rounding your coordinates.</p>
+<h3 id="example_1">Example</h3>
+<p>With json:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://api.opentopodata.org/v1/srtm90m&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;locations&quot;</span><span class="p">:</span> <span class="s2">&quot;-43.5,172.5|27.6,1.98&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;interpolation&quot;</span><span class="p">:</span> <span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span> <span class="n">json</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+
+<p>With form data:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">requests</span>
+
+<span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;https://api.opentopodata.org/v1/srtm90m&quot;</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;locations&quot;</span><span class="p">:</span> <span class="s2">&quot;-43.5,172.5|27.6,1.98&quot;</span><span class="p">,</span>
+     <span class="s2">&quot;interpolation&quot;</span><span class="p">:</span> <span class="s2">&quot;cubic&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="n">url</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+</code></pre></div>
+
+<p>The response is the same as for GET requests:</p>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
+    <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;srtm90m&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mi">45</span><span class="p">,</span>
+            <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">-43.5</span><span class="p">,</span>
+                <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">172.5</span>
+            <span class="p">}</span>
+        <span class="p">},</span>
+        <span class="p">{</span>
+            <span class="nt">&quot;dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;srtm90m&quot;</span><span class="p">,</span>
+            <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mi">402</span><span class="p">,</span>
+            <span class="nt">&quot;location&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="nt">&quot;lat&quot;</span><span class="p">:</span> <span class="mf">27.6</span><span class="p">,</span>
+                <span class="nt">&quot;lng&quot;</span><span class="p">:</span> <span class="mf">1.98</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+
+<hr />
 <h2 id="get-health"><code>GET /health</code></h2>
 <p>Healthcheck endpoint, for use with load balancing or monitoring.</p>
 <h3 id="response_1">Response</h3>
@@ -807,7 +900,7 @@
 <li><code>status</code>: Will be <code>OK</code> if the server is running and the config file can be loaded. Otherwise the value will be <code>SERVER_ERROR</code>.</li>
 </ul>
 <p>The status code is 200 if healthy, otherwise 500.</p>
-<h3 id="example_1">Example</h3>
+<h3 id="example_2">Example</h3>
 <p><code>GET</code> <a href="https://api.opentopodata.org/health">api.opentopodata.org/health</a></p>
 <div class="codehilite"><pre><span></span><code>{
     &quot;status&quot;: &quot;OK&quot;
