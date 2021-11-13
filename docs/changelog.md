@@ -2,6 +2,11 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.7.1 (13 Nov 2021)
+
+* Support Apple Silicon M1 macs ([#55](https://github.com/ajnisbet/opentopodata/issues/55)).
+* Minor dependency updates.
+
 
 ## Version 1.7.0 (7 Oct 2021)
 
