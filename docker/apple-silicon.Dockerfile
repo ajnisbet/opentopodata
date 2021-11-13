@@ -1,34 +1,30 @@
-# Container for packages that need to be built from source but have massive dev dependencies.
-FROM python:3.7.12-slim-buster as builder
-RUN set -e && \
-    apt-get update && \
-    apt-get install -y --no-install-recommends \
-        gcc \
-        python3.7-dev
-RUN pip wheel --wheel-dir=/root/wheels uwsgi==2.0.19.1 && \
-    pip wheel --wheel-dir=/root/wheels regex==2021.11.10
+# Some geo dependencies (like rasterio) don't have wheels that work for M1
+# macs. So this image includes gdal, as well as other dependicies needed to
+# build those libraries from scratch.
+#
+# It works just the same as the main image, but is much larger and slower.
 
-# The actual container.
-FROM python:3.7.12-slim-buster
+FROM osgeo/gdal:ubuntu-full-3.4.0
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         nginx \
         memcached \
-        supervisor && \
+        python3-pip \
+        gcc \
+        g++ \
+        supervisor \
+        libmemcached-dev \
+        python3.8-dev && \
     rm -rf /var/lib/apt/lists/*
 
-COPY --from=builder /root/wheels /root/wheels
 COPY requirements.txt /app/requirements.txt
 RUN pip install \
-        --no-index \
         --no-cache-dir \
         --disable-pip-version-check \
-        --find-links=/root/wheels \
         uwsgi regex && \
     pip install --no-cache-dir --disable-pip-version-check -r /app/requirements.txt && \
         rm -rf /root/.cache/pip/* && \
-        rm root/wheels/* && \
         rm /app/requirements.txt
 
 WORKDIR /app

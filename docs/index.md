@@ -50,7 +50,7 @@ This will start an Open Topo Data server on `http://localhost:5000/`.
 
 Open Topo Data supports a wide range of raster file formats and tiling schemes, including most of those used by popular open elevation datasets.
 
-See the [server docs](server.md) for more about configuration and adding datasets.
+See the [server docs](server.md) for more about configuration, adding datasets, and running on Windows and M1 Macs.
 
 ---
 

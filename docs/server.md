@@ -15,6 +15,20 @@ make run
 This will start a server on `localhost:5000` with a small demo dataset called `test-dataset`. Check out the [API docs](api.md) for info about the format of requests and responses.
 
 
+## Getting started on M1 / Apple Silicon Macs
+
+On M1 Macs you'll probably need to use the alternate `apple-silicon.Dockerfile` docker image, which includes build dependencies for libraries that don't have binaries for M1.
+
+```bash
+git clone https://github.com/ajnisbet/opentopodata.git
+cd opentopodata
+make build-m1
+make run
+```
+
+This should work without rosetta. See [issue #55](https://github.com/ajnisbet/opentopodata/issues/55) for more info.
+
+
 ## Getting started on Windows
 
 On Windows you'll probably need to run the build and run commands without make:
