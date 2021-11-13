@@ -14,5 +14,7 @@ jobs:
       run: make build
     - name: Run tests
       run: make test
+    - name: Test M1 image too
+      run: make test-m1
     - name: Check code formatting
       run: make black-check

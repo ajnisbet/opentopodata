@@ -16,6 +16,9 @@ daemon:
 test: build black-check 
 	docker run --rm -e DISABLE_MEMCACHE=1 --volume $(shell pwd)/htmlcov:/app/htmlcov opentopodata:$(VERSION) pytest --ignore=data --ignore=scripts --cov=opentopodata --cov-report html
 
+test-m1: build-m1 black-check 
+	docker run --rm -e DISABLE_MEMCACHE=1 --volume $(shell pwd)/htmlcov:/app/htmlcov opentopodata:$(VERSION) pytest --ignore=data --ignore=scripts --cov=opentopodata --cov-report html
+
 run-local:
 	FLASK_APP=opentopodata/api.py FLASK_DEBUG=1 flask run --port 5000
 
