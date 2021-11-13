@@ -10,16 +10,16 @@ attrs==21.2.0
     # via
     #   pytest
     #   rasterio
-black==21.9b0
+black==21.10b0
     # via -r requirements.in
-certifi==2021.5.30
+certifi==2021.10.8
     # via
     #   pyproj
     #   rasterio
     #   requests
-charset-normalizer==2.0.6
+charset-normalizer==2.0.7
     # via requests
-click==8.0.1
+click==8.0.3
     # via
     #   black
     #   click-plugins
@@ -31,7 +31,7 @@ click-plugins==1.1.1
     # via rasterio
 cligj==0.7.2
     # via rasterio
-coverage[toml]==6.0.1
+coverage[toml]==6.1.2
     # via pytest-cov
 flask==2.0.2
     # via
@@ -41,9 +41,9 @@ flask-caching==1.10.1
     # via -r requirements.in
 geographiclib==1.52
     # via -r requirements.in
-idna==3.2
+idna==3.3
     # via requests
-importlib-metadata==4.8.1
+importlib-metadata==4.8.2
     # via
     #   click
     #   pep517
@@ -53,24 +53,24 @@ iniconfig==1.1.1
     # via pytest
 itsdangerous==2.0.1
     # via flask
-jinja2==3.0.2
+jinja2==3.0.3
     # via flask
 markupsafe==2.0.1
     # via jinja2
 mypy-extensions==0.4.3
     # via black
-numpy==1.21.2
+numpy==1.21.4
     # via
     #   -r requirements.in
     #   rasterio
     #   snuggs
-packaging==21.0
+packaging==21.2
     # via pytest
 pathspec==0.9.0
     # via black
-pep517==0.11.0
+pep517==0.12.0
     # via pip-tools
-pip-tools==6.3.0
+pip-tools==6.4.0
     # via -r requirements.in
 platformdirs==2.4.0
     # via black
@@ -78,7 +78,7 @@ pluggy==1.0.0
     # via pytest
 polyline==1.4.0
     # via -r requirements.in
-py==1.10.0
+py==1.11.0
     # via pytest
 pylibmc==1.6.1
     # via -r requirements.in
@@ -94,11 +94,11 @@ pytest==6.2.5
     #   pytest-cov
 pytest-cov==3.0.0
     # via -r requirements.in
-pyyaml==5.4.1
+pyyaml==6.0
     # via -r requirements.in
-rasterio==1.2.9
+rasterio==1.2.10
     # via -r requirements.in
-regex==2021.9.30
+regex==2021.11.10
     # via black
 requests==2.26.0
     # via -r requirements.in
@@ -108,12 +108,12 @@ snuggs==1.4.7
     # via rasterio
 toml==0.10.2
     # via pytest
-tomli==1.2.1
+tomli==1.2.2
     # via
     #   black
     #   coverage
     #   pep517
-typed-ast==1.4.3
+typed-ast==1.5.0
     # via black
 typing-extensions==3.10.0.2
     # via
