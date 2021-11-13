@@ -4,6 +4,9 @@ VERSION = `cat VERSION`
 build:
 	docker build --tag opentopodata:$(VERSION) --file docker/Dockerfile .
 
+build-m1:
+	docker build --tag opentopodata:$(VERSION) --file docker/apple-silicon.Dockerfile .
+
 run:
 	docker run --rm -it --volume $(shell pwd)/data:/app/data:ro -p 5000:5000 opentopodata:$(VERSION) 
 
