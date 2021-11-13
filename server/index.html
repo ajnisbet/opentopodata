@@ -254,6 +254,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#getting-started-on-m1-apple-silicon-macs" class="md-nav__link">
+    Getting started on M1 / Apple Silicon Macs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#getting-started-on-windows" class="md-nav__link">
     Getting started on Windows
   </a>
@@ -651,6 +658,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#getting-started-on-m1-apple-silicon-macs" class="md-nav__link">
+    Getting started on M1 / Apple Silicon Macs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#getting-started-on-windows" class="md-nav__link">
     Getting started on Windows
   </a>
@@ -718,6 +732,15 @@ make run
 </code></pre></div>
 
 <p>This will start a server on <code>localhost:5000</code> with a small demo dataset called <code>test-dataset</code>. Check out the <a href="../api/">API docs</a> for info about the format of requests and responses.</p>
+<h2 id="getting-started-on-m1-apple-silicon-macs">Getting started on M1 / Apple Silicon Macs</h2>
+<p>On M1 Macs you'll probably need to use the alternate <code>apple-silicon.Dockerfile</code> docker image, which includes build dependencies for libraries that don't have binaries for M1.</p>
+<div class="codehilite"><pre><span></span><code>git clone https://github.com/ajnisbet/opentopodata.git
+<span class="nb">cd</span> opentopodata
+make build-m1
+make run
+</code></pre></div>
+
+<p>This should work without rosetta. See <a href="https://github.com/ajnisbet/opentopodata/issues/55">issue #55</a> for more info.</p>
 <h2 id="getting-started-on-windows">Getting started on Windows</h2>
 <p>On Windows you'll probably need to run the build and run commands without make:</p>
 <div class="codehilite"><pre><span></span><code>git clone https://github.com/ajnisbet/opentopodata.git
