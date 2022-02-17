@@ -34,6 +34,7 @@ nav:
       - Multiple datasets: 'notes/multiple-datasets.md'
       - Performance optimisation: 'notes/performance-optimisation.md'
       - Run without docker: 'notes/running-without-docker.md'
+      - Kubernetes: 'notes/kubernetes.md'
 
 extra_javascript:
   - js/extra.js
