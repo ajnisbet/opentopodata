@@ -5,7 +5,6 @@ geographiclib
 numpy
 pip-tools
 polyline
-pylibmc
 pyproj
 pytest
 pytest-cov

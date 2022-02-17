@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dem-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      deploy: dem-api
+  template:
+    metadata:
+      labels:
+        deploy: dem-api
+    spec:
+      containers:
+        - image: opentopodata
+          name: dem-api
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5000
+
+      restartPolicy: Always

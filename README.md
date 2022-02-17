@@ -1,5 +1,6 @@
 # Open Topo Data
 
+__Documentation__: [www.opentopodata.org](https://www.opentopodata.org)
 
 
 Open Topo Data is a REST API server for your elevation data.
@@ -26,7 +27,6 @@ curl http://localhost:5000/v1/test-dataset?locations=56,123
 
 You can self-host with your own dataset or use the [free public API](https://www.opentopodata.org) which is configured with a number of open elevation datasets. The API is largely compatible with the Google Maps Elevation API.
 
-__Documentation__: [www.opentopodata.org](https://www.opentopodata.org)
 
 
 
@@ -41,7 +41,7 @@ make build
 make run
 ```
 
-This will start an Open Topo Data server on `http://localhost:5000/`. Some extra steps might be needed for [Windows and M1/Apple Silicon](https://www.opentopodata.org/server/).
+This will start an Open Topo Data server on `http://localhost:5000/`. Some extra steps might be needed for [Windows, M1/Apple Silicon, and Kubernetes](https://www.opentopodata.org/server/).
 
 
 Open Topo Data supports a wide range of raster file formats and tiling schemes, including most of those used by popular open elevation datasets. See the [server docs](https://www.opentopodata.org/server/) for more about configuration and adding datasets.
@@ -125,7 +125,7 @@ The following datasets are available on the public API:
 
 ## Support
 
-Want help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org).
+Need help getting Open Topo Data running? Send me an email at [andrew@opentopodata.org](mailto:andrew@opentopodata.org) or open an [issue](https://github.com/ajnisbet/opentopodata/issues)!
 
 
 ## Paid hosting

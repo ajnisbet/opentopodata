@@ -43,6 +43,7 @@ docker run --rm -it --volume C:/path/to/opentopodata/data:/app/data:ro -p 5000:5
 For more details see [this note on windows support](notes/windows-support.md).
 
 
+
 ## Dataset support
 
 Open Topo Data supports all georeferenced raster formats supported by GDAL (e.g, `.tiff`, `.hgt`, `.jp2`).
@@ -139,4 +140,6 @@ Instructions are provided for adding the various datasets used in the public API
 
 
 
+## Kubernetes
 
+See [How to deploy on Kubernetes](../notes/kubernetes.md) for details and config files for running on kubernetes.

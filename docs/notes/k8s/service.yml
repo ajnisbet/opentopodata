@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dem-api
+  labels:
+    service: dem-api
+spec:
+  selector:
+    deploy: dem-api
+  ports:
+    - port: 5000
+      targetPort: 5000

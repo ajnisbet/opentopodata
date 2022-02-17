@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: dem-api
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - host: subdomain.example.com
+    http:
+      paths:
+      - path: /dem-api/(.*)
+        backend:
+          serviceName: dem-api
+          servicePort: 5000

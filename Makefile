@@ -23,10 +23,10 @@ run-local:
 	FLASK_APP=opentopodata/api.py FLASK_DEBUG=1 flask run --port 5000
 
 black:
-	black --target-version py37 tests opentopodata
+	black --target-version py39 tests opentopodata
 
 black-check:
-	docker run --rm opentopodata:$(VERSION) black --check --target-version py37 tests opentopodata
+	docker run --rm opentopodata:$(VERSION) black --check --target-version py39 tests opentopodata
 
 update-requirements: build
 	# pip-compile gets confused if there's already a requirements.txt file, and

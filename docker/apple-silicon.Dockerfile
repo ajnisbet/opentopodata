@@ -22,7 +22,7 @@ COPY requirements.txt /app/requirements.txt
 RUN pip install \
         --no-cache-dir \
         --disable-pip-version-check \
-        uwsgi regex && \
+        uwsgi regex pylibmc && \
     pip install --no-cache-dir --disable-pip-version-check -r /app/requirements.txt && \
         rm -rf /root/.cache/pip/* && \
         rm /app/requirements.txt
