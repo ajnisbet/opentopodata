@@ -2,6 +2,13 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.7.2 (16 Feb 2022)
+
+* Instructions for running on kubernetes, thanks to [@khintz](https://github.com/khintz).
+* Updated main docker image from Python 3.7 to 3.9, and Debian from Buster to Bullseye.
+* Minor dependency updates.
+
+
 ## Version 1.7.1 (13 Nov 2021)
 
 * Support Apple Silicon M1 macs ([#55](https://github.com/ajnisbet/opentopodata/issues/55)).
