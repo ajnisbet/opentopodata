@@ -106,11 +106,11 @@ which would expose `localhost:5000/v1/etopo1` and `localhost:5000/v1/srtm90m`.
 * `datasets[].path`: Path to folder containing the dataset. If the dataset is a single file it must be placed inside a folder. This path is relative to the repository directory inside docker. I suggest placing datasets inside the provided `data` folder, which is mounted in docker by `make run`. Files can be nested arbitrarily inside the dataset path. Required.
 * `datasets[].filename_epsg`: For tiled datasets, the projection of the filename coordinates. The default value is `4326`, which is latitude/longitude with the [WGS84 datum](https://spatialreference.org/ref/epsg/wgs-84/).
 * `datasets[].filename_tile_size`: For tiled datasets, how large each square tile is in the units of `filename_epsg`. For example, a lat,lon location of `38.2,121.2` would lie in the tile `N38W121` for a tile size of 1, but lie in `N35W120` for a tile size of 5. For non-integer tile sizes like `2.5`, specify them as a string to avoid floating point parsing issues: `"2.5"`. Default: `1`.
-* `datasets[].wgs84_bounds.left`: Leftmost (westmost) longitude of the dataset, in WGS84. Used as a performance optimisation for [Multi datasets]('../notes/multiple-datasets.md'). Default: `-180`.
+* `datasets[].wgs84_bounds.left`: Leftmost (westmost) longitude of the dataset, in WGS84. Used as a performance optimisation for [Multi datasets]('notes/multiple-datasets.md'). Default: `-180`.
 * `datasets[].wgs84_bounds.right`: Rightmost (eastmost) longitude of the dataset. Default: `180`.
 * `datasets[].wgs84_bounds.bottom`: Bottommost (southmost) latitude of the dataset. Default: `-90`.
 * `datasets[].wgs84_bounds.top`: Topmost (northmost) latitude of the dataset. Default: `90`.
-* `datasets[].child_datasets[]`: A list of names of other datasets. Querying this MultiDataset will check each dataset in `child_datasets` in order until a non-null elevation is found. For more information see [Multi datasets]('../notes/multiple-datasets.md'). 
+* `datasets[].child_datasets[]`: A list of names of other datasets. Querying this MultiDataset will check each dataset in `child_datasets` in order until a non-null elevation is found. For more information see [Multi datasets]('notes/multiple-datasets.md'). 
 
 
 ## Adding datasets
@@ -142,4 +142,4 @@ Instructions are provided for adding the various datasets used in the public API
 
 ## Kubernetes
 
-See [How to deploy on Kubernetes](../notes/kubernetes.md) for details and config files for running on kubernetes.
+See [How to deploy on Kubernetes](notes/kubernetes.md) for details and config files for running on kubernetes.
