@@ -23,6 +23,7 @@ Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format),
 * `nodata_value`: What elevation to return if the dataset has a [NODATA](https://desktop.arcgis.com/en/arcmap/10.3/manage-data/raster-and-images/nodata-in-raster-datasets.htm) value at the requested location. Options: `null`, `nan`, or an integer like `-9999`. Default: `null`.
     * The default option `null` makes NODATA indistinguishable from a location outside the dataset bounds. 
     * `NaN` (not a number) values aren't valid in json and will break some clients. The `nan` option was default before version 1.4 and is provided only for backwards compatibility. 
+    * When querying multiple datasets, this NODATA replacement only applies to the last dataset in the stack.
 
 
  
