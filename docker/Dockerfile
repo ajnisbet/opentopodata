@@ -3,6 +3,7 @@ FROM python:3.9.10-slim-bullseye as builder
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
+        build-essential \
         gcc \
         libmemcached-dev \
         patchelf \
