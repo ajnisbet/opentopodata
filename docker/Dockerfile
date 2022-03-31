@@ -1,5 +1,5 @@
 # Container for packages that need to be built from source but have massive dev dependencies.
-FROM python:3.9.10-slim-bullseye as builder
+FROM python:3.9.12-slim-bullseye as builder
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -21,7 +21,7 @@ RUN pip config set global.disable-pip-version-check true && \
     auditwheel repair /tmp/wheels/pylibmc-*.whl -w /root/wheels --plat manylinux_2_27_x86_64
 
 # The actual container.
-FROM python:3.9.10-slim-bullseye
+FROM python:3.9.12-slim-bullseye
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
