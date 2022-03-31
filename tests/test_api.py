@@ -494,3 +494,28 @@ class TestGetHealthStatus:
             rjson = response.json
             assert response.status_code == 500
             assert rjson["status"] == "SERVER_ERROR"
+
+
+class TestDatasetsEndpoint:
+    test_api = api.app.test_client()
+
+    def test_main_config_file(self, patch_config):
+        url = "/datasets"
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert rjson["status"] == "OK"
+        assert "results" in rjson
+        datasets = rjson["results"]
+        assert len(datasets) == 7
+        assert all(d["name"] for d in datasets)
+
+        # Check multi-dataset has children.
+        assert all(
+            [d["child_datasets"] for d in datasets if d["name"] == "multi_eudem_etopo1"]
+        )
+
+        # Check no others do.
+        assert not any(
+            [d["child_datasets"] for d in datasets if d["name"] != "multi_eudem_etopo1"]
+        )

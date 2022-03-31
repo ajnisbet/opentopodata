@@ -457,6 +457,27 @@ def get_health_status():
         return jsonify(data), 500
 
 
+@app.route("/datasets", methods=["GET", "OPTIONS", "HEAD"])
+def get_datasets_info():
+    """List of datasets on the server."""
+    try:
+        all_datasets = _load_datasets()
+        results = []
+        for dataset in all_datasets.values():
+            d = {}
+            d["name"] = dataset.name
+            if isinstance(dataset, config.MultiDataset):
+                d["child_datasets"] = dataset.child_dataset_names
+            else:
+                d["child_datasets"] = []
+            results.append(d)
+        results.sort(key=lambda x: x["name"])
+        return jsonify({"results": results, "status": "OK"})
+    except Exception as e:
+        data = {"status": "SERVER_ERROR"}
+        return jsonify(data), 500
+
+
 @app.route("/v1/<dataset_name>", methods=["GET", "POST", "OPTIONS", "HEAD"])
 def get_elevation(dataset_name):
     """Calculate the elevation for the given locations.
