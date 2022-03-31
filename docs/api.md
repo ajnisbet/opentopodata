@@ -165,7 +165,7 @@ Healthcheck endpoint, for use with load balancing or monitoring.
 
 A json object.
 
-* `status`: Will be `OK` if the server is running and the config file can be loaded. Otherwise the value will be `SERVER_ERROR`.
+* `status`: Will be `OK` for a successful request.
 
 The status code is 200 if healthy, otherwise 500.
 
@@ -175,6 +175,43 @@ The status code is 200 if healthy, otherwise 500.
 
 ```
 {
+    "status": "OK"
+}
+```
+
+
+
+
+---
+
+
+## `GET /datasets`
+
+
+Details of the datasets available on the server.
+
+### Response
+
+A json object.
+
+* `datasets`: List of datasets.
+* `datasets[].name`: Dataset name, used in the elevation query URL.
+* `datasets[].child_datasets`: If the dataset is a MultiDataset, names of the child datasets. Otherwise, an empty list `[]`.
+* `status`: Will be `OK` if the server is running and the config file can be loaded. Otherwise the value will be `SERVER_ERROR`.
+
+
+### Example
+
+`GET` <a href="https://api.opentopodata.org/datasets">api.opentopodata.org/datasets</a>
+
+```
+{
+    "results": [
+        {
+            "child_datasets": [],
+            "name": "test-dataset"
+        }
+    ]
     "status": "OK"
 }
 ```
