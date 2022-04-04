@@ -450,6 +450,7 @@ def get_health_status():
     """Status endpoint for e.g., uptime check or load balancing."""
     try:
         _load_config()
+        _load_datasets()
         data = {"status": "OK"}
         return jsonify(data)
     except Exception:
