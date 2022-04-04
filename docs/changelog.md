@@ -2,7 +2,7 @@
 
 This is a list of changes to Open Topo Data between each release.
 
-## Version 1.8.0 (?? ??? 2022)
+## Version 1.8.0 (4 Apr 2022)
 
 * Added datasets endpoint.
 * Minor dependency updates.
