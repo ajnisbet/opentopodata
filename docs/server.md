@@ -59,7 +59,7 @@ If your dataset consists of multiple files that aren't on a nice grid, you can c
 
 ## Configuration
 
-Open Topo Data is configured by a `config.yaml` file. If that file is missing it will look for `example-config.yaml` instead.
+Open Topo Data is configured by a `config.yaml` file. If that file is missing it will look for `example-config.yaml` instead. You can set the `CONFIG_PATH` environment variable to specify a different path.
 
 A config might look like:
 

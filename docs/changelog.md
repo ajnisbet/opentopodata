@@ -5,6 +5,7 @@ This is a list of changes to Open Topo Data between each release.
 ## Version 1.8.0 (4 Apr 2022)
 
 * Added datasets endpoint.
+* Add `CONFIG_PATH` environment variable.
 * Minor dependency updates.
 
 

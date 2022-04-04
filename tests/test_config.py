@@ -34,6 +34,25 @@ class TestFindConfig:
             with patch("opentopodata.config.EXAMPLE_CONFIG_PATH", MISSING_CONFIG_PATH):
                 assert config._find_config() is None
 
+    def test_env(self):
+        with patch.dict(os.environ, {"CONFIG_PATH": TEST_CONFIG_PATH}):
+            assert config._find_config() == TEST_CONFIG_PATH
+
+    def test_env_overrides_all(self):
+        with patch.dict(os.environ, {"CONFIG_PATH": TEST_CONFIG_PATH}):
+            with patch("opentopodata.config.CONFIG_PATH", MISSING_CONFIG_PATH):
+                with patch(
+                    "opentopodata.config.EXAMPLE_CONFIG_PATH", MISSING_CONFIG_PATH
+                ):
+                    assert config._find_config() == TEST_CONFIG_PATH
+
+    def test_missing_env_overrides_with_error(self):
+        with patch.dict(os.environ, {"CONFIG_PATH": MISSING_CONFIG_PATH}):
+            with patch("opentopodata.config.CONFIG_PATH", TEST_CONFIG_PATH):
+                with patch("opentopodata.config.EXAMPLE_CONFIG_PATH", TEST_CONFIG_PATH):
+                    with pytest.raises(config.ConfigError):
+                        config._find_config() == TEST_CONFIG_PATH
+
 
 class TestValidateCors:
     def test_none(self):
@@ -80,6 +99,15 @@ class TestLoadConfig:
                     "opentopodata.config.EXAMPLE_CONFIG_PATH", MISSING_CONFIG_PATH
                 ):
                     config.load_config()
+
+    def test_missing_env_file(self):
+        with pytest.raises(config.ConfigError):
+            with patch.dict(os.environ, {"CONFIG_PATH": MISSING_CONFIG_PATH}):
+                with patch("opentopodata.config.CONFIG_PATH", TEST_CONFIG_PATH):
+                    with patch(
+                        "opentopodata.config.EXAMPLE_CONFIG_PATH", TEST_CONFIG_PATH
+                    ):
+                        config.load_config()
 
     def test_no_datasets(self):
         path = "tests/data/configs/no-datasets.yaml"

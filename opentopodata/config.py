@@ -41,6 +41,13 @@ def _find_config():
         String path to config yaml file.
 
     """
+    path_from_env = os.environ.get("CONFIG_PATH")
+    if path_from_env:
+        if os.path.exists(path_from_env):
+            return path_from_env
+        else:
+            msg = f"Config path '{path_from_env}' from env doesn't exist."
+            raise ConfigError(msg)
     if os.path.exists(CONFIG_PATH):
         return CONFIG_PATH
     elif os.path.exists(EXAMPLE_CONFIG_PATH):
