@@ -41,6 +41,13 @@ def _find_config():
         String path to config yaml file.
 
     """
+    path_from_env = os.environ.get("CONFIG_PATH")
+    if path_from_env:
+        if os.path.exists(path_from_env):
+            return path_from_env
+        else:
+            msg = f"Config path '{path_from_env}' from env doesn't exist."
+            raise ConfigError(msg)
     if os.path.exists(CONFIG_PATH):
         return CONFIG_PATH
     elif os.path.exists(EXAMPLE_CONFIG_PATH):
@@ -210,7 +217,9 @@ class Dataset(abc.ABC):
         all_files = [p for p in all_paths if os.path.isfile(p)]
         all_rasters = [p for p in all_files if not cls._is_aux_file(p)]
         if not all_rasters:
-            raise ConfigError("Dataset folder '{}' seems to be empty.".format(path))
+            msg = f"Dataset folder '{path}' is empty after ignoring folders and aux files."
+            msg += f" {len(all_paths)} paths were found and {len(all_files)} files."
+            raise ConfigError(msg)
 
         # Build bounds.
         wgs84_bounds = None

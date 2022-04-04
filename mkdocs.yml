@@ -20,7 +20,7 @@ nav:
       - EU-DEM: 'datasets/eudem.md'
       - Mapzen: 'datasets/mapzen.md'
       - NED: 'datasets/ned.md'
-      - NZ DEM: datasets/nzdem.md
+      - NZ DEM: 'datasets/nzdem.md'
       - SRTM: 'datasets/srtm.md'
       - EMOD bathymetry: 'datasets/emod2018.md'
       - GEBCO bathymetry: 'datasets/gebco2020.md'

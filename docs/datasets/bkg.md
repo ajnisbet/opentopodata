@@ -1,6 +1,6 @@
 # BKG
 
-[BKG](https://www.bkg.bund.de/) (Bundesamt für Kartographie und Geodäsie) has published a number of elevation datasets for Germany. The [200m](http://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle/digitales-gelandemodell-gitterweite-200-m-dgm200.html) and [1000m](https://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle/digitales-gelandemodell-gitterweite-1000-m-dgm1000.html) resolutions are freely available, while resolutions [up to 5m](https://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle.html) can be purchased for a small fee.
+[BKG](https://www.bkg.bund.de/) (Bundesamt für Kartographie und Geodäsie) has published a number of elevation datasets for Germany. The [200m](http://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle/digitales-gelandemodell-gitterweite-200-m-dgm200.html) and [1000m](https://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle/digitales-gelandemodell-gitterweite-1000-m-dgm1000.html) resolutions are freely available, while resolutions [up to 5m](https://gdz.bkg.bund.de/index.php/default/digitale-geodaten/digitale-gelandemodelle.html) can be purchased for a fee.
 
 
 

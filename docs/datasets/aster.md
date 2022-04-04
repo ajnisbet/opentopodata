@@ -64,4 +64,4 @@ curl https://api.opentopodata.org/v1/aster30m?locations=57.688709,11.976404
 }
 ```
 
-The Public API used version 3 of the DEM (GDEM 003).
+The Public API uses version 3 of the DEM (GDEM 003).
