@@ -39,7 +39,7 @@ flask==2.1.1
     #   flask-caching
 flask-caching==1.10.1
     # via -r requirements.in
-geographiclib==1.52
+geographiclib==2.0
     # via -r requirements.in
 idna==3.3
     # via requests
@@ -66,9 +66,9 @@ pathspec==0.9.0
     # via black
 pep517==0.12.0
     # via pip-tools
-pip-tools==6.5.1
+pip-tools==6.6.0
     # via -r requirements.in
-platformdirs==2.5.1
+platformdirs==2.5.2
     # via black
 pluggy==1.0.0
     # via pytest
@@ -76,13 +76,13 @@ polyline==1.4.0
     # via -r requirements.in
 py==1.11.0
     # via pytest
-pyparsing==3.0.7
+pyparsing==3.0.8
     # via
     #   packaging
     #   snuggs
-pyproj==3.3.0
+pyproj==3.3.1
     # via -r requirements.in
-pytest==7.1.1
+pytest==7.1.2
     # via
     #   -r requirements.in
     #   pytest-cov
@@ -104,15 +104,15 @@ tomli==2.0.1
     #   coverage
     #   pep517
     #   pytest
-typing-extensions==4.1.1
+typing-extensions==4.2.0
     # via black
 urllib3==1.26.9
     # via requests
-werkzeug==2.1.0
+werkzeug==2.1.1
     # via flask
 wheel==0.37.1
     # via pip-tools
-zipp==3.7.0
+zipp==3.8.0
     # via importlib-metadata
 
 # The following packages are considered to be unsafe in a requirements file:
