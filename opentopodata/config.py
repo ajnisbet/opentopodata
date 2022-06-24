@@ -243,6 +243,12 @@ class Dataset(abc.ABC):
                 name, tile_path=tile_path, wgs84_bounds=wgs84_bounds
             )
 
+        # Spatially indexed dataset.
+        if kwargs.get("spatial_index"):
+            return SpatiallyIndexedDataset(
+                name, tile_paths=all_rasters, wgs84_bounds=wgs84_bounds
+            )
+
         # Check for SRTM-style naming.
         all_filenames = [os.path.basename(p) for p in all_rasters]
         is_srtm_raster = [
@@ -444,3 +450,42 @@ class TiledDataset(Dataset):
         paths = [self._tile_lookup.get(f) for f in filenames]
 
         return paths
+
+
+class SpatiallyIndexedDataset(Dataset):
+    def __init__(self, name, tile_paths, wgs84_bounds):
+        self.name = name
+
+        if wgs84_bounds:
+            self.wgs84_bounds = wgs84_bounds
+
+        self.spatial_index = sindex.BoundingBoxIndex.from_paths(tile_paths)
+
+    def location_paths(self, lats, lons):
+        """File corresponding to each location.
+
+        Args:
+            lats, lons: Lists of locations.
+
+        Returns:
+            List of filenames, same length as locations.
+        """
+        paths = self.spatial_index.query(lats, lons)
+        return paths
+
+        # # Start loading. For each raster, we need the path and the wgs84 bounds.
+        # for tile_path in tile_paths:
+        #     with rasterio.open(tile_path) as f:
+        #         bounds = f.bounds
+        #         crs = f.crs
+        #         shape = f.shape
+
+        #     # Bounds must be in WGS84.
+        #     wgs84_bounds = rasterio.warp.transform_bounds(
+        #         crs,
+        #         rasterio.crs.CRS.from_epsg(utils.WGS84_LATLON_EPSG),
+        #         *bounds,
+        #     )
+
+        #     # Calculate approx resolution, in m / px.
+        #     width_m =
