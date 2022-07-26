@@ -1,42 +1,20 @@
 
-
-
-
 <!doctype html>
 <html lang="en" class="no-js">
   <head>
     
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
-      <meta http-equiv="x-ua-compatible" content="ie=edge">
       
         <meta name="description" content="Open DEM server.">
       
       
+      
+      
         <link rel="canonical" href="https://www.opentopodata.org/datasets/eudem/">
       
-      
-      
-        <meta name="lang:clipboard.copy" content="Copy to clipboard">
-      
-        <meta name="lang:clipboard.copied" content="Copied to clipboard">
-      
-        <meta name="lang:search.language" content="en">
-      
-        <meta name="lang:search.pipeline.stopwords" content="True">
-      
-        <meta name="lang:search.pipeline.trimmer" content="True">
-      
-        <meta name="lang:search.result.none" content="No matching documents">
-      
-        <meta name="lang:search.result.one" content="1 matching document">
-      
-        <meta name="lang:search.result.other" content="# matching documents">
-      
-        <meta name="lang:search.tokenizer" content="[\s\-]+">
-      
       <link rel="shortcut icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.6.0">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.4">
     
     
       
@@ -44,119 +22,111 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/application.1b62728e.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.15aa0b43.min.css">
       
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.75751829.min.css">
+        
       
-    
-    
-      <script src="../../assets/javascripts/modernizr.268332fc.js"></script>
-    
-    
-      
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
-      
-    
-    <link rel="stylesheet" href="../../assets/fonts/material-icons.css">
     
     
     
       
         
-<script>
-  window.ga = window.ga || function() {
-    (ga.q = ga.q || []).push(arguments)
-  }
-  ga.l = +new Date
-  /* Setup integration and send page view */
-  ga("create", "UA-59478184-7", "www.opentopodata.org")
-  ga("set", "anonymizeIp", true)
-  ga("send", "pageview")
-  /* Register handler to log search on blur */
-  document.addEventListener("DOMContentLoaded", () => {
-    if (document.forms.search) {
-      var query = document.forms.search.query
-      query.addEventListener("blur", function() {
-        if (this.value) {
-          var path = document.location.pathname;
-          ga("send", "pageview", path + "?q=" + this.value)
-        }
-      })
-    }
-  })
-</script>
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","UA-59478184-7","www.opentopodata.org"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){if(this.value){var e=document.location.pathname;ga("send","pageview",e+"?q="+this.value)}})}),document.addEventListener("DOMContentSwitch",function(){ga("send","pageview",document.location.pathname)})</script>
 <script async src="https://www.google-analytics.com/analytics.js"></script>
       
     
     
   </head>
   
-    <body dir="ltr">
   
-    <svg class="md-svg">
-      <defs>
-        
-        
-          <svg xmlns="http://www.w3.org/2000/svg" width="416" height="448" viewBox="0 0 416 448" id="__github"><path fill="currentColor" d="M160 304q0 10-3.125 20.5t-10.75 19T128 352t-18.125-8.5-10.75-19T96 304t3.125-20.5 10.75-19T128 256t18.125 8.5 10.75 19T160 304zm160 0q0 10-3.125 20.5t-10.75 19T288 352t-18.125-8.5-10.75-19T256 304t3.125-20.5 10.75-19T288 256t18.125 8.5 10.75 19T320 304zm40 0q0-30-17.25-51T296 232q-10.25 0-48.75 5.25Q229.5 240 208 240t-39.25-2.75Q130.75 232 120 232q-29.5 0-46.75 21T56 304q0 22 8 38.375t20.25 25.75 30.5 15 35 7.375 37.25 1.75h42q20.5 0 37.25-1.75t35-7.375 30.5-15 20.25-25.75T360 304zm56-44q0 51.75-15.25 82.75-9.5 19.25-26.375 33.25t-35.25 21.5-42.5 11.875-42.875 5.5T212 416q-19.5 0-35.5-.75t-36.875-3.125-38.125-7.5-34.25-12.875T37 371.5t-21.5-28.75Q0 312 0 260q0-59.25 34-99-6.75-20.5-6.75-42.5 0-29 12.75-54.5 27 0 47.5 9.875t47.25 30.875Q171.5 96 212 96q37 0 70 8 26.25-20.5 46.75-30.25T376 64q12.75 25.5 12.75 54.5 0 21.75-6.75 42 34 40 34 99.5z"/></svg>
-        
-      </defs>
-    </svg>
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+      
+  
+    
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
-    
-      <a href="#eu-dem" tabindex="1" class="md-skip">
-        Skip to content
-      </a>
-    
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header-nav md-grid">
-    <div class="md-flex">
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <a href="https://www.opentopodata.org" title="Open Topo Data" class="md-header-nav__button md-logo">
-          
-            <i class="md-icon"></i>
-          
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#eu-dem" class="md-skip">
+          Skip to content
         </a>
-      </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
-      </div>
-      <div class="md-flex__cell md-flex__cell--stretch">
-        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
-          
-            <span class="md-header-nav__topic">
-              Open Topo Data
-            </span>
-            <span class="md-header-nav__topic">
-              
-                EU-DEM
-              
-            </span>
-          
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://www.opentopodata.org" title="Open Topo Data" class="md-header-nav__button md-logo" aria-label="Open Topo Data">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            Open Topo Data
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              EU-DEM
+            
+          </span>
         </div>
       </div>
-      <div class="md-flex__cell md-flex__cell--shrink">
-        
-          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
-          
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
 <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
-      <label class="md-icon md-search__icon" for="__search"></label>
-      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
-        &#xE5CD;
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
       </button>
     </form>
     <div class="md-search__output">
       <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="result">
+        <div class="md-search-result" data-md-component="search-result">
           <div class="md-search-result__meta">
-            Type to start searching
+            Initializing search
           </div>
           <ol class="md-search-result__list"></ol>
         </div>
@@ -164,71 +134,60 @@
     </div>
   </div>
 </div>
+    
+    
+      <div class="md-header-nav__source">
         
-      </div>
-      
-        <div class="md-flex__cell md-flex__cell--shrink">
-          <div class="md-header-nav__source">
-            
-
-
-  
-
-<a href="https://github.com/ajnisbet/opentopodata/" title="Go to repository" class="md-source" data-md-source="github">
-  
-    <div class="md-source__icon">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <use xlink:href="#__github" width="24" height="24"></use>
-      </svg>
-    </div>
-  
+<a href="https://github.com/ajnisbet/opentopodata/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
   <div class="md-source__repository">
     ajnisbet/opentopodata
   </div>
 </a>
-          </div>
-        </div>
-      
-    </div>
+      </div>
+    
   </nav>
 </header>
     
-    <div class="md-container">
+    <div class="md-container" data-md-component="container">
+      
       
         
       
-      
-      <main class="md-main" role="main">
-        <div class="md-main__inner md-grid" data-md-component="container">
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
           
             
-              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
-                    <nav class="md-nav md-nav--primary" data-md-level="0">
-  <label class="md-nav__title md-nav__title--site" for="__drawer">
-    <a href="https://www.opentopodata.org" title="Open Topo Data" class="md-nav__button md-logo">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://www.opentopodata.org" title="Open Topo Data" class="md-nav__button md-logo" aria-label="Open Topo Data">
       
-        <i class="md-icon"></i>
-      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
     </a>
     Open Topo Data
   </label>
   
     <div class="md-nav__source">
       
-
-
-  
-
-<a href="https://github.com/ajnisbet/opentopodata/" title="Go to repository" class="md-source" data-md-source="github">
-  
-    <div class="md-source__icon">
-      <svg viewBox="0 0 24 24" width="24" height="24">
-        <use xlink:href="#__github" width="24" height="24"></use>
-      </svg>
-    </div>
-  
+<a href="https://github.com/ajnisbet/opentopodata/" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 00-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 01-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 000 40.81l195.61 195.6a28.86 28.86 0 0040.8 0l194.69-194.69a28.86 28.86 0 000-40.81z"/></svg>
+  </div>
   <div class="md-source__repository">
     ajnisbet/opentopodata
   </div>
@@ -242,8 +201,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../.." title="Introduction" class="md-nav__link">
+    <a href="../.." class="md-nav__link">
       Introduction
     </a>
   </li>
@@ -254,8 +214,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../server/" title="Server docs" class="md-nav__link">
+    <a href="../../server/" class="md-nav__link">
       Server docs
     </a>
   </li>
@@ -266,8 +227,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../api/" title="API docs" class="md-nav__link">
+    <a href="../../api/" class="md-nav__link">
       API docs
     </a>
   </li>
@@ -278,8 +240,9 @@
       
 
 
+
   <li class="md-nav__item">
-    <a href="../../changelog/" title="Release notes" class="md-nav__link">
+    <a href="../../changelog/" class="md-nav__link">
       Release notes
     </a>
   </li>
@@ -289,18 +252,23 @@
       
       
 
+
   
 
 
+  
   <li class="md-nav__item md-nav__item--active md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" checked>
     
     <label class="md-nav__link" for="nav-5">
       Datasets
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Datasets" data-md-level="1">
       <label class="md-nav__title" for="nav-5">
+        <span class="md-nav__icon md-icon"></span>
         Datasets
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -311,8 +279,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../aster/" title="ASTER" class="md-nav__link">
+    <a href="../aster/" class="md-nav__link">
       ASTER
     </a>
   </li>
@@ -323,8 +292,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../etopo1/" title="ETOPO1" class="md-nav__link">
+    <a href="../etopo1/" class="md-nav__link">
       ETOPO1
     </a>
   </li>
@@ -334,32 +304,37 @@
           
           
 
+
   
 
 
   <li class="md-nav__item md-nav__item--active">
     
-    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
       
     
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
         EU-DEM
+        <span class="md-nav__icon md-icon"></span>
       </label>
     
-    <a href="./" title="EU-DEM" class="md-nav__link md-nav__link--active">
+    <a href="./" class="md-nav__link md-nav__link--active">
       EU-DEM
     </a>
     
       
-<nav class="md-nav md-nav--secondary">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -388,7 +363,7 @@
     Adding EU-DEM to Open Topo Data
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Adding EU-DEM to Open Topo Data">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -417,10 +392,6 @@
   
 </li>
       
-      
-      
-      
-      
     </ul>
   
 </nav>
@@ -433,8 +404,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../mapzen/" title="Mapzen" class="md-nav__link">
+    <a href="../mapzen/" class="md-nav__link">
       Mapzen
     </a>
   </li>
@@ -445,8 +417,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../ned/" title="NED" class="md-nav__link">
+    <a href="../ned/" class="md-nav__link">
       NED
     </a>
   </li>
@@ -457,8 +430,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../nzdem/" title="NZ DEM" class="md-nav__link">
+    <a href="../nzdem/" class="md-nav__link">
       NZ DEM
     </a>
   </li>
@@ -469,8 +443,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../srtm/" title="SRTM" class="md-nav__link">
+    <a href="../srtm/" class="md-nav__link">
       SRTM
     </a>
   </li>
@@ -481,8 +456,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../emod2018/" title="EMOD bathymetry" class="md-nav__link">
+    <a href="../emod2018/" class="md-nav__link">
       EMOD bathymetry
     </a>
   </li>
@@ -493,8 +469,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../gebco2020/" title="GEBCO bathymetry" class="md-nav__link">
+    <a href="../gebco2020/" class="md-nav__link">
       GEBCO bathymetry
     </a>
   </li>
@@ -505,8 +482,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../bkg/" title="BKG" class="md-nav__link">
+    <a href="../bkg/" class="md-nav__link">
       BKG
     </a>
   </li>
@@ -522,15 +500,20 @@
       
 
 
+
+  
   <li class="md-nav__item md-nav__item--nested">
     
-      <input class="md-toggle md-nav__toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6">
+    
+      <input class="md-nav__toggle md-toggle" data-md-toggle="nav-6" type="checkbox" id="nav-6" >
     
     <label class="md-nav__link" for="nav-6">
       Notes
+      <span class="md-nav__icon md-icon"></span>
     </label>
-    <nav class="md-nav" data-md-component="collapsible" data-md-level="1">
+    <nav class="md-nav" aria-label="Notes" data-md-level="1">
       <label class="md-nav__title" for="nav-6">
+        <span class="md-nav__icon md-icon"></span>
         Notes
       </label>
       <ul class="md-nav__list" data-md-scrollfix>
@@ -541,8 +524,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/windows-support/" title="Windows support" class="md-nav__link">
+    <a href="../../notes/windows-support/" class="md-nav__link">
       Windows support
     </a>
   </li>
@@ -553,8 +537,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/cloud-storage/" title="Cloud storage" class="md-nav__link">
+    <a href="../../notes/cloud-storage/" class="md-nav__link">
       Cloud storage
     </a>
   </li>
@@ -565,8 +550,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/invalid-srtm-zips/" title="Invalid SRTM zips" class="md-nav__link">
+    <a href="../../notes/invalid-srtm-zips/" class="md-nav__link">
       Invalid SRTM zips
     </a>
   </li>
@@ -577,8 +563,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/dataset-sizes/" title="Dataset sizes" class="md-nav__link">
+    <a href="../../notes/dataset-sizes/" class="md-nav__link">
       Dataset sizes
     </a>
   </li>
@@ -589,8 +576,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/buffering-tiles/" title="Buffering tiles" class="md-nav__link">
+    <a href="../../notes/buffering-tiles/" class="md-nav__link">
       Buffering tiles
     </a>
   </li>
@@ -601,8 +589,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/multiple-datasets/" title="Multiple datasets" class="md-nav__link">
+    <a href="../../notes/multiple-datasets/" class="md-nav__link">
       Multiple datasets
     </a>
   </li>
@@ -613,8 +602,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/performance-optimisation/" title="Performance optimisation" class="md-nav__link">
+    <a href="../../notes/performance-optimisation/" class="md-nav__link">
       Performance optimisation
     </a>
   </li>
@@ -625,8 +615,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/running-without-docker/" title="Run without docker" class="md-nav__link">
+    <a href="../../notes/running-without-docker/" class="md-nav__link">
       Run without docker
     </a>
   </li>
@@ -637,8 +628,9 @@
           
 
 
+
   <li class="md-nav__item">
-    <a href="../../notes/kubernetes/" title="Kubernetes" class="md-nav__link">
+    <a href="../../notes/kubernetes/" class="md-nav__link">
       Kubernetes
     </a>
   </li>
@@ -656,17 +648,21 @@
               </div>
             
             
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
-<nav class="md-nav md-nav--secondary">
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
@@ -695,7 +691,7 @@
     Adding EU-DEM to Open Topo Data
   </a>
   
-    <nav class="md-nav">
+    <nav class="md-nav" aria-label="Adding EU-DEM to Open Topo Data">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -724,10 +720,6 @@
   
 </li>
       
-      
-      
-      
-      
     </ul>
   
 </nav>
@@ -740,7 +732,9 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/datasets/eudem.md" title="Edit this page" class="md-icon md-content__icon">&#xE3C9;</a>
+                  <a href="https://github.com/ajnisbet/opentopodata/edit/master/docs/datasets/eudem.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
                 
                 
                 <h1 id="eu-dem">EU-DEM</h1>
@@ -761,41 +755,36 @@
 <p>The advantage of the <code>NODATA</code> oceans is that you cane use EU-DEM without clipping to a coastline shapefile.</p>
 <h2 id="adding-eu-dem-to-open-topo-data">Adding EU-DEM to Open Topo Data</h2>
 <p>Make a new folder for the dataset:</p>
-<div class="codehilite"><pre><span></span>mkdir ./data/eudem
-</pre></div>
-
+<div class="codehilite"><pre><span></span><code>mkdir ./data/eudem
+</code></pre></div>
 
 <p>Download the dataset from <a href="https://land.copernicus.eu/imagery-in-situ/eu-dem/eu-dem-v1.1?tab=download">Copernicus</a>. There are 27 files. Unzip them and move all the <code>.TIF</code> files into the data folder (you don't need the <code>.aux.xml</code>, <code>.ovr</code>, or <code>.TFw</code> files).</p>
 <p>Your data folder should now contain only 27 TIF files:</p>
-<div class="codehilite"><pre><span></span>ls ./data/eudem
+<div class="codehilite"><pre><span></span><code>ls ./data/eudem
 
 <span class="c1"># eu_dem_v11_E00N20.TIF</span>
 <span class="c1"># eu_dem_v11_E10N00.TIF</span>
 <span class="c1"># eu_dem_v11_E10N10.TIF</span>
 <span class="c1"># ...</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>If you have <a href="https://gdal.org">gdal</a> installed, the easiest thing to do here is build a <a href="https://gdal.org/drivers/raster/vrt.html">VRT</a> - a single raster file that links to the 27 tiles and which Open Topo Data can treat as a single-file dataset.</p>
-<div class="codehilite"><pre><span></span>mkdir ./data/eudem-vrt
+<div class="codehilite"><pre><span></span><code>mkdir ./data/eudem-vrt
 <span class="nb">cd</span> ./data/eudem-vrt
 gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <span class="m">0</span> <span class="m">0</span> <span class="m">8000000</span> <span class="m">6000000</span> eudem.vrt ../eudem/*.TIF
 <span class="nb">cd</span> ../../
-</pre></div>
-
+</code></pre></div>
 
 <p>The <code>tr</code>, <code>tap</code>, and <code>te</code> options in the above command ensure that slices from the VRT will use the exact values and grid of the source rasters.</p>
 <p>Then create a <code>config.yaml</code> file:</p>
-<div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">datasets</span><span class="p">:</span>
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">eudem25m</span>
   <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/eudem-vrt/</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Finally, rebuild to enable the new dataset at <a href="http://localhost:5000/v1/eudem25m?locations=51.575,-3.220">localhost:5000/v1/eudem25m?locations=51.575,-3.220</a>.</p>
-<div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
-</pre></div>
-
+<div class="codehilite"><pre><span></span><code>make build <span class="o">&amp;&amp;</span> make run
+</code></pre></div>
 
 <div class="admonition note">
 <p class="admonition-title">Avoiding gdal</p>
@@ -804,7 +793,7 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
 <h3 id="buffering-tiles-optional">Buffering tiles (optional)</h3>
 <p>The tiles provided by EU-DEM don't overlap and cover slightly less than a 1000km square. This means you'll get a <code>null</code> result for coordinates along the tile edges.</p>
 <p>The <code>.vrt</code> approach above solves the overlap issue, but for improved performance you can leave the tiles separate and add a buffer to each one. This is the code I used on the public API to do this:</p>
-<div class="codehilite"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 
@@ -863,30 +852,26 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
     <span class="p">]</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
     <span class="n">r</span><span class="o">.</span><span class="n">check_returncode</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>These new files can be used in Open Topo Data with the following <code>config.yaml</code> file</p>
-<div class="codehilite"><pre><span></span><span class="nt">datasets</span><span class="p">:</span>
+<div class="codehilite"><pre><span></span><code><span class="nt">datasets</span><span class="p">:</span>
 <span class="p p-Indicator">-</span> <span class="nt">name</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">eudem25m</span>
   <span class="nt">path</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">data/eudem-buffered/</span>
   <span class="nt">filename_epsg</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">3035</span>
   <span class="nt">filename_tile_size</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">1000000</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>and rebuilding:</p>
-<div class="codehilite"><pre><span></span>make build <span class="o">&amp;&amp;</span> make run
-</pre></div>
-
+<div class="codehilite"><pre><span></span><code>make build <span class="o">&amp;&amp;</span> make run
+</code></pre></div>
 
 <h2 id="public-api">Public API</h2>
 <p>The Open Topo Data public API lets you query EU-DEM for free:</p>
-<div class="codehilite"><pre><span></span>curl https://api.opentopodata.org/v1/eudem25m?locations=57.688709,11.976404
-</pre></div>
+<div class="codehilite"><pre><span></span><code>curl https://api.opentopodata.org/v1/eudem25m?locations=57.688709,11.976404
+</code></pre></div>
 
-
-<div class="codehilite"><pre><span></span><span class="p">{</span>
+<div class="codehilite"><pre><span></span><code><span class="p">{</span>
   <span class="nt">&quot;results&quot;</span><span class="p">:</span> <span class="p">[</span>
     <span class="p">{</span>
       <span class="nt">&quot;elevation&quot;</span><span class="p">:</span> <span class="mf">54.576168060302734</span><span class="p">,</span>
@@ -899,8 +884,7 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
   <span class="p">],</span>
   <span class="nt">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;OK&quot;</span>
 <span class="p">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Open Topo Data hosts version 1.1 of the dataset.</p>
 <h2 id="attribution">Attribution</h2>
@@ -921,9 +905,6 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
 </li>
 </ol>
                 
-                  
-                
-                
               
               
                 
@@ -939,34 +920,34 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
 <footer class="md-footer">
   
     <div class="md-footer-nav">
-      <nav class="md-footer-nav__inner md-grid">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
         
-          <a href="../etopo1/" title="ETOPO1" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+          <a href="../etopo1/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
             </div>
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
                 ETOPO1
-              </span>
+              </div>
             </div>
           </a>
         
         
-          <a href="../mapzen/" title="Mapzen" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
-            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
-              <span class="md-flex__ellipsis">
+          <a href="../mapzen/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
                 Mapzen
-              </span>
+              </div>
             </div>
-            <div class="md-flex__cell md-flex__cell--shrink">
-              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
             </div>
           </a>
         
@@ -977,11 +958,10 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-        powered by
-        <a href="https://www.mkdocs.org">MkDocs</a>
-        and
-        <a href="https://squidfunk.github.io/mkdocs-material/">
-          Material for MkDocs</a>
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
       </div>
       
     </div>
@@ -990,9 +970,18 @@ gdalbuildvrt -tr <span class="m">25</span> <span class="m">25</span> -tap -te <s
       
     </div>
     
-      <script src="../../assets/javascripts/application.808e90bb.js"></script>
+      <script src="../../assets/javascripts/vendor.93c04032.min.js"></script>
+      <script src="../../assets/javascripts/bundle.83e5331e.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
       
-      <script>app.initialize({version:"1.0.4",url:{base:"../.."}})</script>
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.8c7e0a7e.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
       
         <script src="../../js/extra.js"></script>
       
