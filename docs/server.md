@@ -115,7 +115,7 @@ which would expose `localhost:5000/v1/etopo1` and `localhost:5000/v1/srtm90m`.
 
 ## Adding datasets
 
-An important goal of Open Topo Data is make is easy to add new datasets. The included dataset is very low resolution (about 100km) and is intended only for testing.
+An important goal of Open Topo Data is make is easy to add new datasets. The included dataset is very low resolution ([etopo1](datasets/etopo1.md) downsampled to about 100km) and is intended only for testing.
 
 Adding a new dataset takes two steps:
 

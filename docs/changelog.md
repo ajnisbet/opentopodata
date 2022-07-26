@@ -2,6 +2,12 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.8.1 (26 Jul 2022)
+
+* Better quoting in Makefile.
+* Dependency updates including `rasterio` to 1.3.0, and patch upgrades to docker base images.
+
+
 ## Version 1.8.0 (4 Apr 2022)
 
 * Added datasets endpoint.
