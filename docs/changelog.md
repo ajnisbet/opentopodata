@@ -2,6 +2,14 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+
+<!--
+## Version 1.8.2 (?)
+
+* Fix docs code highlighting
+* Add Swisstopo documentation
+-->
+
 ## Version 1.8.1 (26 Jul 2022)
 
 * Better quoting in Makefile.

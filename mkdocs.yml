@@ -7,7 +7,11 @@ theme:
 
 repo_name: ajnisbet/opentopodata
 repo_url: https://github.com/ajnisbet/opentopodata
-google_analytics: ['UA-59478184-7', 'www.opentopodata.org']
+
+extra:
+  analytics:
+    provider: 'google'
+    property: 'UA-59478184-7'
 
 nav:
     - Introduction: 'index.md'
@@ -25,6 +29,7 @@ nav:
       - EMOD bathymetry: 'datasets/emod2018.md'
       - GEBCO bathymetry: 'datasets/gebco2020.md'
       - BKG: 'datasets/bkg.md'
+      - Swisstopo: 'datasets/swisstopo.md'
     - Notes:
       - Windows support: 'notes/windows-support.md'
       - Cloud storage: 'notes/cloud-storage.md'
@@ -40,6 +45,9 @@ extra_javascript:
   - js/extra.js
 
 markdown_extensions:
-  - markdown.extensions.codehilite:
-      guess_lang: false
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
   - admonition
