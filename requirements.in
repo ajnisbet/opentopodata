@@ -6,6 +6,7 @@ numpy
 pip-tools
 polyline
 pyproj
+pylibmc
 pytest
 pytest-cov
 PyYAML

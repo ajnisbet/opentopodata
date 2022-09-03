@@ -9,7 +9,7 @@ from opentopodata import backend, config, utils
 
 
 app = Flask(__name__)
-app.config["JSONIFY_PRETTYPRINT_REGULAR"] = True
+app.json.compact = False
 
 DEFAULT_INTERPOLATION_METHOD = "bilinear"
 DEFAULT_NODATA_VALUE = "null"

@@ -8,6 +8,7 @@ This is a list of changes to Open Topo Data between each release.
 
 * Fix docs code highlighting
 * Add Swisstopo documentation
+* Siginficant dependency upgrades, including python to 3.10.
 -->
 
 ## Version 1.8.1 (26 Jul 2022)
