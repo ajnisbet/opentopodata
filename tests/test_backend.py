@@ -210,9 +210,17 @@ class TestGetElevationFromPath:
         )
         assert z[0] == 1.5
 
-    def test_invalid_bilinear_next_to_nodata(self):
+    def test_invalid_bilinear_nodata(self):
         lat = 1
-        lon = 0.5
+        lon = 2
+        z = backend._get_elevation_from_path(
+            [lat], [lon], NODATA_DATASET_PATH, "bilinear"
+        )
+        assert np.isnan(z[0])
+
+    def test_invalid_bilinear_nodata(self):
+        lat = 1
+        lon = 1.1
         z = backend._get_elevation_from_path(
             [lat], [lon], NODATA_DATASET_PATH, "bilinear"
         )
