@@ -138,7 +138,7 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
                     window=window,
                     resampling=interpolation,
                     out_dtype=float,
-                    boundless=False,
+                    boundless=True,
                     masked=True,
                 )
                 z = np.ma.filled(z_array, np.nan)[0][0]
