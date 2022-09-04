@@ -6,6 +6,8 @@
 #
 affine==2.3.1
     # via rasterio
+asciitree==0.3.3
+    # via zarr
 attrs==22.1.0
     # via
     #   pytest
@@ -37,6 +39,10 @@ cligj==0.7.2
     # via rasterio
 coverage[toml]==6.4.4
     # via pytest-cov
+entrypoints==0.4
+    # via numcodecs
+fasteners==0.17.3
+    # via zarr
 flask==2.2.2
     # via
     #   -r requirements.in
@@ -47,6 +53,8 @@ geographiclib==2.0
     # via -r requirements.in
 idna==3.3
     # via requests
+imagecodecs==2022.8.8
+    # via -r requirements.in
 iniconfig==1.1.1
     # via pytest
 itsdangerous==2.1.2
@@ -59,11 +67,17 @@ markupsafe==2.1.1
     #   werkzeug
 mypy-extensions==0.4.3
     # via black
+numcodecs==0.10.2
+    # via zarr
 numpy==1.23.2
     # via
     #   -r requirements.in
+    #   imagecodecs
+    #   numcodecs
     #   rasterio
     #   snuggs
+    #   tifffile
+    #   zarr
 packaging==21.3
     # via
     #   build
@@ -106,18 +120,24 @@ six==1.16.0
     # via polyline
 snuggs==1.4.7
     # via rasterio
+tifffile==2022.8.12
+    # via -r requirements.in
 tomli==2.0.1
     # via
     #   black
     #   build
     #   coverage
     #   pytest
+typing-extensions==4.3.0
+    # via numcodecs
 urllib3==1.26.12
     # via requests
 werkzeug==2.2.2
     # via flask
 wheel==0.37.1
     # via pip-tools
+zarr==2.12.0
+    # via -r requirements.in
 
 # The following packages are considered to be unsafe in a requirements file:
 # pip

@@ -2,13 +2,16 @@ black
 Flask
 flask-caching
 geographiclib
+imagecodecs
 numpy
 pip-tools
 polyline
-pyproj
 pylibmc
+pyproj
 pytest
 pytest-cov
 PyYAML
 rasterio
 requests
+tifffile
+zarr

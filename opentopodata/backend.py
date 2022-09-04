@@ -4,7 +4,8 @@ from rasterio.enums import Resampling
 import numpy as np
 import rasterio
 
-from opentopodata import utils
+from opentopodata import utils, rastersample
+
 
 # Only a subset of rasterio's supported methods are currently activated. In
 # the future I might do interpolation in backend.py instead if relying on
@@ -124,25 +125,19 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
             rows = rows.clip(0, f.height - 1)
             cols = cols.clip(0, f.width - 1)
 
-            # Read the locations, using a 1x1 window. The `masked` kwarg makes
-            # rasterio replace NODATA values with np.nan. The `boundless` kwarg
-            # forces the windowed elevation to be a 1x1 array, even when it all
-            # values are NODATA.
-            for i, (row, col) in enumerate(zip(rows, cols)):
-                if i in oob_indices:
-                    z_all.append(None)
-                    continue
-                window = rasterio.windows.Window(col, row, 1, 1)
-                z_array = f.read(
-                    indexes=1,
-                    window=window,
-                    resampling=interpolation,
-                    out_dtype=float,
-                    boundless=True,
-                    masked=True,
-                )
-                z = np.ma.filled(z_array, np.nan)[0][0]
-                z_all.append(z)
+            # Remove oob indices.
+            inb_rows = [row for i, row in enumerate(rows) if i not in oob_indices]
+            inb_cols = [col for i, col in enumerate(cols) if i not in oob_indices]
+
+            # Read.
+            z_inbounds = rastersample.sample(inb_rows, inb_cols, f, path, interpolation)
+
+            # Put back oob. Use an iterator to ensure all the points end up back in order.
+            z_iter = iter(z_inbounds)
+            z_all = [
+                None if i in oob_indices else float(next(z_iter))
+                for i in range(len(rows))
+            ]
 
     # Depending on the file format, when rasterio finds an invalid projection
     # of file, it might load it with a None crs, or it might throw an error.

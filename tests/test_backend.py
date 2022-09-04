@@ -210,6 +210,17 @@ class TestGetElevationFromPath:
         )
         assert z[0] == 1.5
 
+    def test_valid_bilinear_next_to_nodata_zstd(self):
+        # The zarr backend has different interpolation from rasterio, so want
+        # to ensure the behaviour is consistent for both backends.
+        with patch("opentopodata.rastersample.ZARR_MIN_POINTS", 0):
+            lat = 2
+            lon = 0.5
+            z = backend._get_elevation_from_path(
+                [lat], [lon], NODATA_DATASET_PATH, "bilinear"
+            )
+            assert z[0] == 1.5
+
     def test_invalid_bilinear_next_to_nodata(self):
         lat = 1
         lon = 0.5
