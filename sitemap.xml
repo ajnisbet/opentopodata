@@ -2,122 +2,122 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://www.opentopodata.org/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/api/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/changelog/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/server/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/aster/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/bkg/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/emod2018/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/etopo1/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/eudem/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/gebco2020/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/mapzen/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/ned/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/nzdem/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/srtm/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/datasets/swisstopo/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/buffering-tiles/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/cloud-storage/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/dataset-sizes/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/invalid-srtm-zips/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/kubernetes/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/multiple-datasets/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/performance-optimisation/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/running-without-docker/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://www.opentopodata.org/notes/windows-support/</loc>
-         <lastmod>2022-08-03</lastmod>
+         <lastmod>2022-10-17</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
