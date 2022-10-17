@@ -5,7 +5,7 @@
 # It works just the same as the main image, but is much larger and slower to
 # build.
 
-FROM osgeo/gdal:ubuntu-full-3.4.3
+FROM osgeo/gdal:ubuntu-full-3.5.2
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \

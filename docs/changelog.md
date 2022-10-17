@@ -10,6 +10,7 @@ This is a list of changes to Open Topo Data between each release.
 * Add Swisstopo documentation
 * Get pylibmc from pypi instead of building from source (simplifying docker image)
 * Upgrade uwsgi (to ease pathway to python 3.10)
+* Siginficant dependency upgrades, including python to 3.10.
 -->
 
 ## Version 1.8.1 (26 Jul 2022)
