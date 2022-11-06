@@ -73,6 +73,11 @@ curl http://localhost:5000/v1/test-dataset?locations=56,123
 
 The interpolation algorithm used can be configured as a request parameter, and locations can also be provided in Google Polyline format.
 
+Multiple points can be seperated via pipe symbol `|`. 
+
+```` 
+curl http://localhost:5000/v1/test-dataset?locations=57.688709,11.976404|56.688709,12.976404
+````
 
 See the [API docs](https://www.opentopodata.org/api/) for more about request and response formats.
 
