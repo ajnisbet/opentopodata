@@ -21,7 +21,7 @@ mkdir ./data/nzdem8m
 ```
 
 
-As of May 2020, the 8m dataset could only be painstaking downloaded a single tile at a time through the [LINZ web interface](https://data.linz.govt.nz/layer/51768-nz-8m-digital-elevation-model-2012/). If you'd rather not do this send me an [email](mailto:andrew@opentopodata.org), I can send you the raw dataset.
+As of May 2020, the 8m dataset could only be painstaking downloaded a single tile at a time through the [LINZ web interface](https://data.linz.govt.nz/layer/51768-nz-8m-digital-elevation-model-2012/). If you'd rather not do this, here are all the files as  I downloaded them from LINZ on May 2020 [nzdem-may-2020.zip](https://storage.googleapis.com/www-ajnisbet-com/nzdem-may-2020.zip).
 
 Once you've obtained the 115 files, unzip the zip archives and delete anything without a `.tif` extension. 
 
