@@ -16,7 +16,7 @@ build==0.9.0
     # via pip-tools
 cachelib==0.9.0
     # via flask-caching
-certifi==2022.9.24
+certifi==2022.12.7
     # via
     #   pyproj
     #   rasterio
@@ -37,8 +37,6 @@ cligj==0.7.2
     # via rasterio
 coverage[toml]==6.5.0
     # via pytest-cov
-exceptiongroup==1.0.1
-    # via pytest
 flask==2.2.2
     # via
     #   -r requirements.in
@@ -106,12 +104,6 @@ six==1.16.0
     # via polyline
 snuggs==1.4.7
     # via rasterio
-tomli==2.0.1
-    # via
-    #   black
-    #   build
-    #   coverage
-    #   pytest
 urllib3==1.26.12
     # via requests
 werkzeug==2.2.2
