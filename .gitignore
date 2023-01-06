@@ -16,6 +16,7 @@ htmlcov/
 .coverage
 .coverage.*
 .pytest_cache
+.asv
 
 # Jupyter Notebook
 .ipynb_checkpoints
