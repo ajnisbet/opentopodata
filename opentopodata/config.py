@@ -265,6 +265,7 @@ class Dataset(abc.ABC):
             )
 
         # Unable to identify dataset type.
+        is_srtm_raster = [False if file is None else file for file in is_srtm_raster]
         msg = f"Unknown dataset type for '{name}'. Dataset should either be a single file,"
         msg += " or split into tiles with the lower-left corner coord in the filename like 'N20W120'."
         msg += f" Unrecognised filename: '{all_filenames[np.argmin(is_srtm_raster)]}'."
