@@ -265,10 +265,14 @@ class Dataset(abc.ABC):
             )
 
         # Unable to identify dataset type.
-        invalid_files = [True if file is None else False for file in is_srtm_raster]
+        invalid_files = [
+            fn for fn, is_valid in zip(all_filenames, is_srtm_raster) if not is_valid
+        ]
+        is_srtm_raster = np.array(is_srtm_raster, dtype=bool)
         msg = f"Unknown dataset type for '{name}'. Dataset should either be a single file,"
         msg += " or split into tiles with the lower-left corner coord in the filename like 'N20W120'."
-        msg += f" Unrecognised filename: '{'; '.join(np.array(all_filenames)[invalid_files])}'."
+        if invalid_files:
+            msg += f" Unrecognised filename: '{invalid_files[0]}'."
         raise ConfigError(msg)
 
     @abc.abstractmethod
