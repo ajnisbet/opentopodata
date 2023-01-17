@@ -71,7 +71,7 @@ curl http://localhost:5000/v1/test-dataset?locations=56,123
 }
 ```
 
-The interpolation algorithm used can be configured as a request parameter, and locations can also be provided in Google Polyline format.
+The interpolation algorithm used can be configured as a request parameter, multiple locations can be given in a single request, and locations can also be provided in Google Polyline format.
 
 
 See the [API docs](https://www.opentopodata.org/api/) for more about request and response formats.
