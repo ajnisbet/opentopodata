@@ -21,7 +21,7 @@ SRTM has coverage from -60 to 60 degrees latitude. The dataset is released in 1 
 
 
 
-## Adding 30m SRTM to Open Topo Data
+## Downloading 30m SRTM
 
 Make a new folder for the dataset:
 
@@ -32,6 +32,25 @@ mkdir ./data/srtm30m
 Download the files from [USGS](https://e4ftl01.cr.usgs.gov/MEASURES/) into `./data/srtm30m`. Before downloading you'll need to register an account at [earthdata.nasa.gov](https://urs.earthdata.nasa.gov/). Using these credentials for downloading is a little tricky, but luckily Earthdata provide [download scripts](https://wiki.earthdata.nasa.gov/display/EL/Data+Access) in multiple different languages, the [Python ones](https://wiki.earthdata.nasa.gov/display/EL/How+To+Access+Data+With+Python) worked well for me.
 
 You want the `xxxxxxx.SRTMGL1.hgt.zip` files. To make downloading a bit easier, here's a list of the 14,297 URLs: [srtm30m_urls.txt](/datasets/srtm30m_urls.txt).
+
+If those scripts aren't working for you, an [Open Topo Data user](https://github.com/ajnisbet/opentopodata/issues/71#issue-1564227017) has success with logging into Earthdata in your browser, then automating the browser to download the files:
+
+
+```python
+import webbrowser
+import time
+
+with open("srtm30m_urls.txt", "r") as f:
+    url_list = f.read().split("\n")
+    
+for i, url in enumerate(url_list):
+    webbrowser.open_new_tab(url)
+    if i % 100 == 0:
+        time.sleep(5) # pause 5s every 100 it to avoid rate limiting.
+```
+
+## Adding 30m SRTM to Open Topo Data
+
 
 
 Create a `config.yaml` file:
