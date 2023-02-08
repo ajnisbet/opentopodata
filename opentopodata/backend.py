@@ -239,7 +239,6 @@ def get_elevation(lats, lons, datasets, interpolation="nearest", nodata_value=No
     # Check
     points = [_Point(lat, lon, idx) for idx, (lat, lon) in enumerate(zip(lats, lons))]
     for dataset in datasets:
-
         # Only check points that have no point yet. Can exit early if
         # there's no unqueried points.
         dataset_points = [p for p in points if p.elevation is None]

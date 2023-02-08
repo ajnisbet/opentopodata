@@ -137,7 +137,6 @@ def sample_points_on_path(path_lats, path_lons, n_samples):
     # distance along line.
     points = []
     for point_distance in point_distances:
-
         # Find start.
         i_start = np.argwhere(point_distance >= path_distances_cum)[:, 0][-1]
 

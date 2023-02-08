@@ -1,5 +1,5 @@
 black
-Flask
+Flask>=2.2.2
 flask-caching
 geographiclib
 numpy
@@ -7,9 +7,8 @@ pip-tools
 polyline
 pylibmc
 pyproj
-pylibmc
 pytest
 pytest-cov
 PyYAML
-rasterio
+rasterio==1.2.10
 requests

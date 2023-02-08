@@ -1,5 +1,5 @@
 # Container for packages that need to be built from source but have massive dev dependencies.
-FROM python:3.10.8-slim-bullseye as builder
+FROM python:3.9.16-slim-bullseye as builder
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -11,7 +11,7 @@ RUN pip config set global.disable-pip-version-check true && \
     pip wheel --wheel-dir=/root/wheels regex==2022.10.31
 
 # The actual container.
-FROM python:3.10.8-slim-bullseye
+FROM python:3.9.16-slim-bullseye
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
