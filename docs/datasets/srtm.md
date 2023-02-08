@@ -33,7 +33,7 @@ Download the files from [USGS](https://e4ftl01.cr.usgs.gov/MEASURES/) into `./da
 
 You want the `xxxxxxx.SRTMGL1.hgt.zip` files. To make downloading a bit easier, here's a list of the 14,297 URLs: [srtm30m_urls.txt](/datasets/srtm30m_urls.txt).
 
-If those scripts aren't working for you, an [Open Topo Data user](https://github.com/ajnisbet/opentopodata/issues/71#issue-1564227017) has success with logging into Earthdata in your browser, then automating the browser to download the files:
+If those scripts aren't working for you, an [@SamDurand](https://github.com/SamDurand) ([#70](https://github.com/ajnisbet/opentopodata/issues/70)) had success with logging into Earthdata in your browser, then automating the browser to download the files:
 
 
 ```python

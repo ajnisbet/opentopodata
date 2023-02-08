@@ -3,6 +3,13 @@
 This is a list of changes to Open Topo Data between each release.
 
 
+## Version 1.8.3 (7 Feb 2023)
+
+* Fix memory leak ([#68](https://github.com/ajnisbet/opentopodata/issues/68))
+* Fix invalid file error message ([#70](https://github.com/ajnisbet/opentopodata/issues/70))
+* Downgrade to python 3.9 and rasterio 1.2.10
+
+
 ## Version 1.8.2 (7 Nov 2022)
 
 * Fix broken Docker image ([#66](https://github.com/ajnisbet/opentopodata/issues/66))
