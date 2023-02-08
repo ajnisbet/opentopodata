@@ -20,6 +20,7 @@ INVALID_CONFIG_PATH = "tests/data/configs/no-datasets.yaml"
 ETOPO1_DATASET_NAME = "etopo1deg"
 MAX_N_POINTS = 100
 
+
 # Mock changing config.
 @pytest.fixture
 def patch_config():
