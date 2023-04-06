@@ -1,4 +1,5 @@
 import collections
+import mmap
 
 from rasterio.enums import Resampling
 import numpy as np
@@ -86,63 +87,65 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
     lats = np.asarray(lats)
 
     try:
-        with rasterio.open(path) as f:
-            if f.crs is None:
-                msg = "Dataset has no coordinate reference system."
-                msg += f" Check the file '{path}' is a geo raster."
-                msg += " Otherwise you'll have to add the crs manually with a tool like gdaltranslate."
-                raise InputError(msg)
+        with open(path, 'rb') as bf:
+            with mmap.mmap( bf.fileno(), length=0, access=mmap.ACCESS_READ ) as mmap_obj:
+                with rasterio.open(mmap_obj) as f:
+                    if f.crs is None:
+                        msg = "Dataset has no coordinate reference system."
+                        msg += f" Check the file '{path}' is a geo raster."
+                        msg += " Otherwise you'll have to add the crs manually with a tool like gdaltranslate."
+                        raise InputError(msg)
 
-            try:
-                if f.crs.is_epsg_code:
-                    xs, ys = utils.reproject_latlons(lats, lons, epsg=f.crs.to_epsg())
-                else:
-                    xs, ys = utils.reproject_latlons(lats, lons, wkt=f.crs.to_wkt())
-            except ValueError:
-                raise InputError("Unable to transform latlons to dataset projection.")
+                    try:
+                        if f.crs.is_epsg_code:
+                            xs, ys = utils.reproject_latlons(lats, lons, epsg=f.crs.to_epsg())
+                        else:
+                            xs, ys = utils.reproject_latlons(lats, lons, wkt=f.crs.to_wkt())
+                    except ValueError:
+                        raise InputError("Unable to transform latlons to dataset projection.")
 
-            # Check bounds.
-            oob_indices = _validate_points_lie_within_raster(
-                xs, ys, lats, lons, f.bounds, f.res
-            )
-            rows, cols = tuple(f.index(xs, ys, op=_noop))
+                    # Check bounds.
+                    oob_indices = _validate_points_lie_within_raster(
+                        xs, ys, lats, lons, f.bounds, f.res
+                    )
+                    rows, cols = tuple(f.index(xs, ys, op=_noop))
 
-            # Different versions of rasterio may or may not collapse single
-            # f.index() lookups into scalars. We want to always have an
-            # array.
-            rows = np.atleast_1d(rows)
-            cols = np.atleast_1d(cols)
+                    # Different versions of rasterio may or may not collapse single
+                    # f.index() lookups into scalars. We want to always have an
+                    # array.
+                    rows = np.atleast_1d(rows)
+                    cols = np.atleast_1d(cols)
 
-            # Offset by 0.5 to convert from center coords (provided by
-            # f.index) to ul coords (expected by f.read).
-            rows = rows - 0.5
-            cols = cols - 0.5
+                    # Offset by 0.5 to convert from center coords (provided by
+                    # f.index) to ul coords (expected by f.read).
+                    rows = rows - 0.5
+                    cols = cols - 0.5
 
-            # Because of floating point precision, indices may slightly exceed
-            # array bounds. Because we've checked the locations are within the
-            # file bounds,  it's safe to clip to the array shape.
-            rows = rows.clip(0, f.height - 1)
-            cols = cols.clip(0, f.width - 1)
+                    # Because of floating point precision, indices may slightly exceed
+                    # array bounds. Because we've checked the locations are within the
+                    # file bounds,  it's safe to clip to the array shape.
+                    rows = rows.clip(0, f.height - 1)
+                    cols = cols.clip(0, f.width - 1)
 
-            # Read the locations, using a 1x1 window. The `masked` kwarg makes
-            # rasterio replace NODATA values with np.nan. The `boundless` kwarg
-            # forces the windowed elevation to be a 1x1 array, even when it all
-            # values are NODATA.
-            for i, (row, col) in enumerate(zip(rows, cols)):
-                if i in oob_indices:
-                    z_all.append(None)
-                    continue
-                window = rasterio.windows.Window(col, row, 1, 1)
-                z_array = f.read(
-                    indexes=1,
-                    window=window,
-                    resampling=interpolation,
-                    out_dtype=float,
-                    boundless=True,
-                    masked=True,
-                )
-                z = np.ma.filled(z_array, np.nan)[0][0]
-                z_all.append(z)
+                    # Read the locations, using a 1x1 window. The `masked` kwarg makes
+                    # rasterio replace NODATA values with np.nan. The `boundless` kwarg
+                    # forces the windowed elevation to be a 1x1 array, even when it all
+                    # values are NODATA.
+                    for i, (row, col) in enumerate(zip(rows, cols)):
+                        if i in oob_indices:
+                            z_all.append(None)
+                            continue
+                        window = rasterio.windows.Window(col, row, 1, 1)
+                        z_array = f.read(
+                            indexes=1,
+                            window=window,
+                            resampling=interpolation,
+                            out_dtype=float,
+                            boundless=True,
+                            masked=True,
+                        )
+                        z = np.ma.filled(z_array, np.nan)[0][0]
+                        z_all.append(z)
 
     # Depending on the file format, when rasterio finds an invalid projection
     # of file, it might load it with a None crs, or it might throw an error.
