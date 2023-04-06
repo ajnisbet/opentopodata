@@ -87,8 +87,8 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
     lats = np.asarray(lats)
 
     try:
-        with open(path, 'rb') as bf:
-            with mmap.mmap( bf.fileno(), length=0, access=mmap.ACCESS_READ ) as mmap_obj:
+        with open(path, "rb") as bf:
+            with mmap.mmap(bf.fileno(), length=0, access=mmap.ACCESS_READ) as mmap_obj:
                 with rasterio.open(mmap_obj) as f:
                     if f.crs is None:
                         msg = "Dataset has no coordinate reference system."
@@ -98,11 +98,17 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
 
                     try:
                         if f.crs.is_epsg_code:
-                            xs, ys = utils.reproject_latlons(lats, lons, epsg=f.crs.to_epsg())
+                            xs, ys = utils.reproject_latlons(
+                                lats, lons, epsg=f.crs.to_epsg()
+                            )
                         else:
-                            xs, ys = utils.reproject_latlons(lats, lons, wkt=f.crs.to_wkt())
+                            xs, ys = utils.reproject_latlons(
+                                lats, lons, wkt=f.crs.to_wkt()
+                            )
                     except ValueError:
-                        raise InputError("Unable to transform latlons to dataset projection.")
+                        raise InputError(
+                            "Unable to transform latlons to dataset projection."
+                        )
 
                     # Check bounds.
                     oob_indices = _validate_points_lie_within_raster(
