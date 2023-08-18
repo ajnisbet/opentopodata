@@ -5,9 +5,15 @@
 # 400 error will be thrown above this limit.
 max_locations_per_request: 100 
 
+
 # CORS header. Should be null for no CORS, '*' for all domains, or a url with
 # protocol, domain, and port ('https://api.example.com/'). Default is null.
 access_control_allow_origin: "*"
+
+
+# Use mmap to cache files for faster repeated reads on slow networked filesystems.
+# See https://github.com/ajnisbet/opentopodata/pull/74
+read_with_mmap: false
 
 datasets:
 

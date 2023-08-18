@@ -154,6 +154,16 @@ class TestGetElevationFromPath:
             0.4, 0.3, self.geotiff_z[:2, :2]
         )
 
+    def test_mmap(self):
+        lats = [89.6]
+        lons = [-179.7]
+        z = backend._get_elevation_from_path(
+            lats, lons, ETOPO1_GEOTIFF_PATH, "bilinear", use_mmap=True
+        )
+        assert pytest.approx(z[0]) == self._interp_bilinear(
+            0.4, 0.3, self.geotiff_z[:2, :2]
+        )
+
     def test_none_outside_dataset(self):
         lats = [0, 0, -90.1, 90.1]
         lons = [-180.1, 180.1, 0, 0]

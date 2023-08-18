@@ -32,5 +32,5 @@ update-requirements: build
 	# pip-compile gets confused if there's already a requirements.txt file, and
 	# it can't be deleted without breaking the docker mount. So instead do the
 	# compiling in /tmp. Should run test suite afterwards.
-	docker run --rm -v $(shell pwd)/requirements.txt:/app/requirements.txt -w /tmp opentopodata:$(VERSION)  /bin/bash -c "cp /app/requirements.in .; pip-compile requirements.in; cp requirements.txt /app/requirements.txt"
+	docker run --rm -v $(shell pwd)/requirements.txt:/app/requirements.txt -w /tmp opentopodata:$(VERSION)  /bin/bash -c "cp /app/requirements.in .; pip-compile requirements.in --resolver backtracking; cp requirements.txt /app/requirements.txt"
 
