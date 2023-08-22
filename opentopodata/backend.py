@@ -69,7 +69,7 @@ def _validate_points_lie_within_raster(xs, ys, lats, lons, bounds, res):
     return sorted(oob_indices)
 
 
-def _get_elevation_from_path(lats, lons, path, interpolation, use_mmap=False):
+def _get_elevation_from_path(lats, lons, path, interpolation):
     """Read values at locations in a raster.
 
     Args:
