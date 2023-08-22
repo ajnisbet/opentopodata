@@ -11,10 +11,6 @@ max_locations_per_request: 100
 access_control_allow_origin: "*"
 
 
-# Use mmap to cache files for faster repeated reads on slow networked filesystems.
-# See https://github.com/ajnisbet/opentopodata/pull/74
-read_with_mmap: false
-
 datasets:
 
 # A small testing dataset is included in the repo.

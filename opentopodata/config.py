@@ -21,7 +21,6 @@ DEFAULTS = {
     "dataset.filename_tile_size": 1,
     "dataset.filename_epsg": utils.WGS84_LATLON_EPSG,
     "access_control_allow_origin": None,
-    "read_with_mmap": False,
 }
 
 
@@ -148,7 +147,6 @@ def load_config():
     config["access_control_allow_origin"] = config.get(
         "access_control_allow_origin", DEFAULTS["access_control_allow_origin"]
     )
-    config["read_with_mmap"] = config.get("read_with_mmap", DEFAULTS["read_with_mmap"])
 
     # Validate CORS. Must have protocol, domain, and optionally port.
     _validate_cors(config["access_control_allow_origin"])

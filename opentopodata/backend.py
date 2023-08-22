@@ -1,5 +1,4 @@
 import collections
-import mmap
 
 from rasterio.enums import Resampling
 import numpy as np
@@ -86,16 +85,8 @@ def _get_elevation_from_path(lats, lons, path, interpolation, use_mmap=False):
     lons = np.asarray(lons)
     lats = np.asarray(lats)
 
-    f_mmap = None
-    dataset = None
-
     try:
-        if use_mmap:
-            f_mmap = open(path, "rb")
-            dataset = mmap.mmap(f_mmap.fileno(), length=0, access=mmap.ACCESS_READ)
-        else:
-            dataset = path
-        with rasterio.open(dataset) as f:
+        with rasterio.open(path) as f:
             if f.crs is None:
                 msg = "Dataset has no coordinate reference system."
                 msg += f" Check the file '{path}' is a geo raster."
@@ -162,11 +153,6 @@ def _get_elevation_from_path(lats, lons, path, interpolation, use_mmap=False):
             msg += " and that the file is not corrupt."
             raise InputError(msg)
         raise e
-    finally:
-        if isinstance(dataset, mmap.mmap):
-            dataset.close()
-        if f_mmap:
-            f_mmap.close()
 
     return z_all
 
