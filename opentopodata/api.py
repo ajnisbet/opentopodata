@@ -503,12 +503,11 @@ def get_elevation(dataset_name):
             _load_config()["max_locations_per_request"],
         )
 
-        # Set to false if not in config
-        geojsonFormat = (
-            False
-            if _load_config()["outputInGeoJSON"] is None
-            else _load_config()["outputInGeoJSON"]
-        )
+        # Set to False if not in config
+        try:
+            outputInGeoJSON = (_load_config()["outputInGeoJSON"],)
+        except:
+            outputInGeoJSON = False
 
         # Check if need to do sampling.
         n_samples = _parse_n_samples(
@@ -527,7 +526,7 @@ def get_elevation(dataset_name):
         # Build response.
         results = []
         # Return the results in geojson format. Default false to keep API consistancy
-        if geojsonFormat:
+        if outputInGeoJSON:
             for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
                 results.append(
                     [
