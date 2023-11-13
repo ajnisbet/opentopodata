@@ -9,6 +9,10 @@ max_locations_per_request: 100
 # protocol, domain, and port ('https://api.example.com/'). Default is null.
 access_control_allow_origin: "*"
 
+# Return the results in geojson notation {"results": [[52.5208,13.4665,47],[50.9579,6.9673,48]], "status": "ok"}
+# Default: False
+outputInGeoJSON: False
+
 datasets:
 
 # A small testing dataset is included in the repo.

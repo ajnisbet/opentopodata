@@ -503,6 +503,13 @@ def get_elevation(dataset_name):
             _load_config()["max_locations_per_request"],
         )
 
+        # Set to false if not in config
+        geojsonFormat = (
+            False
+            if _load_config()["outputInGeoJSON"] is None
+            else _load_config()["outputInGeoJSON"]
+        )
+
         # Check if need to do sampling.
         n_samples = _parse_n_samples(
             _find_request_argument(request, "samples"),
@@ -519,14 +526,25 @@ def get_elevation(dataset_name):
 
         # Build response.
         results = []
-        for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
-            results.append(
-                {
-                    "elevation": z,
-                    "dataset": dataset_name,
-                    "location": {"lat": lat, "lng": lon},
-                }
-            )
+        # Return the results in geojson format. Default false to keep API consistancy
+        if geojsonFormat:
+            for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
+                results.append(
+                    [
+                        lat,
+                        lon,
+                        z,
+                    ],
+                )
+        else:
+            for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
+                results.append(
+                    {
+                        "elevation": z,
+                        "dataset": dataset_name,
+                        "location": {"lat": lat, "lng": lon},
+                    }
+                )
         data = {"status": "OK", "results": results}
         return jsonify(data)
 

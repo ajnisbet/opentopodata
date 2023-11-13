@@ -102,6 +102,7 @@ which would expose `localhost:5000/v1/etopo1` and `localhost:5000/v1/srtm90m`.
 
 * `max_locations_per_request`: Requests with more than this many locations will return a 400 error. Default: `100`.
 * `access_control_allow_origin`: Value for the `Access-Control-Allow-Origin` CORS header. Set to `*` or a domain to allow in-browser requests from a different origin. Set to `null` to send no `Access-Control-Allow-Origin` header. Default: `null`.
+* `outputInGeoJSON`: Will change the return value to a GeoJSON readable linestring format like: `{"results": [[52.5208,13.4665,47],[50.9579,6.9673,48]], "status": "ok"}` Default: `False`
 * `datasets[].name`: Dataset name, used in url. Required.
 * `datasets[].path`: Path to folder containing the dataset. If the dataset is a single file it must be placed inside a folder. This path is relative to the repository directory inside docker. I suggest placing datasets inside the provided `data` folder, which is mounted in docker by `make run`. Files can be nested arbitrarily inside the dataset path. Required.
 * `datasets[].filename_epsg`: For tiled datasets, the projection of the filename coordinates. The default value is `4326`, which is latitude/longitude with the [WGS84 datum](https://spatialreference.org/ref/epsg/wgs-84/).
