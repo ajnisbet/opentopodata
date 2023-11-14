@@ -530,7 +530,7 @@ def get_elevation(dataset_name):
                 results.append(
                     {
                         "type": "Feature",
-                        "geometry": {"type": "Point", "coordinates": [lat, lon, z]},
+                        "geometry": {"type": "Point", "coordinates": [lon, lat, z]},
                         "properties": {"dataset": dataset_name},
                     },
                 )
