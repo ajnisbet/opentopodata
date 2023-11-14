@@ -503,8 +503,10 @@ def get_elevation(dataset_name):
             _find_request_argument(request, "locations"),
             _load_config()["max_locations_per_request"],
         )
-        try: geojson =  _find_request_argument(request, "geojson")
-        except: geojson = DEFAULT_GEOJSON_VALUE
+        try:
+            geojson = _find_request_argument(request, "geojson")
+        except:
+            geojson = DEFAULT_GEOJSON_VALUE
 
         # Check if need to do sampling.
         n_samples = _parse_n_samples(
@@ -526,12 +528,13 @@ def get_elevation(dataset_name):
         if geojson:
             for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
                 results.append(
-                        {"type": "Feature",
-                         "geometry": {"type": "Point", "coordinates": [lat, lon, z]},
-                         "properties": {"dataset": dataset_name}
-                        },
+                    {
+                        "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [lat, lon, z]},
+                        "properties": {"dataset": dataset_name},
+                    },
                 )
-            data = {"type": "FeatureCollection",    "features": results}
+            data = {"type": "FeatureCollection", "features": results}
         else:
             for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
                 results.append(
