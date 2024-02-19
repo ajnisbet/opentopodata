@@ -8,7 +8,7 @@ RUN set -e && \
 
 RUN pip config set global.disable-pip-version-check true && \
     pip wheel --wheel-dir=/root/wheels uwsgi==2.0.22 && \
-    pip wheel --wheel-dir=/root/wheels regex==2023.8.8
+    pip wheel --wheel-dir=/root/wheels regex==2023.12.25
 
 # The actual container.
 FROM python:3.9.17-slim-bullseye
