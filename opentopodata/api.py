@@ -19,6 +19,7 @@ LAT_MAX = 90
 LON_MIN = -180
 LON_MAX = 180
 VERSION_PATH = "VERSION"
+DEFAULT_GEOJSON_VALUE = False
 
 
 # Memcache is used to store the latlon -> filename lookups, which can take a
@@ -524,6 +525,10 @@ def get_elevation(dataset_name):
             _find_request_argument(request, "locations"),
             _load_config()["max_locations_per_request"],
         )
+        try:
+            geojson = _find_request_argument(request, "geojson")
+        except:
+            geojson = DEFAULT_GEOJSON_VALUE
 
         # Check if need to do sampling.
         n_samples = _parse_n_samples(
@@ -541,15 +546,27 @@ def get_elevation(dataset_name):
 
         # Build response.
         results = []
-        for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
-            results.append(
-                {
-                    "elevation": z,
-                    "dataset": dataset_name,
-                    "location": {"lat": lat, "lng": lon},
-                }
-            )
-        data = {"status": "OK", "results": results}
+        # Return the results in geojson format. Default false to keep API consistancy
+        if geojson:
+            for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
+                results.append(
+                    {
+                        "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [lon, lat, z]},
+                        "properties": {"dataset": dataset_name},
+                    },
+                )
+            data = {"type": "FeatureCollection", "features": results}
+        else:
+            for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
+                results.append(
+                    {
+                        "elevation": z,
+                        "dataset": dataset_name,
+                        "location": {"lat": lat, "lng": lon},
+                    }
+                )
+            data = {"status": "OK", "results": results}
         return jsonify(data)
 
     except (ClientError, backend.InputError) as e:
