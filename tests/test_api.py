@@ -1,7 +1,6 @@
 import math
 
 import pytest
-from flask_caching import Cache
 import rasterio
 from unittest.mock import patch
 import numpy as np
@@ -9,7 +8,6 @@ from flask import request
 
 from opentopodata import api
 from opentopodata import backend
-from opentopodata import config
 
 
 GEOTIFF_PATH = "tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice_g_geotiff.resampled-1deg.tif"
@@ -40,6 +38,15 @@ class TestCORS:
         url = "/v1/etopo1deg?locations=90,-180"
         response = test_api.get(url)
         assert response.headers.get("access-control-allow-origin") is None
+
+    def test_options(self):
+        test_api = api.app.test_client()
+        url = "/"
+        response = test_api.options(url)
+        assert response.status_code == 204
+        assert "x-opentopodata-version" in response.headers
+        assert "access-control-allow-methods" in response.headers
+        assert response.headers.get("access-control-allow-origin") == "*"
 
 
 class TestFindRequestAgument:

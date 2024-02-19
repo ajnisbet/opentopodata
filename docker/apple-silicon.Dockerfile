@@ -5,7 +5,8 @@
 # It works just the same as the main image, but is much larger and slower to
 # build.
 
-FROM osgeo/gdal:ubuntu-full-3.5.2
+FROM  ghcr.io/osgeo/gdal:ubuntu-full-3.6.4
+RUN python --version
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -16,7 +17,7 @@ RUN set -e && \
         g++ \
         supervisor \
         libmemcached-dev \
-        python3.8-dev && \
+        python3.10-dev && \
     rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /app/requirements.txt

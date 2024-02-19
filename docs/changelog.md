@@ -3,6 +3,11 @@
 This is a list of changes to Open Topo Data between each release.
 
 
+## Version 1.8.4 (19 Feb 2024)
+* Dependency upgrades
+* Fix handling of preflight requests ([#93](https://github.com/ajnisbet/opentopodata/issues/93))
+
+
 ## Version 1.8.3 (7 Feb 2023)
 
 * Fix memory leak ([#68](https://github.com/ajnisbet/opentopodata/issues/68))
