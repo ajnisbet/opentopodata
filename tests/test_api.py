@@ -1,7 +1,6 @@
 import math
 
 import pytest
-from flask_caching import Cache
 import rasterio
 from unittest.mock import patch
 import numpy as np
@@ -9,7 +8,6 @@ from flask import request
 
 from opentopodata import api
 from opentopodata import backend
-from opentopodata import config
 
 
 GEOTIFF_PATH = "tests/data/datasets/test-etopo1-resampled-1deg/ETOPO1_Ice_g_geotiff.resampled-1deg.tif"

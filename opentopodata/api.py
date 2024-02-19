@@ -458,8 +458,8 @@ def _get_datasets(name):
     return datasets
 
 
-@app.route("/", methods=["GET", "POST", "OPTIONS", "HEAD"])
-@app.route("/v1/", methods=["GET", "POST", "OPTIONS", "HEAD"])
+@app.route("/", methods=["GET", "POST", "HEAD"])
+@app.route("/v1/", methods=["GET", "POST", "HEAD"])
 def get_help_message():
     msg = "No dataset name provided."
     msg += " Try a url like '/v1/test-dataset?locations=-10,120' to get started,"
@@ -467,7 +467,7 @@ def get_help_message():
     return jsonify({"status": "INVALID_REQUEST", "error": msg}), 404
 
 
-@app.route("/health", methods=["GET", "OPTIONS", "HEAD"])
+@app.route("/health", methods=["GET", "HEAD"])
 def get_health_status():
     """Status endpoint for e.g., uptime check or load balancing."""
     try:
@@ -480,7 +480,7 @@ def get_health_status():
         return jsonify(data), 500
 
 
-@app.route("/datasets", methods=["GET", "OPTIONS", "HEAD"])
+@app.route("/datasets", methods=["GET", "HEAD"])
 def get_datasets_info():
     """List of datasets on the server."""
     try:
@@ -501,7 +501,7 @@ def get_datasets_info():
         return jsonify(data), 500
 
 
-@app.route("/v1/<dataset_name>", methods=["GET", "POST", "OPTIONS", "HEAD"])
+@app.route("/v1/<dataset_name>", methods=["GET", "POST", "HEAD"])
 def get_elevation(dataset_name):
     """Calculate the elevation for the given locations.
 
