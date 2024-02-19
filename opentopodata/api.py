@@ -19,7 +19,7 @@ LAT_MAX = 90
 LON_MIN = -180
 LON_MAX = 180
 VERSION_PATH = "VERSION"
-DEFAULT_GEOJSON_VALUE = False
+DEFAULT_FORMAT_VALUE = "json"
 
 
 # Memcache is used to store the latlon -> filename lookups, which can take a
@@ -149,6 +149,16 @@ def _find_request_argument(request, arg):
                 return str(json_data[arg])
         except:
             raise ClientError("Invalid JSON.")
+
+
+def _parse_format(format):
+    if not format:
+        format = DEFAULT_FORMAT_VALUE
+
+    if format not in {"json", "geojson"}:
+        raise ClientError("Format must be 'json' or 'geojson'.")
+
+    return format
 
 
 def _parse_interpolation(method):
@@ -525,10 +535,7 @@ def get_elevation(dataset_name):
             _find_request_argument(request, "locations"),
             _load_config()["max_locations_per_request"],
         )
-        try:
-            geojson = _find_request_argument(request, "geojson")
-        except:
-            geojson = DEFAULT_GEOJSON_VALUE
+        format = _parse_format(_find_request_argument(request, "format"))
 
         # Check if need to do sampling.
         n_samples = _parse_n_samples(
@@ -546,8 +553,9 @@ def get_elevation(dataset_name):
 
         # Build response.
         results = []
-        # Return the results in geojson format. Default false to keep API consistancy
-        if geojson:
+
+        # Convert to json or geojson format.
+        if format == "geojson":
             for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
                 results.append(
                     {
@@ -557,6 +565,7 @@ def get_elevation(dataset_name):
                     },
                 )
             data = {"type": "FeatureCollection", "features": results}
+
         else:
             for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
                 results.append(

@@ -289,6 +289,16 @@ class TestGetElevation:
         assert len(rjson["results"]) == 2
         assert rjson["results"][0] == rjson["results"][1]
 
+    def test_repeated_locations_geojson(self, patch_config):
+        url = (
+            "/v1/etopo1deg?locations=1.5,0.1|1.5,0.1&interpolation=cubic&format=geojson"
+        )
+        response = self.test_api.get(url)
+        rjson = response.json
+        assert response.status_code == 200
+        assert len(rjson["features"]) == 2
+        assert rjson["features"][0] == rjson["features"][1]
+
     def test_polyline_latlon_equivalence(self, patch_config):
         url_latlon = "/v1/etopo1deg?locations=-90,180|1.5,0.1"
         url_polyline = "/v1/etopo1deg?locations=~bidP_gsia@_bnmP~u_ia@"

@@ -24,14 +24,12 @@ Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format),
     * The default option `null` makes NODATA indistinguishable from a location outside the dataset bounds. 
     * `NaN` (not a number) values aren't valid in json and will break some clients. The `nan` option was default before version 1.4 and is provided only for backwards compatibility. 
     * When querying multiple datasets, this NODATA replacement only applies to the last dataset in the stack.
-* `geojson`: If set to `True` the response will be in geojson according to RFC7946.
+* `format`: Either `json` or `geojson`. Default: `json`.
 
 
  
 
 ### Response
-
-#### Default
 
 A json object, compatible with the Google Maps Elevation API.
 
@@ -49,26 +47,10 @@ Some notes about the elevation value:
 * If the request location isn't covered by any raster in the dataset, Open Topo Data will return `null`.
 * Unless the `nodata_value` parameter is set, a `null` elevation could either mean the location is outside the dataset bounds, or a NODATA within the raster bounds. 
 
-#### Geojson
 
-A json object, fulfilling the RFC 7946 or an error message
-* `type`: FeatureCollection
-* `features`: An array of provided points
-    * `type`: Feature
-    * `geometry`
-        * `type`: Point
-        * `coordinates`: Longitude, latitude and Elevation
-    * `properties`
-        * `dataset`: Name of the dataset
-
-In case of an error:
-* `status`: Will be `OK` for a successful request, `INVALID_REQUEST` for an input (4xx) error, and `SERVER_ERROR` for anything else (5xx). Required.
-* `error`: Description of what went wrong, when `status` isn't `OK`.
 ### Example
 
 `GET` <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic</a>
-
-
 
 
 ```json
@@ -95,9 +77,16 @@ In case of an error:
 }
 ```
 
-#### With geojson
 
-`GET` <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic&geojson=True">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic&geojson=True</a>
+### GeoJSON response
+
+If `format=geojson` is passed, you get a `FeatureCollection` of `Point` geometries instead.  Each feature has its elevation as the `z` coordinate, and  a `dataset` property specifying the source (corresponding to `results[].dataset` in the regular json response):
+
+
+### GeoJSON example
+
+
+`GET` <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic&format=geojson">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic&format=geojson</a>
 
 
 
@@ -137,6 +126,9 @@ In case of an error:
   "type": "FeatureCollection"
 }
 ```
+
+
+
 ---
 
 
