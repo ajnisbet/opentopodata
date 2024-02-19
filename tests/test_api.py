@@ -41,6 +41,15 @@ class TestCORS:
         response = test_api.get(url)
         assert response.headers.get("access-control-allow-origin") is None
 
+    def test_options(self):
+        test_api = api.app.test_client()
+        url = "/"
+        response = test_api.options(url)
+        assert response.status_code == 204
+        assert "x-opentopodata-version" in response.headers
+        assert "access-control-allow-methods" in response.headers
+        assert response.headers.get("access-control-allow-origin") == "*"
+
 
 class TestFindRequestAgument:
     def test_no_argument(self, patch_config):

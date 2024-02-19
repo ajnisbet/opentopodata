@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 from flask_caching import Cache
 import polyline
 
@@ -64,6 +64,18 @@ def _load_config_memcache():
     return config.load_config()
 
 
+@app.before_request
+def handle_preflight():
+    # If before_request returns a non-none value, the regular view isn't run.
+    # after_request() does still run though, so the CORS header and OTD version
+    # will be set correctly there.
+    if request.method == "OPTIONS":
+        response = Response(status=204)
+        response.headers["access-control-allow-methods"] = "GET,POST,OPTIONS,HEAD"
+        response.headers["access-control-allow-headers"] = "content-type,x-api-key"
+        return response
+
+
 @app.after_request
 def apply_cors(response):
     """Set CORs header.
@@ -81,6 +93,16 @@ def apply_cors(response):
         # CORS so user can see error message.
         pass
 
+    return response
+
+
+@app.after_request
+def add_version(response):
+    if "version" not in _SIMPLE_CACHE:
+        with open(VERSION_PATH) as f:
+            version = f.read().strip()
+        _SIMPLE_CACHE["version"] = version
+    response.headers["x-opentopodata-version"] = _SIMPLE_CACHE["version"]
     return response
 
 
@@ -543,13 +565,3 @@ def get_elevation(dataset_name):
         app.logger.error(e)
         msg = "Unhandled server error, see server logs for details."
         return jsonify({"status": "SERVER_ERROR", "error": msg}), 500
-
-
-@app.after_request
-def add_version(response):
-    if "version" not in _SIMPLE_CACHE:
-        with open(VERSION_PATH) as f:
-            version = f.read().strip()
-        _SIMPLE_CACHE["version"] = version
-    response.headers["x-opentopodata-version"] = _SIMPLE_CACHE["version"]
-    return response
