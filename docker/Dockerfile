@@ -4,7 +4,7 @@ RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
-        python3.12-dev
+        python3.11-dev
 
 RUN pip config set global.disable-pip-version-check true && \
     pip wheel --wheel-dir=/root/wheels uwsgi==2.0.24 && \
