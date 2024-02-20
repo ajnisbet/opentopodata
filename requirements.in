@@ -1,5 +1,5 @@
 black
-Flask>=2.2.2
+Flask>=2.2.2  # Some flask 2.0 deprecations got real.
 flask-caching
 geographiclib
 numpy
@@ -9,6 +9,7 @@ pylibmc
 pyproj
 pytest
 pytest-cov
+pytest-timeout
 PyYAML
-rasterio==1.2.10
+rasterio>=1.3.8  # Avoid memory leak https://github.com/ajnisbet/opentopodata/issues/68
 requests

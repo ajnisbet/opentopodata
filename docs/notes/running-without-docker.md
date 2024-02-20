@@ -17,13 +17,13 @@ git clone https://github.com/ajnisbet/opentopodata.git
 cd opentopodata
 ```
 
-Install system dependencies
+Install system dependencies (if you're not using Debian 10, install whatever python3.X-dev matches your installed python)L
 
 ```bash
 apt install gcc python3.7-dev python3-pip
 ```
 
-Debian 10 comes with an old version of pip, it needs to be updated:
+Debian 10 comes with an old version of pip, it needs to be updated so we can install wheels:
 
 ```bash
 pip3 install --upgrade pip
@@ -38,7 +38,7 @@ cat requirements.txt | grep pyproj
 and install that pinned version
 
 ```bash
-pip3 install pyproj==3.0.0.post1
+pip3 install pyproj==3.4.1
 ```
 
 then the remaining python packages can be installed:
@@ -134,3 +134,8 @@ systemctl daemon-reload
 systemctl enable opentopodata.service 
 systemctl start opentopodata.service 
 ```
+
+!!! warning "Warning"
+    Opentopodata caches `config.yaml` in two places: memcache and uwsgi.
+
+    If you update the config file (to eg add a new dataset) you'll need to restart memcached **first**, then opentopodata.

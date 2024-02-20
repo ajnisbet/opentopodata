@@ -24,6 +24,7 @@ Latitudes and longitudes should be in `EPSG:4326` (also known as WGS-84 format),
     * The default option `null` makes NODATA indistinguishable from a location outside the dataset bounds. 
     * `NaN` (not a number) values aren't valid in json and will break some clients. The `nan` option was default before version 1.4 and is provided only for backwards compatibility. 
     * When querying multiple datasets, this NODATA replacement only applies to the last dataset in the stack.
+* `format`: Either `json` or `geojson`. Default: `json`.
 
 
  
@@ -47,12 +48,9 @@ Some notes about the elevation value:
 * Unless the `nodata_value` parameter is set, a `null` elevation could either mean the location is outside the dataset bounds, or a NODATA within the raster bounds. 
 
 
-
 ### Example
 
 `GET` <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic</a>
-
-
 
 
 ```json
@@ -78,6 +76,58 @@ Some notes about the elevation value:
     "status": "OK"
 }
 ```
+
+
+### GeoJSON response
+
+If `format=geojson` is passed, you get a `FeatureCollection` of `Point` geometries instead.  Each feature has its elevation as the `z` coordinate, and  a `dataset` property specifying the source (corresponding to `results[].dataset` in the regular json response):
+
+
+### GeoJSON example
+
+
+`GET` <a href="https://api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic&format=geojson">api.opentopodata.org/v1/srtm90m?locations=-43.5,172.5|27.6,1.98&interpolation=cubic&format=geojson</a>
+
+
+
+
+```json
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          172.5,
+          -43.5,
+          45
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dataset": "srtm90m"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          1.98,
+          27.6,
+          402
+        ],
+        "type": "Point"
+      },
+      "properties": {
+        "dataset": "srtm90m"
+      },
+      "type": "Feature"
+    }
+  ],
+  "type": "FeatureCollection"
+}
+```
+
+
 
 ---
 

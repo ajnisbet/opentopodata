@@ -19,6 +19,10 @@ Batch request are faster (per point queried) than single-point requests, and lar
 
 Batch queries are fastest if the points are located next to each other. Sorting the locations you are querying before batching will improve performance. Ideally sort by some block-level attribute like postal code or state/county/region, or by something like  `round(lat, 1), round(lon, 1)` depending on your tile size.
 
+If the requests are very large and the server has several CPU cores, try splitting the request and sending it simultaneously. The optimum for the number of requests is slightly higher than the amount of CPU cores used by Open Topo Data. The number of CPU cores used is displayed when OpenTopodata is started. If you missed the log message, you can find iw with the following command:
+```bash
+docker logs {NAME_OF_CONTAINER} 2>&1 | grep "CPU cores"
+```
 
 
 ## Dataset format

@@ -1,7 +1,7 @@
 import logging
 import os
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, Response
 from flask_caching import Cache
 import polyline
 
@@ -19,6 +19,7 @@ LAT_MAX = 90
 LON_MIN = -180
 LON_MAX = 180
 VERSION_PATH = "VERSION"
+DEFAULT_FORMAT_VALUE = "json"
 
 
 # Memcache is used to store the latlon -> filename lookups, which can take a
@@ -64,6 +65,18 @@ def _load_config_memcache():
     return config.load_config()
 
 
+@app.before_request
+def handle_preflight():
+    # If before_request returns a non-none value, the regular view isn't run.
+    # after_request() does still run though, so the CORS header and OTD version
+    # will be set correctly there.
+    if request.method == "OPTIONS":
+        response = Response(status=204)
+        response.headers["access-control-allow-methods"] = "GET,POST,OPTIONS,HEAD"
+        response.headers["access-control-allow-headers"] = "content-type,x-api-key"
+        return response
+
+
 @app.after_request
 def apply_cors(response):
     """Set CORs header.
@@ -81,6 +94,16 @@ def apply_cors(response):
         # CORS so user can see error message.
         pass
 
+    return response
+
+
+@app.after_request
+def add_version(response):
+    if "version" not in _SIMPLE_CACHE:
+        with open(VERSION_PATH) as f:
+            version = f.read().strip()
+        _SIMPLE_CACHE["version"] = version
+    response.headers["x-opentopodata-version"] = _SIMPLE_CACHE["version"]
     return response
 
 
@@ -126,6 +149,16 @@ def _find_request_argument(request, arg):
                 return str(json_data[arg])
         except:
             raise ClientError("Invalid JSON.")
+
+
+def _parse_format(format):
+    if not format:
+        format = DEFAULT_FORMAT_VALUE
+
+    if format not in {"json", "geojson"}:
+        raise ClientError("Format must be 'json' or 'geojson'.")
+
+    return format
 
 
 def _parse_interpolation(method):
@@ -436,8 +469,8 @@ def _get_datasets(name):
     return datasets
 
 
-@app.route("/", methods=["GET", "POST", "OPTIONS", "HEAD"])
-@app.route("/v1/", methods=["GET", "POST", "OPTIONS", "HEAD"])
+@app.route("/", methods=["GET", "POST", "HEAD"])
+@app.route("/v1/", methods=["GET", "POST", "HEAD"])
 def get_help_message():
     msg = "No dataset name provided."
     msg += " Try a url like '/v1/test-dataset?locations=-10,120' to get started,"
@@ -445,7 +478,7 @@ def get_help_message():
     return jsonify({"status": "INVALID_REQUEST", "error": msg}), 404
 
 
-@app.route("/health", methods=["GET", "OPTIONS", "HEAD"])
+@app.route("/health", methods=["GET", "HEAD"])
 def get_health_status():
     """Status endpoint for e.g., uptime check or load balancing."""
     try:
@@ -458,7 +491,7 @@ def get_health_status():
         return jsonify(data), 500
 
 
-@app.route("/datasets", methods=["GET", "OPTIONS", "HEAD"])
+@app.route("/datasets", methods=["GET", "HEAD"])
 def get_datasets_info():
     """List of datasets on the server."""
     try:
@@ -479,7 +512,7 @@ def get_datasets_info():
         return jsonify(data), 500
 
 
-@app.route("/v1/<dataset_name>", methods=["GET", "POST", "OPTIONS", "HEAD"])
+@app.route("/v1/<dataset_name>", methods=["GET", "POST", "HEAD"])
 def get_elevation(dataset_name):
     """Calculate the elevation for the given locations.
 
@@ -502,6 +535,7 @@ def get_elevation(dataset_name):
             _find_request_argument(request, "locations"),
             _load_config()["max_locations_per_request"],
         )
+        format = _parse_format(_find_request_argument(request, "format"))
 
         # Check if need to do sampling.
         n_samples = _parse_n_samples(
@@ -519,15 +553,29 @@ def get_elevation(dataset_name):
 
         # Build response.
         results = []
-        for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
-            results.append(
-                {
-                    "elevation": z,
-                    "dataset": dataset_name,
-                    "location": {"lat": lat, "lng": lon},
-                }
-            )
-        data = {"status": "OK", "results": results}
+
+        # Convert to json or geojson format.
+        if format == "geojson":
+            for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
+                results.append(
+                    {
+                        "type": "Feature",
+                        "geometry": {"type": "Point", "coordinates": [lon, lat, z]},
+                        "properties": {"dataset": dataset_name},
+                    },
+                )
+            data = {"type": "FeatureCollection", "features": results}
+
+        else:
+            for z, dataset_name, lat, lon in zip(elevations, dataset_names, lats, lons):
+                results.append(
+                    {
+                        "elevation": z,
+                        "dataset": dataset_name,
+                        "location": {"lat": lat, "lng": lon},
+                    }
+                )
+            data = {"status": "OK", "results": results}
         return jsonify(data)
 
     except (ClientError, backend.InputError) as e:
@@ -543,13 +591,3 @@ def get_elevation(dataset_name):
         app.logger.error(e)
         msg = "Unhandled server error, see server logs for details."
         return jsonify({"status": "SERVER_ERROR", "error": msg}), 500
-
-
-@app.after_request
-def add_version(response):
-    if "version" not in _SIMPLE_CACHE:
-        with open(VERSION_PATH) as f:
-            version = f.read().strip()
-        _SIMPLE_CACHE["version"] = version
-    response.headers["x-opentopodata-version"] = _SIMPLE_CACHE["version"]
-    return response
