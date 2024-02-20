@@ -83,3 +83,8 @@ spec:
 
       restartPolicy: Always
 ```
+
+
+---
+
+Thanks to [@khintz](https://github.com/khintz) for contributing this documentation in [#57](https://github.com/ajnisbet/opentopodata/pull/57)!

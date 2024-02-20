@@ -4,9 +4,11 @@ This is a list of changes to Open Topo Data between each release.
 
 
 ## Version 1.9.0 (19 Feb 2024)
-* Dependency upgrades
-* Fix handling of preflight requests ([#93](https://github.com/ajnisbet/opentopodata/issues/93))
+* Dependency upgrades, including python to 3.11 and rasterio to 1.3.9
 * Add support for geojson responses ([#86](https://github.com/ajnisbet/opentopodata/pull/86), thanks [@arnesetzer](https://github.com/arnesetzer)!)
+* Fix handling of preflight requests ([#93](https://github.com/ajnisbet/opentopodata/issues/93), thanks [@MaRaSu](https://github.com/MaRaSu)!)
+* Fix error message bug ([#70](https://github.com/ajnisbet/opentopodata/pull/70), thanks [@khendrickx](https://github.com/khendrickx)!)
+
 
 
 ## Version 1.8.3 (7 Feb 2023)

@@ -1,17 +1,17 @@
 # Container for packages that need to be built from source but have massive dev dependencies.
-FROM python:3.9.17-slim-bullseye as builder
+FROM python:3.11.8-slim-bookworm as builder
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
         gcc \
-        python3.9-dev
+        python3.12-dev
 
 RUN pip config set global.disable-pip-version-check true && \
-    pip wheel --wheel-dir=/root/wheels uwsgi==2.0.22 && \
+    pip wheel --wheel-dir=/root/wheels uwsgi==2.0.24 && \
     pip wheel --wheel-dir=/root/wheels regex==2023.12.25
 
 # The actual container.
-FROM python:3.9.17-slim-bullseye
+FROM python:3.11.8-slim-bookworm
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
