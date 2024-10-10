@@ -14,3 +14,4 @@ PyYAML
 rasterio>=1.3.8  # Avoid memory leak https://github.com/ajnisbet/opentopodata/issues/68
 requests
 watchdog # Monitor changes on the config.yaml
+pymemcache # Handle cache flushing without messing
