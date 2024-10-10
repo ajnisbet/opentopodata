@@ -1,19 +1,23 @@
 import logging
 import time
-import os
 import warm_cache
 
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+from pymemcache.client.base import Client
+
+
+#Connect to memcached socket. Since this is hardcoded in the supervisored.conf it shouldn't change that much
+memcacheClient = Client("/tmp/memcached.sock")
+
+
 def reload_config():
-    logging.info("config.yaml changes. Restarting uswgi and memcached to make the changes")
-    # Kill all uwsgi instances with SIGTERM
-    os.system("kill -15 `pidof uwsgi`")
-    # Flush memcache with restarting it. Without nc/telnet thats the best solution
-    os.system("service memcached restart")
-    # Restart uwsgi. Amount of processes stolen from run.sh
-    os.system("/usr/local/bin/uwsgi --ini /app/docker/uwsgi.ini --processes $(nproc --all)")
+    logging.error("config.yaml changes. Restarting uswgi and memcached to make the changes")
+    #Restart uwsgi
+    #TODO
+    #Flush memcache using pymemcached
+    memcacheClient.flush_all()
     warm_cache
 
 class Handler(FileSystemEventHandler):
