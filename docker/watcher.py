@@ -28,11 +28,13 @@ class Handler(FileSystemEventHandler):
 
 
 CONFIG_PATH = "/app/config.yaml"
+EXAMPLE_CONFIG_PATH = "/app/example-config.yaml"
 
 if __name__ == "__main__":
     event_handler = Handler()
     observer = Observer()
     observer.schedule(event_handler, CONFIG_PATH)
+    observer.schedule(event_handler, EXAMPLE_CONFIG_PATH)
     observer.start()
     try:
         while True:
