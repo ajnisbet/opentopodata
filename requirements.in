@@ -13,3 +13,5 @@ pytest-timeout
 PyYAML
 rasterio>=1.3.8,<1.4.0  # 1.3.8+ avoids memory leak https://github.com/ajnisbet/opentopodata/issues/68; 1.4.0 introduces some bugs in rowcol/xy (as of 2024-10-11).
 requests
+watchdog # Monitor changes on the config.yaml
+pymemcache # Handle cache flushing without messing
