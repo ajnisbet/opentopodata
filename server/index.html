@@ -882,6 +882,7 @@
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a>        ├───etc...
 </code></pre></div>
 <p>which would expose <code>localhost:5000/v1/etopo1</code> and <code>localhost:5000/v1/srtm90m</code>.</p>
+<p>Mofifying the config file triggers a restart of OpenTopoData (which will reload the new config).</p>
 <h3 id="config-spec">Config spec</h3>
 <ul>
 <li><code>max_locations_per_request</code>: Requests with more than this many locations will return a 400 error. Default: <code>100</code>.</li>
