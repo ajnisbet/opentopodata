@@ -72,26 +72,26 @@ class Handler(FileSystemEventHandler):
 
         # Filter unwanted events.
         if event.event_type not in {"modified", "created"}:
-            logger.info(f"Dropping event with type {event.event_type=}")
+            logger.debug(f"Dropping event with type {event.event_type=}")
             return
         if event.is_directory:
-            logger.info(f"Dropping dir event")
+            logger.debug(f"Dropping dir event")
             return
         if event.src_path not in watch_paths_str:
-            logger.info(f"Dropping event with path {event.src_path=}")
+            logger.debug(f"Dropping event with path {event.src_path=}")
             return
         if not Path(event.src_path).exists():
-            logger.info(f"Dropping event for nonexistent path {event.src_path=}")
+            logger.debug(f"Dropping event for nonexistent path {event.src_path=}")
             return
 
         # Debouncing.
         mtime = Path(event.src_path).lstat().st_mtime
         if mtime < LAST_INVOCATION_TIME:
             msg = f"Dropping event for file that hasn't been modified since the last run. {event.src_path=}"
-            logger.info(msg)
+            logger.debug(msg)
             return
 
-        logger.info(f"Dispatching event on {event.src_path=}")
+        logger.debug(f"Dispatching event on {event.src_path=}")
         reload_config()
 
 
