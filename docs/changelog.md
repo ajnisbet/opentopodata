@@ -2,6 +2,10 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.10.0 (11 Oct 2024)
+* Minior dependency upgrades
+* 
+
 
 ## Version 1.9.0 (19 Feb 2024)
 * Dependency upgrades, including python to 3.11 and rasterio to 1.3.9

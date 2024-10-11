@@ -63,6 +63,7 @@ numpy==2.1.2
     # via
     #   -r requirements.in
     #   rasterio
+    #   snuggs
 packaging==24.1
     # via
     #   black
@@ -80,12 +81,14 @@ polyline==2.0.2
     # via -r requirements.in
 pylibmc==1.6.3
     # via -r requirements.in
+
 pymemcache==4.0.0
     # via -r requirements.in
 pyparsing==3.1.4
     # via rasterio
 pyproj==3.7.0
     # via -r requirements.in
+
 pyproject-hooks==1.2.0
     # via
     #   build
@@ -109,6 +112,7 @@ urllib3==2.2.3
     # via requests
 watchdog==5.0.3
     # via -r requirements.in
+
 werkzeug==3.0.4
     # via flask
 wheel==0.44.0
