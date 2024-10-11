@@ -1,5 +1,5 @@
 # An example of a config.yaml file showing all possible options. If no
-# config.yaml file exists, opentopodata will load example-config.yaml instead.
+# config.yaml file exists, opentopodata will load example-config.yaml instead..
 
 
 # 400 error will be thrown above this limit.

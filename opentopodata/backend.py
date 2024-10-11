@@ -105,7 +105,13 @@ def _get_elevation_from_path(lats, lons, path, interpolation):
             oob_indices = _validate_points_lie_within_raster(
                 xs, ys, lats, lons, f.bounds, f.res
             )
-            rows, cols = tuple(f.index(xs, ys, op=_noop))
+            print(f"{xs=}")
+            print(f"{ys=}")
+            tmp = f.index(xs.tolist(), ys.tolist(), op=_noop)
+            print(f"{tmp=}")
+            rows, cols = tuple(tmp)
+
+            # rows, cols = tuple(f.index(xs, ys, op=_noop))
 
             # Different versions of rasterio may or may not collapse single
             # f.index() lookups into scalars. We want to always have an

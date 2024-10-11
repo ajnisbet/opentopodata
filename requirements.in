@@ -1,5 +1,5 @@
 black
-Flask>=2.2.2  # Some flask 2.0 deprecations got real.
+Flask>=2.2.2  # Flask 2.0 deprecations were enforced.
 flask-caching
 geographiclib
 numpy
@@ -11,5 +11,6 @@ pytest
 pytest-cov
 pytest-timeout
 PyYAML
-rasterio>=1.3.8  # Avoid memory leak https://github.com/ajnisbet/opentopodata/issues/68
+rasterio>=1.3.8,<1.4.0  # 1.3.8+ avoids memory leak https://github.com/ajnisbet/opentopodata/issues/68; 1.4.0 introduces some bugs in rowcol/xy (as of 2024-10-11).
 requests
+watchdog

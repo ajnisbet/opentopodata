@@ -97,6 +97,8 @@ opentopodata
 
 which would expose `localhost:5000/v1/etopo1` and `localhost:5000/v1/srtm90m`.
 
+Mofifying the config file triggers a restart of OpenTopoData (which will reload the new config).
+
 
 ### Config spec
 

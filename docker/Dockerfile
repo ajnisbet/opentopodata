@@ -1,5 +1,5 @@
 # Container for packages that need to be built from source but have massive dev dependencies.
-FROM python:3.11.8-slim-bookworm as builder
+FROM python:3.11.10-slim-bookworm as builder
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -7,14 +7,16 @@ RUN set -e && \
         python3.11-dev
 
 RUN pip config set global.disable-pip-version-check true && \
-    pip wheel --wheel-dir=/root/wheels uwsgi==2.0.24 && \
-    pip wheel --wheel-dir=/root/wheels regex==2023.12.25
+    pip wheel --wheel-dir=/root/wheels uwsgi==2.0.27 && \
+    pip wheel --wheel-dir=/root/wheels regex==2024.9.11 
 
 # The actual container.
-FROM python:3.11.8-slim-bookworm
+FROM python:3.11.10-slim-bookworm
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
+        inotify-tools \
+        nano \
         nginx \
         memcached \
         supervisor && \

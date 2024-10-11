@@ -85,10 +85,9 @@ def apply_cors(response):
     of the access_control_allow_origin config option.
     """
     try:
-        if _load_config()["access_control_allow_origin"]:
-            response.headers["access-control-allow-origin"] = _load_config()[
-                "access_control_allow_origin"
-            ]
+        cors_value = _load_config()["access_control_allow_origin"]
+        if cors_value:
+            response.headers["access-control-allow-origin"] = cors_value
     except config.ConfigError:
         # If the config isn't loading, allow the request to complete without
         # CORS so user can see error message.
