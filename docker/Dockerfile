@@ -7,7 +7,7 @@ RUN set -e && \
         python3.11-dev
 
 RUN pip config set global.disable-pip-version-check true && \
-    pip wheel --wheel-dir=/root/wheels uwsgi==2.0.24 && \
+    pip wheel --wheel-dir=/root/wheels uwsgi==2.0.20 && \
     pip wheel --wheel-dir=/root/wheels regex==2023.12.25
 
 # The actual container.

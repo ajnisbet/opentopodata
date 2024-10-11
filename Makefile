@@ -2,7 +2,7 @@ VERSION = `cat VERSION`
 .PHONY: build run daemon test run-local black black-check update-requirements
 
 build:
-	docker build --tag opentopodata:$(VERSION) --file docker/Dockerfile .
+	docker build --no-cache --tag opentopodata:$(VERSION) --file docker/Dockerfile .
 
 build-m1:
 	docker build --tag opentopodata:$(VERSION) --file docker/apple-silicon.Dockerfile .
