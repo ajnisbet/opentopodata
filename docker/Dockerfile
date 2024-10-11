@@ -15,6 +15,8 @@ FROM python:3.11.10-slim-bookworm
 RUN set -e && \
     apt-get update && \
     apt-get install -y --no-install-recommends \
+        inotify-tools \
+        nano \
         nginx \
         memcached \
         supervisor && \

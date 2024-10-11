@@ -10,8 +10,8 @@ build-m1:
 rebuild:
 	docker build --no-cache --tag opentopodata:$(VERSION) --file docker/Dockerfile .
 
-rebuild-m1-no-cache:
-	docker build --tag opentopodata:$(VERSION) --file docker/apple-silicon.Dockerfile .
+rebuild-m1:
+	docker build --no-cache --tag opentopodata:$(VERSION) --file docker/apple-silicon.Dockerfile .
 
 run:
 	docker run --rm -it --volume "$(shell pwd)/data:/app/data:ro" -p 5000:5000 opentopodata:$(VERSION) 
@@ -29,7 +29,7 @@ run-local:
 	FLASK_APP=opentopodata/api.py FLASK_DEBUG=1 flask run --port 5000
 
 black:
-	black --target-version py311 tests opentopodata
+	black --target-version py311 tests opentopodata docker
 
 black-check:
 	docker run --rm opentopodata:$(VERSION) python -m black --check --target-version py311 tests opentopodata

@@ -34,5 +34,7 @@ if __name__ == "__main__":
         break
 
     else:
-        logging.error("Timeout while trying to pre-populate the cache. This probably means that Open Topo Data isn't working.")
+        logging.error(
+            "Timeout while trying to pre-populate the cache. This probably means that Open Topo Data isn't working."
+        )
         sys.exit(1)
