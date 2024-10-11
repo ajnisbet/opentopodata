@@ -2,9 +2,15 @@ VERSION = `cat VERSION`
 .PHONY: build run daemon test run-local black black-check update-requirements
 
 build:
-	docker build --no-cache --tag opentopodata:$(VERSION) --file docker/Dockerfile .
+	docker build --tag opentopodata:$(VERSION) --file docker/Dockerfile .
 
 build-m1:
+	docker build --tag opentopodata:$(VERSION) --file docker/apple-silicon.Dockerfile .
+
+rebuild:
+	docker build --no-cache --tag opentopodata:$(VERSION) --file docker/Dockerfile .
+
+rebuild-m1-no-cache:
 	docker build --tag opentopodata:$(VERSION) --file docker/apple-silicon.Dockerfile .
 
 run:
@@ -23,10 +29,10 @@ run-local:
 	FLASK_APP=opentopodata/api.py FLASK_DEBUG=1 flask run --port 5000
 
 black:
-	black --target-version py39 tests opentopodata
+	black --target-version py311 tests opentopodata
 
 black-check:
-	docker run --rm opentopodata:$(VERSION) python -m black --check --target-version py39 tests opentopodata
+	docker run --rm opentopodata:$(VERSION) python -m black --check --target-version py311 tests opentopodata
 
 update-requirements: build
 	# pip-compile gets confused if there's already a requirements.txt file, and
