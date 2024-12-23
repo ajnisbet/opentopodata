@@ -388,7 +388,7 @@ class TiledDataset(Dataset):
 
         # Extract components.
         northing_str = (
-            re.search(r"([NS][\dx]+)_?[WE]", filename, re.IGNORECASE)[1]
+            re.search(r"([NS][\dx]+)_?[WE][\dx]", filename, re.IGNORECASE)[1]
             .lower()
             .replace("x", ".")
         )
