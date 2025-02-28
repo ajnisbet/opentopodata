@@ -59,7 +59,7 @@ markupsafe==3.0.2
     #   werkzeug
 mypy-extensions==1.0.0
     # via black
-numpy==1.26.4
+numpy==2.1.2
     # via
     #   -r requirements.in
     #   rasterio

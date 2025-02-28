@@ -3,8 +3,7 @@
 This is a list of changes to Open Topo Data between each release.
 
 ## Version 1.10.1 (28 Feb 2025)
-* Tweak dependencies to fix ([#106](https://github.com/ajnisbet/opentopodata/issues/106), thanks [@ScottSmudger](https://github.com/ScottSmudger)!)
-* Improve SRTM filename handling ([#104](https://github.com/ajnisbet/opentopodata/issues/104),  thanks [@MaRaSu](https://github.com/MaRaSu)!)
+* Tweak dependencies to fix [#106](https://github.com/ajnisbet/opentopodata/issues/106) thanks [@ScottSmudger](https://github.com/ScottSmudger)!
 
 ## Version 1.10.0 (11 Oct 2024)
 * Minior dependency upgrades
