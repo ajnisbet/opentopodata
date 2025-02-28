@@ -2,9 +2,12 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+## Version 1.10.1 (28 Feb 2025)
+* Tweak dependencies to fix [#106](https://github.com/ajnisbet/opentopodata/issues/106) thanks [@ScottSmudger](https://github.com/ScottSmudger)!
+
 ## Version 1.10.0 (11 Oct 2024)
 * Minior dependency upgrades
-* Auto-reloading of config files without restarting docker ([#100](https://github.com/ajnisbet/opentopodata/pull/100) thanks [@arnesetzer](https://github.com/arnesetzer)!)
+* Auto-reloading of config files without restarting docker ([#100](https://github.com/ajnisbet/opentopodata/pull/100), thanks [@arnesetzer](https://github.com/arnesetzer)!)
 
 
 ## Version 1.9.0 (19 Feb 2024)
