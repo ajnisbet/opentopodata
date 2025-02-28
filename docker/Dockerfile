@@ -7,8 +7,8 @@ RUN set -e && \
         python3.11-dev
 
 RUN pip config set global.disable-pip-version-check true && \
-    pip wheel --wheel-dir=/root/wheels uwsgi==2.0.27 && \
-    pip wheel --wheel-dir=/root/wheels regex==2024.9.11 
+    pip wheel --wheel-dir=/root/wheels uwsgi==2.0.28 && \
+    pip wheel --wheel-dir=/root/wheels regex==2024.11.6 
 
 # The actual container.
 FROM python:3.11.10-slim-bookworm
