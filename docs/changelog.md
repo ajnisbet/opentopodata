@@ -2,6 +2,10 @@
 
 This is a list of changes to Open Topo Data between each release.
 
+
+## Version 1.10.2 (11 Aug 2025)
+* Fix numpy dependency on ARM ([#109](https://github.com/ajnisbet/opentopodata/issues/109))
+
 ## Version 1.10.1 (28 Feb 2025)
 * Tweak dependencies to fix [#106](https://github.com/ajnisbet/opentopodata/issues/106) thanks [@ScottSmudger](https://github.com/ScottSmudger)!
 
