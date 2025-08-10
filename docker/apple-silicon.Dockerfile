@@ -5,7 +5,7 @@
 # It works just the same as the main image, but is much larger and slower to
 # build.
 
-FROM  ghcr.io/osgeo/gdal:ubuntu-full-3.6.4
+FROM ghcr.io/osgeo/gdal:ubuntu-full-3.6.4
 RUN python --version
 RUN set -e && \
     apt-get update && \
