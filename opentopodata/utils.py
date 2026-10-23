@@ -5,7 +5,6 @@ from geographiclib.geodesic import Geodesic
 import numpy as np
 import pyproj
 
-
 WGS84_LATLON_EPSG = 4326
 
 # There's significant overhead in pyproj when building a Transformer object.
@@ -61,7 +60,7 @@ def decimal_base_floor(x, base=1):
     """Round decimal down to nearest multiple of base."""
     if not isinstance(base, (Decimal, int)):
         raise ValueError("Base must be an integer or decimal.")
-    integer = math.floor(x / float(base))
+    integer = math.floor(Decimal(str(x)) / base)
     return base * Decimal(integer)
 
 
